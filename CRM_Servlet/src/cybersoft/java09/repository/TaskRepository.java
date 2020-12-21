@@ -18,23 +18,38 @@ public class TaskRepository {
 	private JobRepository jobRepository = new JobRepository();
 	private StatusRepository statusRepository = new StatusRepository();
 	
-	
+	/*
+	 * Hàm lấy tất cả task trong database tasks
+	 * return: List task đã được lấy trong database
+	 * Author: 
+	 */
 	public List<TaskDto> getAllTask(){ 
 		List<TaskDto>  taskDtos = new ArrayList<TaskDto>();
 		try {
+			//Câu truy vấn chọn tất cả thuộc tính của task
 			String query = "SELECT * FROM tasks";
+			
+			//kết nối db
 			Connection connection = JDBCConnection.getConnection();
+			
+			//Truyền câu truy vấn vào connection
 			PreparedStatement statement = connection.prepareStatement(query);
 
+			//Thực thi
 			ResultSet result = statement.executeQuery();
+			
+			
 			while(result.next()) {
 				TaskDto taskDto = new TaskDto();
 				
 				taskDto.setId(result.getInt("id"));
 				taskDto.setName(result.getString("name"));
+				
+				//để lấy được ngày tháng đầu tiên phải lấy timestamp
 				Timestamp startDate = result.getTimestamp("start_date");
 				Timestamp endDate = result.getTimestamp("end_date");
 				
+				//Sau đó chuyển đổi timestamp thành date
 				Date dateStart= new Date(startDate.getTime());
 				Date dateEnd= new Date(endDate.getTime());
 				
@@ -42,38 +57,49 @@ public class TaskRepository {
 				taskDto.setStartDate(dateStart);
 				taskDto.setEndDate(endDate);
 				
+				//tên job
 				taskDto.setJob(jobRepository.findJobById(result.getInt("job_id")).getName());
+				//tên người làm task
 				taskDto.setUser(userRepository.findById(result.getInt("user_id")).getFullName());
+				//Trạng thái
 				taskDto.setStatus(statusRepository.findStatusById(result.getInt("status_id")).getName());
 				
-				
-				
 				taskDtos.add(taskDto);
-				
-
-				
-
+			
 			}
-
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
-
 		return taskDtos;
 	}
 	
-	
+	/*
+	 * Hàm tìm kiếm thông tin của task trong database
+	 * param id: id của task cần tìm kiếm
+	 * return: trả về một task có id cần tìm
+	 * Author: 
+	 */
 	public Task findTaskById(int id) {
 		Task task = new Task();
 		try {
+
+			//Câu truy vấn
 			String query = "SELECT * FROM tasks WHERE id=?";
+			
+			//Kết nối db
 			Connection connection = JDBCConnection.getConnection();
+			
+			//Truyền câu truy vấn vào connection
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setInt(1, id);
+			
+			//Thực thi
 			ResultSet result = statement.executeQuery();
+			
+			
 			while(result.next()) {
 
 				
@@ -93,8 +119,6 @@ public class TaskRepository {
 				task.setJobID(result.getInt("job_id"));
 				task.setStatusID(result.getInt("status_id"));
 				
-				
-				
 			}
 			
 		} catch (Exception e) {
@@ -104,11 +128,22 @@ public class TaskRepository {
 		return task;
 	}
 	
-	
+	/*
+	 * Hàm thêm một task mới vào database của tasks
+	 * param task: chứa các thuộc tính của task mới được truyền vào
+	 * return: table tasks mới có chứa task vừa được thêm
+	 * Author: 
+	 */
 	public void addNewTask(Task task) {
 		try {
+
+			//tạo câu lệnh truy vấn
 			String query = "INSERT INTO tasks (name,start_date,end_date,user_id,job_id,status_id) VALUES(?,?,?,?,?,?)";
+			
+			//kết nối db
 			Connection connection = JDBCConnection.getConnection();
+			
+			//truyền câu lệnh truy vấn vào connection
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setString(1, task.getName());
@@ -118,9 +153,10 @@ public class TaskRepository {
 			statement.setInt(5, task.getJobID());
 			statement.setInt(6, task.getStatusID());
 			
-
+			//Thực thi câu lệnh
 			int result = statement.executeUpdate();
 
+			//kiểm tra kết quả
 			if(result < 1) {
 				System.out.println("Thêm Thất bại");
 			}
@@ -133,10 +169,22 @@ public class TaskRepository {
 		
 	}
 	
+	/*
+	 * Hàm update task trong database
+	 * param task: chứa các thuộc tính của task cần sửa
+	 * param id : Id của user dùng để tìm kiếm task theo id
+	 * return: table tasks đã được update theo id 
+	 * Author: 
+	 */
 	public void editTask(Task task,int id) {
 		try {
+			//Tạo câu lệnh truy vấn
 			String query = "UPDATE tasks SET name=?, start_date= ?, end_date= ? ,user_id = ?, job_id = ? , status_id = ? where id = ?";
+			
+			//kết nối db
 			Connection connection = JDBCConnection.getConnection();
+			
+			//Truyền vào connection
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setString(1, task.getName());
@@ -147,8 +195,10 @@ public class TaskRepository {
 			statement.setInt(6, task.getStatusID());
 			statement.setInt(7, id);
 
+			//Thực thi
 			int result = statement.executeUpdate();
 
+			//Kiểm tra kết quả
 			if(result < 1) {
 				System.out.println("Edit Thất bại");
 			}
@@ -161,16 +211,28 @@ public class TaskRepository {
 		
 	}
 	
+	/*
+	 * Hàm xóa 1 task trong database
+	 * param id: id của task cần xóa
+	 * return: table tasks sau khi xóa 1 task theo id 
+	 * Author: 
+	 */
 	public void deleteTask(int id) {
 		try {
+			//Tạo câu truy vấn
 			String query = "DELETE FROM tasks where id = ?";
+			
+			//Kết nối db
 			Connection conn = JDBCConnection.getConnection();
+			
+			//Truyền câu truy vấn 
 			PreparedStatement statement = conn.prepareStatement(query);
 			statement.setInt(1, id);
 			
+			//thực thi
 			int result = statement.executeUpdate();
 			
-			
+			//kiểm tra kết quả
 			if(result < 1) {
 				System.out.println("Xóa Thất bại");
 			}
@@ -183,18 +245,31 @@ public class TaskRepository {
 	}
 	
 	
-
+	/*
+	 * Hàm lấy ra list tasks dựa vào id của user
+	 * param id: id của user cần lấy
+	 * return: list tasks của user 
+	 * Author: 
+	 */
 	public List<TaskDto> getTaskByUserID(int user_id){ 
 		List<TaskDto>  taskDtos = new ArrayList<TaskDto>();
 		try {
+			//Tạo câu truy vấn
 			String query = "SELECT * FROM tasks where user_id = ?";
+			
+			//kết nối db
 			Connection connection = JDBCConnection.getConnection();
+			
+			//Truyền câu truy vấn
 			PreparedStatement statement = connection.prepareStatement(query);
+			
 			
 			statement.setInt(1, user_id);
 
-
+			//Thực thi câu truy vấn
 			ResultSet result = statement.executeQuery();
+			
+			
 			while(result.next()) {
 				TaskDto taskDto = new TaskDto();
 				
@@ -214,12 +289,7 @@ public class TaskRepository {
 				taskDto.setUser(userRepository.findById(result.getInt("user_id")).getFullName());
 				taskDto.setStatus(statusRepository.findStatusById(result.getInt("status_id")).getName());
 				
-				
-				
 				taskDtos.add(taskDto);
-				
-
-				
 
 			}
 
@@ -228,13 +298,19 @@ public class TaskRepository {
 			System.out.println(e.getMessage());
 		}
 
-
 		return taskDtos;
 	}
+	
+	
 	public void editTaskStatus(int status_id,int id,int user_id) {
 		try {
+
 			String query = "UPDATE tasks SET status_id = ? where id = ? and user_id = ?";
+			
+			
 			Connection connection = JDBCConnection.getConnection();
+			
+			
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setInt(1, status_id);
@@ -244,6 +320,7 @@ public class TaskRepository {
 
 			int result = statement.executeUpdate();
 
+			
 			if(result < 1) {
 				System.out.println("Edit Thất bại");
 			}
@@ -260,8 +337,13 @@ public class TaskRepository {
 	public TaskDto getTaskByUserIDAndTaskID(int user_id,int task_id){ 
 		TaskDto taskDto = new TaskDto();
 		try {
+			
 			String query = "SELECT * FROM tasks where user_id = ? and id = ?";
+			
+			
 			Connection connection = JDBCConnection.getConnection();
+			
+			
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setInt(1, user_id);
@@ -269,6 +351,8 @@ public class TaskRepository {
 
 
 			ResultSet result = statement.executeQuery();
+			
+			
 			while(result.next()) {
 				
 				
@@ -288,12 +372,6 @@ public class TaskRepository {
 				taskDto.setUser(userRepository.findById(result.getInt("user_id")).getFullName());
 				taskDto.setStatus(statusRepository.findStatusById(result.getInt("status_id")).getName());
 				
-				
-				
-				
-				
-
-				
 
 			}
 
@@ -305,5 +383,7 @@ public class TaskRepository {
 
 		return taskDto;
 	}
+	
+	
 	
 }
