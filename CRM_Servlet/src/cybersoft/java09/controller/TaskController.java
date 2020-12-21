@@ -14,20 +14,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.dto.TaskDto;
-import cybersoft.java09.dto.UserDto;
 import cybersoft.java09.entity.Job;
 import cybersoft.java09.entity.Task;
 import cybersoft.java09.entity.User;
 import cybersoft.java09.repository.JobRepository;
-import cybersoft.java09.repository.StatusRepository;
 import cybersoft.java09.repository.TaskRepository;
 import cybersoft.java09.repository.UserRepository;
 
 /**
  * Servlet implementation class TaskController
  */
-@WebServlet(urlPatterns = {"/task","/task-edit","/task-delete","/task-add"})
+@WebServlet(urlPatterns = {UrlConstants.URL_TASK,
+		   UrlConstants.URL_TASK_EDIT,
+		   UrlConstants.URL_TASK_DELETE,
+		   UrlConstants.URL_TASK_ADD})
 public class TaskController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TaskRepository taskRepository;
@@ -51,25 +53,25 @@ public class TaskController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user_session = (User)session.getAttribute("user");
 		switch (path) {
-		case "/task":
+		case UrlConstants.URL_TASK:
 
 			List<TaskDto> taskDtos = taskRepository.getAllTask();
 
 			request.setAttribute("taskDtos", taskDtos);
 
-			request.getRequestDispatcher("WEB-INF/views/task/task.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_TASK + UrlConstants.URL_TASK + ".jsp").forward(request, response);
 			break;
-		case "/task-add":
+		case UrlConstants.URL_TASK_ADD:
 			List<User> users = userRepository.getAlluser();
 			List<Job> jobs = jobRepository.getAllJob();
 
 			request.setAttribute("users", users);
 			request.setAttribute("jobs", jobs);
 
-			request.getRequestDispatcher("WEB-INF/views/task/task-add.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_TASK + UrlConstants.URL_TASK_ADD + ".jsp").forward(request, response);
 			break;
 
-		case "/task-edit":
+		case UrlConstants.URL_ROLE_EDIT:
 
 			id = Integer.parseInt(request.getParameter("id"));
 			List<User> users_edit = userRepository.getAlluser();
@@ -104,14 +106,14 @@ public class TaskController extends HttpServlet {
 			request.setAttribute("task", task);
 			request.setAttribute("users", users_edit);
 			request.setAttribute("jobs", jobs_edit);
-			request.getRequestDispatcher("WEB-INF/views/task/task-edit.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_TASK + UrlConstants.URL_TASK_EDIT + ".jsp").forward(request, response);
 			break;
-		case "/task-delete":
+		case UrlConstants.URL_TASK_DELETE:
 			id = Integer.parseInt(request.getParameter("id"));
 			taskRepository.deleteTask(id);
 
-			response.sendRedirect(getServletContext().getContextPath()+"/task");
-
+			response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_TASK);
+			
 			break;
 		default:
 			break;
@@ -133,10 +135,10 @@ public class TaskController extends HttpServlet {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		switch (path) {
-		case "/task":
+		case UrlConstants.URL_TASK:
 
 			break;
-		case "/task-add":
+		case UrlConstants.URL_ROLE_ADD:
 
 
 
@@ -146,14 +148,14 @@ public class TaskController extends HttpServlet {
 				Task task = new Task(taskName, startDate, endDate, user, job, 1);
 
 				taskRepository.addNewTask(task);
-				response.sendRedirect(getServletContext().getContextPath()+"/task");
+				response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_TASK);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 			}
 			break;
 
-		case "/task-edit":
+		case UrlConstants.URL_ROLE_EDIT:
 			int id =Integer.parseInt(request.getParameter("id")) ;
 
 
@@ -164,7 +166,7 @@ public class TaskController extends HttpServlet {
 				System.out.println(task);
 				System.out.println(id);
 				taskRepository.editTask(task, id);
-				response.sendRedirect(getServletContext().getContextPath()+"/task");
+				response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_TASK);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());

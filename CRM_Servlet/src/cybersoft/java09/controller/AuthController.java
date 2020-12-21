@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.entity.User;
 import cybersoft.java09.repository.UserRepository;
 
 /**
  * Servlet implementation class AuthController
  */
-@WebServlet(urlPatterns = {"/login","/logout"})
+@WebServlet(urlPatterns = {UrlConstants.URL_LOGIN,UrlConstants.URL_LOGOUT})
 public class AuthController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private UserRepository userRepository;   
@@ -37,7 +38,7 @@ public class AuthController extends HttpServlet {
 			
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/views/login/index.jsp").forward(request, response);
+		request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_LOGIN + UrlConstants.URL_INDEX + ".jsp").forward(request, response);
 		
 	}
 
@@ -54,10 +55,10 @@ public class AuthController extends HttpServlet {
 		if(user!=null && user.getEmail()!=null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
-			response.sendRedirect(request.getContextPath()+"/home");
+			response.sendRedirect(request.getContextPath()+UrlConstants.URL_HOME);
 		}else {
-			request.getRequestDispatcher("/WEB-INF/views/login/index.jsp").forward(request, response);
-
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_LOGIN + UrlConstants.URL_INDEX + ".jsp").forward(request, response);
+			
 		}
 
 

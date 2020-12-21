@@ -10,13 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.entity.Role;
 import cybersoft.java09.repository.RoleRepository;
 
 /**
  * Servlet implementation class RoleController
  */
-@WebServlet(urlPatterns = {"/role-add","/role-table","/role-edit","/role-delete"})
+@WebServlet(urlPatterns = {UrlConstants.URL_ROLE_ADD,
+		   UrlConstants.URL_ROLE_TABLE,
+		   UrlConstants.URL_ROLE_EDIT,
+		   UrlConstants.URL_ROLE_DELETE})
 public class RoleController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private RoleRepository roleRepository;
@@ -37,31 +41,31 @@ public class RoleController extends HttpServlet {
 		
 		
 		switch (path) {
-		case "/role-add":
+		case UrlConstants.URL_ROLE_ADD:
 
-			request.getRequestDispatcher("/WEB-INF/views/role/role-add.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_ROLE + UrlConstants.URL_ROLE_ADD + ".jsp").forward(request, response);
 			break;
-		case "/role-table":
+		case UrlConstants.URL_ROLE_TABLE:
 			List<Role> roles = roleRepository.getAllRole();
 			request.setAttribute("roles", roles);
 
-			request.getRequestDispatcher("/WEB-INF/views/role/role-table.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_ROLE + UrlConstants.URL_ROLE_TABLE + ".jsp").forward(request, response);
 			break;
 
-		case "/role-edit":
+		case UrlConstants.URL_ROLE_EDIT:
 			int id = Integer.valueOf(request.getParameter("id"));
 			Role role = roleRepository.findRoleById(id);
 
 
 			request.setAttribute("role", role);
 
-			request.getRequestDispatcher("/WEB-INF/views/role/role-edit.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_ROLE + UrlConstants.URL_ROLE_EDIT + ".jsp").forward(request, response);
 			break;	
-		case "/role-delete":
+		case UrlConstants.URL_ROLE_DELETE:
 			int id_edit = Integer.valueOf(request.getParameter("id"));
 			
 			roleRepository.deleteRole(id_edit);
-			response.sendRedirect(request.getContextPath()+"/role-table");
+			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_ROLE_TABLE);
 			
 			break;
 		default:
@@ -79,22 +83,22 @@ public class RoleController extends HttpServlet {
 		String name = request.getParameter("name");
 		String description = request.getParameter("description");
 		switch (path) {
-		case "/role-add":
+		case UrlConstants.URL_ROLE_ADD:
 			Role role = new Role(name,description);
 			roleRepository.addNewRole(role);
-			response.sendRedirect(request.getContextPath()+"/role-table");
+			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_ROLE_TABLE);
 			break;
-		case "/role-edit":
+		case UrlConstants.URL_ROLE_EDIT:
 			int id = Integer.valueOf(request.getParameter("id"));
 			Role role_edit = new Role(name,description);
 			roleRepository.editRole(role_edit,id);
-			response.sendRedirect(request.getContextPath()+"/role-table");
+			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_ROLE_TABLE);
 			
 			
 			break;
 
 
-		case "/role-table":
+		case UrlConstants.URL_ROLE_TABLE:
 
 			break;
 		default:

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.dto.JobDto;
 import cybersoft.java09.entity.Job;
 import cybersoft.java09.entity.User;
@@ -24,7 +25,11 @@ import cybersoft.java09.repository.UserRepository;
 /**
  * Servlet implementation class GroupWorkController
  */
-@WebServlet(urlPatterns = {"/groupwork","/groupwork-add","/groupwork-delete","/groupwork-details","/groupwork-edit"})
+@WebServlet(urlPatterns = {UrlConstants.URL_JOB,
+		   UrlConstants.URL_JOB_ADD,
+		   UrlConstants.URL_JOB_DELETE,
+		   UrlConstants.URL_JOB_DETAILS,
+		   UrlConstants.URL_JOB_EDIT})
 public class GroupWorkController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private JobRepository jobRepository;   
@@ -46,15 +51,14 @@ public class GroupWorkController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		switch (path) {
-		case "/groupwork":
+		case UrlConstants.URL_JOB:
 			
 			List<Job> jobs = jobRepository.getAllJob();
 			request.setAttribute("jobs", jobs);
-			
 
-			request.getRequestDispatcher("/WEB-INF/views/groupwork/groupwork.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_JOB + UrlConstants.URL_JOB + ".jsp").forward(request, response);
 			break;
-		case "/groupwork-details":
+		case UrlConstants.URL_JOB_DETAILS:
 			int id_detail = Integer.parseInt(request.getParameter("id"));
 			List<JobDto> jobDtos = jobRepository.getUserOfListDto(id_detail);
 			
@@ -65,13 +69,13 @@ public class GroupWorkController extends HttpServlet {
 			}
 			System.out.println(jobDtos.get(0).getTaskNotDone().get(0));
 			request.setAttribute("jobDtos", jobDtos);
-			request.getRequestDispatcher("/WEB-INF/views/groupwork/groupwork-details.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_JOB + UrlConstants.URL_JOB_DETAILS + ".jsp").forward(request, response);
 			break;
-		case "/groupwork-add":
-			request.getRequestDispatcher("/WEB-INF/views/groupwork/groupwork-add.jsp").forward(request, response);
+		case UrlConstants.URL_JOB_ADD:
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_JOB + UrlConstants.URL_JOB_ADD + ".jsp").forward(request, response);
 			break;
 			
-		case "/groupwork-edit":
+		case UrlConstants.URL_JOB_EDIT:
 			int id = Integer.parseInt(request.getParameter("id"));
 			Job job = jobRepository.findJobById(id);
 			List<User> users = jobRepository.findUsersByJobID(id);
@@ -79,7 +83,7 @@ public class GroupWorkController extends HttpServlet {
 			if(user.getRole_Id()==2) {
 				for(User u : users) {
 					if(u.getId()!= user.getId()) {
-						response.sendRedirect(getServletContext().getContextPath()+"/error/403");
+						response.sendRedirect(getServletContext().getContextPath()+UrlConstants.URL_403_ERROR);
 						return;
 					}
 				}
@@ -87,15 +91,15 @@ public class GroupWorkController extends HttpServlet {
 			}
 			request.setAttribute("job", job);
 			
-			request.getRequestDispatcher("/WEB-INF/views/groupwork/groupwork-edit.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_JOB + UrlConstants.URL_JOB_EDIT + ".jsp").forward(request, response);
 			
 			break;
-		case "/groupwork-delete":
+		case UrlConstants.URL_JOB_DELETE:
 			int id_del = Integer.parseInt(request.getParameter("id"));
 			jobRepository.deleteJob(id_del);
 			
-			response.sendRedirect(getServletContext().getContextPath()+"/groupwork");
-
+			response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_JOB);
+			break;
 			
 		default:
 			break;
@@ -109,13 +113,13 @@ public class GroupWorkController extends HttpServlet {
 	String path = request.getServletPath();
 		
 		switch (path) {
-		case "/groupwork":
+		case UrlConstants.URL_JOB:
 		
 			break;
-		case "/groupwork-details":
-			request.getRequestDispatcher("/WEB-INF/views/groupwork/groupwork-details.jsp").forward(request, response);
+		case UrlConstants.URL_JOB_DETAILS:
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_JOB + UrlConstants.URL_JOB_DETAILS + ".jsp").forward(request, response);
 			break;
-		case "/groupwork-add":
+		case UrlConstants.URL_JOB_ADD:
 			String name = request.getParameter("name");
 			String start_date = request.getParameter("start_date");
 			String end_date = request.getParameter("end_date");
@@ -127,14 +131,14 @@ public class GroupWorkController extends HttpServlet {
 				Job job = new Job(name, startDate, endDate);
 				
 				jobRepository.addNewJob(job);
-				response.sendRedirect(getServletContext().getContextPath()+"/groupwork");
+				response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_JOB);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 			}
 			break;
 			
-		case "/groupwork-edit":
+		case UrlConstants.URL_JOB_EDIT:
 			int id = Integer.parseInt(request.getParameter("id"));
 			String name_edit = request.getParameter("name");
 			String start_date_edit = request.getParameter("start_date");
@@ -147,16 +151,11 @@ public class GroupWorkController extends HttpServlet {
 				Job job = new Job(name_edit, startDate, endDate);
 				
 				jobRepository.editJob(job, id);
-				response.sendRedirect(getServletContext().getContextPath()+"/groupwork");
+				response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_JOB);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 			}
-			
-			
-			
-			
-			
 			
 			
 			break;
