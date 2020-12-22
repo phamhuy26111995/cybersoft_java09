@@ -41,7 +41,7 @@ public static final String CONTEXT_PATH = "/WEB-INF/views";
 	
 	//Profile
 	public static final String URL_PROFILE = "/profile";
-	public static final String URL_PROFILE_EDIT = "/profile-edit";
+	public static final String URL_PROFILE_EDIT = "/profile-update";
 	
 	//Auth
 	public static final String URL_LOGIN = "/login";

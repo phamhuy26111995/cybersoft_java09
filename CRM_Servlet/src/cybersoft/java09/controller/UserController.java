@@ -1,6 +1,7 @@
 package cybersoft.java09.controller;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import cybersoft.java09.entity.Role;
 import cybersoft.java09.entity.Task;
 import cybersoft.java09.entity.User;
 import cybersoft.java09.repository.RoleRepository;
+import cybersoft.java09.repository.TaskRepository;
 import cybersoft.java09.repository.UserRepository;
 import cybersoft.java09.service.UserService;
 
@@ -23,15 +25,16 @@ import cybersoft.java09.service.UserService;
  * Servlet implementation class UserController
  */
 @WebServlet(urlPatterns = {UrlConstants.URL_USER_DETAILS,
-		   UrlConstants.URL_USER_ADD,
-		   UrlConstants.URL_USER_EDIT,
-		   UrlConstants.URL_USER_DELETE,
-		   UrlConstants.URL_USER_TABLE})
+		UrlConstants.URL_USER_ADD,
+		UrlConstants.URL_USER_EDIT,
+		UrlConstants.URL_USER_DELETE,
+		UrlConstants.URL_USER_TABLE})
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService userService;
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
+	private TaskRepository taskRepository;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -77,10 +80,20 @@ public class UserController extends HttpServlet {
 
 			List<Role> roles_edit = roleRepository.getAllRole();
 
+			if(user_session.getRole_Id()==2) {
+				Iterator<Role> itr = roles_edit.iterator();
+				while (itr.hasNext()) {
+					Role role = itr.next();
+					if(role.getId()==1) {
+						itr.remove();
+					}
+				}
+			}
+
 			request.setAttribute("roles", roles_edit);
 
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_EDIT + ".jsp").forward(request, response);
-			
+
 
 
 
@@ -114,11 +127,26 @@ public class UserController extends HttpServlet {
 			List<Task> listTaskNotDone = userRepository.findTaskOfUser(id_detail, 1);
 			List<Task> listTaskPending = userRepository.findTaskOfUser(id_detail, 2);
 			List<Task> listTaskDone = userRepository.findTaskOfUser(id_detail, 3);
+
+			int totalTask = taskRepository.countTaskOfUser(id_detail);
+			int notDoneTask = (int) ((taskRepository.countTaskNotDoneOfUser(id_detail)*100)/totalTask);
+			int pendingTask = (int) ((taskRepository.countTaskPendingOfUser(id_detail)*100)/totalTask);
+			int finishTask = 100 - (notDoneTask+pendingTask);
+
+			UserDto userDto = new UserDto();
+			userDto.setNotDoneWorkPercent(notDoneTask);
+			userDto.setPendingWorkPercent(pendingTask);
+			userDto.setFinishWorkPercent(finishTask);
+
+
+
 			User userDetail = userRepository.findById(id_detail);
+
 			request.setAttribute("listTaskNotDone", listTaskNotDone);
 			request.setAttribute("listTaskPending", listTaskPending);
 			request.setAttribute("listTaskDone", listTaskDone);
 			request.setAttribute("userDetail", userDetail);
+			request.setAttribute("userDto", userDto);
 
 
 
@@ -174,7 +202,7 @@ public class UserController extends HttpServlet {
 			userRepository.editUser(userEdit, id);
 
 			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
-			
+
 
 			break;
 		case UrlConstants.URL_USER_DETAILS:
@@ -190,6 +218,7 @@ public class UserController extends HttpServlet {
 		userService = new UserService();
 		roleRepository = new RoleRepository();
 		userRepository = new UserRepository();
+		taskRepository = new TaskRepository();
 	}
 
 

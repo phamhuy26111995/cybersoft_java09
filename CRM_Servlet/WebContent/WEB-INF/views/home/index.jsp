@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="cybersoft.java09.dto.UserDto" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<% String contextPath = request.getContextPath() ;%>
+<% String contextPath = request.getContextPath() ;
+	UserDto userDto = (UserDto)request.getAttribute("userDto");
+%>
     
  <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,7 +68,7 @@
                                 <h5 class="text-muted vb">CHƯA BẮT ĐẦU</h5>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                <h3 class="counter text-right m-t-15 text-danger">23</h3>
+                                <h3 class="counter text-right m-t-15 text-danger">${userDto.notDoneWorkPercent}</h3>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="progress">
@@ -87,7 +90,7 @@
                                 <h5 class="text-muted vb">ĐANG THỰC HIỆN</h5>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                <h3 class="counter text-right m-t-15 text-megna">169</h3>
+                                <h3 class="counter text-right m-t-15 text-megna">${userDto.pendingWorkPercent}</h3>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="progress">
@@ -109,7 +112,7 @@
                                 <h5 class="text-muted vb">ĐÃ HOÀN THÀNH</h5>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                <h3 class="counter text-right m-t-15 text-primary">157</h3>
+                                <h3 class="counter text-right m-t-15 text-primary">${userDto.finishWorkPercent}</h3>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="progress">

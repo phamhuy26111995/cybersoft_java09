@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.dto.TaskDto;
+import cybersoft.java09.dto.UserDto;
 import cybersoft.java09.entity.Status;
 import cybersoft.java09.entity.User;
 import cybersoft.java09.repository.StatusRepository;
@@ -47,11 +48,20 @@ public class ProFileController extends HttpServlet {
 		switch (path) {
 		case UrlConstants.URL_PROFILE:
 			int id = Integer.parseInt(request.getParameter("id"));
+
+			int totalTask = taskRepository.countTaskOfUser(id);
+			int notDoneTask = (int) ((taskRepository.countTaskNotDoneOfUser(id)*100)/totalTask);
+			int pendingTask = (int) ((taskRepository.countTaskPendingOfUser(id)*100)/totalTask);
+			int finishTask = 100 - (notDoneTask+pendingTask);
 			
+			UserDto userDto = new UserDto();
+			userDto.setNotDoneWorkPercent(notDoneTask);
+			userDto.setPendingWorkPercent(pendingTask);
+			userDto.setFinishWorkPercent(finishTask);
 			taskDtos = taskRepository.getTaskByUserID(id);
 
 			request.setAttribute("taskDtos", taskDtos);
-
+			request.setAttribute("userDto", userDto);
 
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_PROFILE + UrlConstants.URL_PROFILE + ".jsp").forward(request, response);
 			break;
@@ -67,7 +77,7 @@ public class ProFileController extends HttpServlet {
 			request.setAttribute("listStatus", listStatus);
 			request.setAttribute("taskDto", taskDto);
 
-			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_PROFILE + UrlConstants.URL_PROFILE + ".jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_PROFILE + UrlConstants.URL_PROFILE_EDIT + ".jsp").forward(request, response);
 			break;	
 		default:
 			break;

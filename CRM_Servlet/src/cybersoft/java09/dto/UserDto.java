@@ -7,6 +7,9 @@ public class UserDto {
 	private String fullName;
 	private String avatar;
 	private String roleName;
+	private int notDoneWorkPercent;
+	private int pendingWorkPercent;
+	private int finishWorkPercent;
 	public int getId() {
 		return id;
 	}
@@ -59,6 +62,24 @@ public class UserDto {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "id = "+this.id+" fullname "+this.fullName;
+	}
+	public int getNotDoneWorkPercent() {
+		return notDoneWorkPercent;
+	}
+	public void setNotDoneWorkPercent(int notDoneWorkPercent) {
+		this.notDoneWorkPercent = notDoneWorkPercent;
+	}
+	public int getPendingWorkPercent() {
+		return pendingWorkPercent;
+	}
+	public void setPendingWorkPercent(int pendingWorkPercent) {
+		this.pendingWorkPercent = pendingWorkPercent;
+	}
+	public int getFinishWorkPercent() {
+		return finishWorkPercent;
+	}
+	public void setFinishWorkPercent(int finishWorkPercent) {
+		this.finishWorkPercent = finishWorkPercent;
 	}
 	
 }

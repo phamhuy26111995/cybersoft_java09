@@ -4,6 +4,7 @@
 
 <%@ page import="java.util.List"%>
 <%@ page import="cybersoft.java09.entity.*"%>
+<%@ page import="cybersoft.java09.dto.UserDto"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +60,7 @@
 	List<Task> listTaskPending = (List<Task>) request.getAttribute("listTaskPending");
 	List<Task> listTaskDone = (List<Task>) request.getAttribute("listTaskDone");
 	User userDetail = (User) request.getAttribute("userDetail");
+	UserDto userDto = (UserDto) request.getAttribute("userDto");
 	%>
 
 	<div id="page-wrapper">
@@ -74,11 +76,11 @@
 				<div class="col-md-4 col-xs-12">
 					<div class="white-box">
 						<div class="user-bg">
-							<img width="100%" alt="user" src="plugins/images/large/img1.jpg">
+							<img width="100%" alt="user" src="<%=contextPath%>/static/plugins/images/large/img1.jpg">
 							<div class="overlay-box">
 								<div class="user-content">
 									<a href="javascript:void(0)"><img
-										src="plugins/images/users/genu.jpg"
+										src="<%=contextPath%>/static/plugins/images/users/genu.jpg"
 										class="thumb-lg img-circle" alt="img"></a>
 									<h4 class="text-white">${userDetail.fullName}</h4>
 									<h5 class="text-white">${userDetail.email}</h5>
@@ -96,7 +98,7 @@
 							<div class="white-box">
 								<div class="col-in row">
 									<div class="col-xs-12">
-										<h3 class="counter text-right m-t-15 text-danger">20%</h3>
+										<h3 class="counter text-right m-t-15 text-danger">${userDto.notDoneWorkPercent}%</h3>
 									</div>
 									<div class="col-xs-12">
 										<i data-icon="E" class="linea-icon linea-basic"></i>
@@ -106,7 +108,7 @@
 										<div class="progress">
 											<div class="progress-bar progress-bar-danger"
 												role="progressbar" aria-valuenow="40" aria-valuemin="0"
-												aria-valuemax="100" style="width: 50%"></div>
+												aria-valuemax="100" style="width: ${userDto.notDoneWorkPercent}%"></div>
 										</div>
 									</div>
 								</div>
@@ -118,7 +120,7 @@
 							<div class="white-box">
 								<div class="col-in row">
 									<div class="col-xs-12">
-										<h3 class="counter text-right m-t-15 text-megna">50%</h3>
+										<h3 class="counter text-right m-t-15 text-megna">${userDto.pendingWorkPercent}%</h3>
 									</div>
 									<div class="col-xs-12">
 										<i class="linea-icon linea-basic" data-icon="&#xe01b;"></i>
@@ -128,7 +130,7 @@
 										<div class="progress">
 											<div class="progress-bar progress-bar-megna"
 												role="progressbar" aria-valuenow="40" aria-valuemin="0"
-												aria-valuemax="100" style="width: 50%"></div>
+												aria-valuemax="100" style="width: ${userDto.pendingWorkPercent}%"></div>
 										</div>
 									</div>
 								</div>
@@ -140,7 +142,7 @@
 							<div class="white-box">
 								<div class="col-in row">
 									<div class="col-xs-12">
-										<h3 class="counter text-right m-t-15 text-primary">30%</h3>
+										<h3 class="counter text-right m-t-15 text-primary">${userDto.finishWorkPercent}%</h3>
 									</div>
 									<div class="col-xs-12">
 										<i class="linea-icon linea-basic" data-icon="&#xe00b;"></i>
@@ -150,7 +152,7 @@
 										<div class="progress">
 											<div class="progress-bar progress-bar-primary"
 												role="progressbar" aria-valuenow="40" aria-valuemin="0"
-												aria-valuemax="100" style="width: 30%"></div>
+												aria-valuemax="100" style="width: ${userDto.finishWorkPercent}%"></div>
 										</div>
 									</div>
 								</div>

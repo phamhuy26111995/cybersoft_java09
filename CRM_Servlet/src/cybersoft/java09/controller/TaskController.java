@@ -71,7 +71,7 @@ public class TaskController extends HttpServlet {
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_TASK + UrlConstants.URL_TASK_ADD + ".jsp").forward(request, response);
 			break;
 
-		case UrlConstants.URL_ROLE_EDIT:
+		case UrlConstants.URL_TASK_EDIT:
 
 			id = Integer.parseInt(request.getParameter("id"));
 			List<User> users_edit = userRepository.getAlluser();
@@ -138,7 +138,7 @@ public class TaskController extends HttpServlet {
 		case UrlConstants.URL_TASK:
 
 			break;
-		case UrlConstants.URL_ROLE_ADD:
+		case UrlConstants.URL_TASK_ADD:
 
 
 
@@ -155,7 +155,7 @@ public class TaskController extends HttpServlet {
 			}
 			break;
 
-		case UrlConstants.URL_ROLE_EDIT:
+		case UrlConstants.URL_TASK_EDIT   :
 			int id =Integer.parseInt(request.getParameter("id")) ;
 
 

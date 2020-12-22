@@ -42,7 +42,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<%=contextPath %>/profile?id=${user.id}">Thông tin cá nhân</a></li>
-                                <li><a href="#">Thống kê công việc</a></li>
+                                <li><a href="<%=contextPath %>/home">Thống kê công việc</a></li>
                                 <li class="divider"></li>
                                 <li><a href="<%=contextPath%>/logout?action=logout">Đăng xuất</a></li>
                             </ul>
