@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.dto.UserDto;
 import cybersoft.java09.entity.User;
 import cybersoft.java09.repository.UserRepository;
@@ -45,32 +46,42 @@ public class AuthFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
+		
+		//Kiểm tra các link không dùng filter
 		String action = req.getServletPath();
-		if(action.equals("/login")) {
+		if(action.equals(UrlConstants.URL_LOGIN)) {
+			//Chuyển hướng về login
 			chain.doFilter(request, response);
 			return;
 		}
 
+		//==================ĐĂNG NHẬP====================
+		//Code xử lí request
+		//Kiểm tra email, password của user
 		HttpSession session = req.getSession();
 		User user = (User)session.getAttribute("user");
+		//TH1 nếu user chưa thực hiện đăng nhập
 		if(user==null) {
-			res.sendRedirect(req.getContextPath() + "/login");
+			//Chuyển hướng về trang login
+			res.sendRedirect(req.getContextPath() + UrlConstants.URL_LOGIN);
 			return;
 		}
+		
 		else {
 			int roleID = user.getRole_Id();
 
-
-			if(roleID != 1 && (action.equals("/user-add") || action.startsWith("/role"))) {
-				res.sendRedirect(req.getContextPath() + "/error/403"); return;
+			//startwith Chọn những link bắt đầu bằng "/role"
+			//Link bắt đầu bằng role và thêm mới user mà không phải admin thì không được truy cập
+			if(roleID != 1 && (action.equals(UrlConstants.URL_USER_ADD) || action.startsWith(UrlConstants.URL_ROLE))) {
+				res.sendRedirect(req.getContextPath() + UrlConstants.URL_403_ERROR); return;
 			}
 
-
+			//nếu đăng nhập là user thì không được vô nhưng trang thêm sửa xóa và trang groupwork
 			 if(roleID == 3 && ((action.endsWith("edit"))  || action.endsWith("delete") ||
-					action.startsWith("/groupwork") || action.endsWith("add"))){
+					action.startsWith(UrlConstants.URL_JOB) || action.endsWith("add"))){
 				 
 				 
-				 res.sendRedirect(req.getContextPath() + "/error/403");
+				 res.sendRedirect(req.getContextPath() + UrlConstants.URL_403_ERROR);
 
 				 return;
 				 

@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/error/403"})
+import cybersoft.java09.constants.UrlConstants;
+
+@WebServlet(urlPatterns = {UrlConstants.URL_403_ERROR})
 public class ErrorController extends HttpServlet{
 
 	@Override
@@ -17,8 +19,8 @@ public class ErrorController extends HttpServlet{
 		String action = req.getServletPath();
 		
 		switch (action) {
-		case "/error/403":
-			req.getRequestDispatcher("/WEB-INF/views/error/404.jsp")
+		case UrlConstants.URL_403_ERROR:
+			req.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_404_ERROR + ".jsp")
 			.forward(req, resp);
 			break;
 

@@ -13,20 +13,33 @@ import cybersoft.java09.entity.*;
 
 public class StatusRepository {
 
+	/*
+	 * Hàm tìm kiếm thông tin của status trong database
+	 * param id: id của status cần tìm kiếm
+	 * return: trả về một status có id cần tìm
+	 * Author: 
+	 */
 	public Status findStatusById(int id) {
 		Status status = new Status();
 		try {
+			// tạo câu lệnh truy vấn
 			String query = "SELECT * FROM status WHERE id=?";
+			
+			//Kết nôi với db
 			Connection connection = JDBCConnection.getConnection();
+			
+			//Truyền câu lệnh truy vấn vào connection
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setInt(1, id);
+			
+			//Thực thi câu lệnh
 			ResultSet result = statement.executeQuery();
+			
+			//Chuyển dữ liệu qua entity
 			while(result.next()) {
 				
 				status.setName(result.getString("name"));
-				
-			
 			}
 			
 		} catch (Exception e) {

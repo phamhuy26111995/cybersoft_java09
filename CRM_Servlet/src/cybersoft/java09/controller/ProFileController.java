@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.dto.TaskDto;
 import cybersoft.java09.entity.Status;
 import cybersoft.java09.entity.User;
@@ -20,7 +21,8 @@ import cybersoft.java09.repository.UserRepository;
 /**
  * Servlet implementation class ProFileController
  */
-@WebServlet(urlPatterns = {"/profile","/profile-update"})
+@WebServlet(urlPatterns = {UrlConstants.URL_PROFILE,
+		   UrlConstants.URL_PROFILE_EDIT})	
 public class ProFileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TaskRepository taskRepository;   
@@ -43,7 +45,7 @@ public class ProFileController extends HttpServlet {
 		User user = (User)session.getAttribute("user");
 		List<TaskDto> taskDtos ;
 		switch (path) {
-		case "/profile":
+		case UrlConstants.URL_PROFILE:
 			int id = Integer.parseInt(request.getParameter("id"));
 			
 			taskDtos = taskRepository.getTaskByUserID(id);
@@ -51,9 +53,9 @@ public class ProFileController extends HttpServlet {
 			request.setAttribute("taskDtos", taskDtos);
 
 
-			request.getRequestDispatcher("WEB-INF/views/profile/profile.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_PROFILE + UrlConstants.URL_PROFILE + ".jsp").forward(request, response);
 			break;
-		case "/profile-update":
+		case UrlConstants.URL_PROFILE_EDIT:
 			int id_edit = Integer.parseInt(request.getParameter("id"));
 			
 			taskDtos = taskRepository.getTaskByUserID(user.getId());
@@ -65,7 +67,7 @@ public class ProFileController extends HttpServlet {
 			request.setAttribute("listStatus", listStatus);
 			request.setAttribute("taskDto", taskDto);
 
-			request.getRequestDispatcher("WEB-INF/views/profile/profile-edit.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_PROFILE + UrlConstants.URL_PROFILE + ".jsp").forward(request, response);
 			break;	
 		default:
 			break;
@@ -85,7 +87,7 @@ public class ProFileController extends HttpServlet {
 
 		switch (path) {
 
-		case "/profile-update":
+		case UrlConstants.URL_PROFILE_EDIT:
 			int id = Integer.parseInt(request.getParameter("id"));
 			int status_id = Integer.parseInt(request.getParameter("status"));
 
@@ -93,7 +95,7 @@ public class ProFileController extends HttpServlet {
 			taskRepository.editTaskStatus(status_id,id,user.getId());
 			System.out.println("StatusID : "+status_id+" Task_ID "+id+" User_id "+user.getId());
 			response.sendRedirect(request.getContextPath()+"/profile?id="+user.getId());
-
+			
 			break;	
 		default:
 			break;

@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.mindrot.jbcrypt.BCrypt;
-
+import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.dto.UserDto;
 import cybersoft.java09.entity.Role;
 import cybersoft.java09.entity.Task;
@@ -23,7 +22,11 @@ import cybersoft.java09.service.UserService;
 /**
  * Servlet implementation class UserController
  */
-@WebServlet(urlPatterns = {"/user-add","/user-details","/user-edit","/user-delete","/user-table"})
+@WebServlet(urlPatterns = {UrlConstants.URL_USER_DETAILS,
+		   UrlConstants.URL_USER_ADD,
+		   UrlConstants.URL_USER_EDIT,
+		   UrlConstants.URL_USER_DELETE,
+		   UrlConstants.URL_USER_TABLE})
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService userService;
@@ -46,26 +49,26 @@ public class UserController extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user_session = (User)session.getAttribute("user");
 		switch (path) {
-		case "/user-table":
+		case UrlConstants.URL_USER_TABLE:
 			List<UserDto> usersDto = userService.getAllUserRole(); 
 			request.setAttribute("users", usersDto);
 
-			request.getRequestDispatcher("/WEB-INF/views/user/user-table.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_TABLE + ".jsp").forward(request, response);
 			break;
-		case "/user-add":
+		case UrlConstants.URL_USER_ADD:
 			List<Role> roles = roleRepository.getAllRole(); //Lấy toàn bộ Role
 
 			request.setAttribute("roles", roles);
-			request.getRequestDispatcher("/WEB-INF/views/user/user-add.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_ADD + ".jsp").forward(request, response);
 			break;
-		case "/user-edit":
+		case UrlConstants.URL_USER_EDIT:
 
 			int id = Integer.valueOf(request.getParameter("id"));
 
 			User user = userRepository.findById(id);
 			if(user_session.getRole_Id() == 2) {
 				if(user.getRole_Id()!=3) {
-					response.sendRedirect(request.getContextPath()+"/error/403");
+					response.sendRedirect(request.getContextPath()+ UrlConstants.URL_403_ERROR);
 					return;
 				}
 			}
@@ -76,8 +79,8 @@ public class UserController extends HttpServlet {
 
 			request.setAttribute("roles", roles_edit);
 
-			request.getRequestDispatcher("/WEB-INF/views/user/user-edit.jsp").forward(request, response);
-
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_EDIT + ".jsp").forward(request, response);
+			
 
 
 
@@ -86,19 +89,19 @@ public class UserController extends HttpServlet {
 
 			break;
 
-		case "/user-delete":
+		case UrlConstants.URL_USER_DELETE:
 
 			int id_del = Integer.valueOf(request.getParameter("id"));
 			User user_delete = userRepository.findById(id_del);
 			if(user_session.getRole_Id() == 2) {
 				if(user_delete.getRole_Id()!=3) {
-					response.sendRedirect(request.getContextPath()+"/error/403");
+					response.sendRedirect(request.getContextPath()+UrlConstants.URL_403_ERROR);
 					return;
 				}
 			}
 
 			userRepository.deleteUser(id_del);
-			response.sendRedirect(request.getContextPath()+"/user-table");
+			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
 
 
 
@@ -106,7 +109,7 @@ public class UserController extends HttpServlet {
 			break;
 
 
-		case "/user-details":
+		case UrlConstants.URL_USER_DETAILS:
 			int id_detail = Integer.valueOf(request.getParameter("id"));
 			List<Task> listTaskNotDone = userRepository.findTaskOfUser(id_detail, 1);
 			List<Task> listTaskPending = userRepository.findTaskOfUser(id_detail, 2);
@@ -119,7 +122,7 @@ public class UserController extends HttpServlet {
 
 
 
-			request.getRequestDispatcher("/WEB-INF/views/user/user-details.jsp").forward(request, response);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_DETAILS + ".jsp").forward(request, response);
 			break;
 		default:
 			break;
@@ -142,17 +145,17 @@ public class UserController extends HttpServlet {
 
 		switch (path) {
 
-		case "/user-add":
+		case UrlConstants.URL_USER_ADD:
 
 			/* String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12)); */
 			User user = new User(email, password, fullname, avatar, roleId);
 
 			userRepository.addUser(user);
 
-			response.sendRedirect(request.getContextPath()+"/user-table");
+			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
 			break;
 
-		case "/user-edit":
+		case UrlConstants.URL_USER_EDIT:
 
 			int id = Integer.parseInt(request.getParameter("id"));
 			User userEdit = userRepository.findById(id);
@@ -170,12 +173,12 @@ public class UserController extends HttpServlet {
 
 			userRepository.editUser(userEdit, id);
 
-			response.sendRedirect(request.getContextPath()+"/user-table");
-
+			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
+			
 
 			break;
-		case "/user-details":
-			request.getRequestDispatcher("/WEB-INF/views/user/user-details.jsp").forward(request, response);
+		case UrlConstants.URL_USER_DETAILS:
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_DETAILS + ".jsp").forward(request, response);
 			break;
 		default:
 			break;
