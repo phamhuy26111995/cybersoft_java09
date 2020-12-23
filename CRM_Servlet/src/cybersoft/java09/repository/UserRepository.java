@@ -240,19 +240,26 @@ public class UserRepository {
 		return user;
 	}
 	
+	/*
+	 * Hàm tìm kiếm thông tin task của user
+	 * param userID: id của user cần tìm kiếm
+	 * param statusID: trạng thái của task cần tìm kiếm
+	 * return: trả về danh sách task của id user và trạng thái cần tìm
+	 * Author: 
+	 */
 	public List<Task> findTaskOfUser(int userID, int statusID){
 		List<Task> listTaskUser = new ArrayList<Task>();
 		try {
-			
+			//Tạo câu truy vấn chọn tên task, ngày bắt đầu và ngày kết thúc của task 
 			String query = "select t.name,t.start_date,t.end_date from tasks t join users u on t.user_id = u.id join status s on t.status_id = s.id where u.id = ? AND s.id= ?";
 			
-			
+			//Kết nối db
 			Connection connection = JDBCConnection.getConnection();
 			
+			//truyền câu truy vấn
 			PreparedStatement statement = connection.prepareStatement(query);
 			
 			statement.setInt(1,userID);
-			
 			
 			if(statusID == 1)
 			{
@@ -266,6 +273,7 @@ public class UserRepository {
 				statement.setInt(2, 3);
 			}
 			
+			//thực thi truy vấn
 			ResultSet result = statement.executeQuery();
 			
 			while(result.next()) {
@@ -295,6 +303,14 @@ public class UserRepository {
 
 		return listTaskUser;
 	}
+	
+	/*
+	 * Hàm kiểm tra đăng nhập của người dùng
+	 * param email: email của user cần 
+	 * param password: mật khẩu của user 
+	 * return: trả về user có email và pass cần tìm, nếu không thì null
+	 * Author: 
+	 */
 	public User checkLogin(String email, String password) {
 		// B1: Kết nối db
 		User user = new User();
@@ -327,9 +343,16 @@ public class UserRepository {
 		return user;
 	}
 	
+	/*
+	 * Hàm tìm kiếm thông tin task của user
+	 * param userID: id của user cần tìm kiếm
+	 * return: trả về danh sách task của user cần tìm
+	 * Author: 
+	 */
 	public List<TaskDto> findTaskByUserID(int userID){
 		List<TaskDto> listTaskDto = new ArrayList<TaskDto>();
 		try {
+			
 			String query = "select t.id,t.name,t.start_date,t.end_date,s.name as status_name from tasks t join users u on t.user_id = u.id join status s on t.status_id = s.id where u.id = ?";
 			Connection connection = JDBCConnection.getConnection();
 			PreparedStatement statement = connection.prepareStatement(query);

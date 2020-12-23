@@ -92,12 +92,9 @@ public class RoleController extends HttpServlet {
 			int id = Integer.valueOf(request.getParameter("id"));
 			Role role_edit = new Role(name,description);
 			roleRepository.editRole(role_edit,id);
+			
 			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_ROLE_TABLE);
-			
-			
 			break;
-
-
 		case UrlConstants.URL_ROLE_TABLE:
 
 			break;

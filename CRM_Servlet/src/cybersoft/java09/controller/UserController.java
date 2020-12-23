@@ -69,7 +69,11 @@ public class UserController extends HttpServlet {
 			int id = Integer.valueOf(request.getParameter("id"));
 
 			User user = userRepository.findById(id);
+			
+			//Leader không thể sửa thông tin của admin
+			//Chỉ xét leader vì nhân viên không thể vào trang edit
 			if(user_session.getRole_Id() == 2) {
+				//trong trường hợp không phải là nhân viên thì báo lỗi
 				if(user.getRole_Id()!=3) {
 					response.sendRedirect(request.getContextPath()+ UrlConstants.URL_403_ERROR);
 					return;
@@ -81,6 +85,7 @@ public class UserController extends HttpServlet {
 			List<Role> roles_edit = roleRepository.getAllRole();
 
 			if(user_session.getRole_Id()==2) {
+				//Bỏ lựa chọn sửa quyền thành admin
 				Iterator<Role> itr = roles_edit.iterator();
 				while (itr.hasNext()) {
 					Role role = itr.next();
@@ -94,10 +99,6 @@ public class UserController extends HttpServlet {
 
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_EDIT + ".jsp").forward(request, response);
 
-
-
-
-
 			// TRUY VẤN DB LẤY THÔNG TIN USER CẦN SỬA
 
 			break;
@@ -106,6 +107,8 @@ public class UserController extends HttpServlet {
 
 			int id_del = Integer.valueOf(request.getParameter("id"));
 			User user_delete = userRepository.findById(id_del);
+			
+			//chỉ xét trường hợp là leader và người cần xóa chỉ được là nhân viên
 			if(user_session.getRole_Id() == 2) {
 				if(user_delete.getRole_Id()!=3) {
 					response.sendRedirect(request.getContextPath()+UrlConstants.URL_403_ERROR);
@@ -128,11 +131,13 @@ public class UserController extends HttpServlet {
 			List<Task> listTaskPending = userRepository.findTaskOfUser(id_detail, 2);
 			List<Task> listTaskDone = userRepository.findTaskOfUser(id_detail, 3);
 
+			//Lấy phần trăm công việc
 			int totalTask = taskRepository.countTaskOfUser(id_detail);
 			int notDoneTask = (int) ((taskRepository.countTaskNotDoneOfUser(id_detail)*100)/totalTask);
 			int pendingTask = (int) ((taskRepository.countTaskPendingOfUser(id_detail)*100)/totalTask);
 			int finishTask = 100 - (notDoneTask+pendingTask);
 
+			//Gán phần trăm để tạo biểu đồ
 			UserDto userDto = new UserDto();
 			userDto.setNotDoneWorkPercent(notDoneTask);
 			userDto.setPendingWorkPercent(pendingTask);

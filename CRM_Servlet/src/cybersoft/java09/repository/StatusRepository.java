@@ -49,6 +49,11 @@ public class StatusRepository {
 		return status;
 	}
 	
+	/*
+	 * Hàm lấy tất cả trạng thái
+	 * return: trả về một list status
+	 * Author: 
+	 */
 	public List<Status> getAllStatus() {
 		List<Status> listStatus = new ArrayList<Status>();
 		try {

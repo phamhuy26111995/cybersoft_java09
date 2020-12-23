@@ -33,7 +33,7 @@ public class AuthController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String action = request.getParameter("action");
-		
+		//Kiểm tra đã đăng nhập hay chưa
 		if(action !=null && !action.isEmpty()) {
 			HttpSession session = request.getSession();
 			session.removeAttribute("user");
@@ -51,13 +51,19 @@ public class AuthController extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
+		//Lấy ra user có email và password đã nhập
 		User user = userRepository.checkLogin(email, password);
 		System.out.println(user.getEmail());
 		
+		//Kiểm tra nếu có tồn tại user và email khác null thì chuyển đến trang home
 		if(user!=null && user.getEmail()!=null) {
+			//Gán user vào session
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
+			
 			response.sendRedirect(request.getContextPath()+UrlConstants.URL_HOME);
+		
+		//Ngược lại là không đăng nhập thành công thì quay lại trang đăng nhập và đăng nhập lại
 		}else {
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_LOGIN + UrlConstants.URL_INDEX + ".jsp").forward(request, response);
 			

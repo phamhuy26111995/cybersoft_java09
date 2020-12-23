@@ -42,18 +42,24 @@ public class ProFileController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getServletPath();
+		
+		//Lấy thông tin user đăng nhập
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
+		
 		List<TaskDto> taskDtos ;
+		
 		switch (path) {
 		case UrlConstants.URL_PROFILE:
 			int id = Integer.parseInt(request.getParameter("id"));
-
+			
+			//lấy số liệu để vẽ biểu đồ
 			int totalTask = taskRepository.countTaskOfUser(id);
 			int notDoneTask = (int) ((taskRepository.countTaskNotDoneOfUser(id)*100)/totalTask);
 			int pendingTask = (int) ((taskRepository.countTaskPendingOfUser(id)*100)/totalTask);
 			int finishTask = 100 - (notDoneTask+pendingTask);
 			
+			//Gán giá trị phần trăm vào userDTO
 			UserDto userDto = new UserDto();
 			userDto.setNotDoneWorkPercent(notDoneTask);
 			userDto.setPendingWorkPercent(pendingTask);
@@ -68,8 +74,13 @@ public class ProFileController extends HttpServlet {
 		case UrlConstants.URL_PROFILE_EDIT:
 			int id_edit = Integer.parseInt(request.getParameter("id"));
 			
+			//Lấy task của user
 			taskDtos = taskRepository.getTaskByUserID(user.getId());
+			
+			//hàm lấy ra task của user
 			TaskDto taskDto = taskRepository.getTaskByUserIDAndTaskID(user.getId(), id_edit);
+			
+			//lấy ra danh sách trạng thái
 			List<Status> listStatus = statusRepository.getAllStatus();
 			
 			
@@ -104,8 +115,8 @@ public class ProFileController extends HttpServlet {
 
 			taskRepository.editTaskStatus(status_id,id,user.getId());
 			System.out.println("StatusID : "+status_id+" Task_ID "+id+" User_id "+user.getId());
-			response.sendRedirect(request.getContextPath()+"/profile?id="+user.getId());
 			
+			response.sendRedirect(request.getContextPath()+"/profile?id="+user.getId());
 			break;	
 		default:
 			break;
