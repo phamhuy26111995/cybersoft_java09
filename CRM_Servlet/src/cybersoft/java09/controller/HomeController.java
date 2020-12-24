@@ -36,8 +36,11 @@ public class HomeController extends HttpServlet {
 		User user = (User)session.getAttribute("user");
 		
 		int totalTask = taskRepository.countTaskOfUser(user.getId());
+		
 		int notDoneTask = (int) taskRepository.countTaskNotDoneOfUser(user.getId());
+		
 		int pendingTask = (int) taskRepository.countTaskPendingOfUser(user.getId());
+		
 		int finishTask = totalTask - (notDoneTask+pendingTask);
 		
 		

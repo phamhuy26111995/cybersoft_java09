@@ -50,8 +50,10 @@ public class TaskController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getServletPath();
 		int id;
+		//Lấy thông tin user đang đăng nhập
 		HttpSession session = request.getSession();
 		User user_session = (User)session.getAttribute("user");
+		
 		switch (path) {
 		case UrlConstants.URL_TASK:
 
@@ -77,10 +79,11 @@ public class TaskController extends HttpServlet {
 			List<User> users_edit = userRepository.getAlluser();
 			List<Job> jobs_edit = jobRepository.getAllJob();
 			Job job = jobRepository.findJobByUserID(user_session.getId());
+			
 			if(user_session.getRole_Id() == 2) {    //Nếu User hiện tại có role là LEADER , users_edit sẽ remove các 
 													//user là Admin trong list users_edit. Đồng thời remove các dự án không
 													// không thuộc User leader này
-												
+				// leader không thể sửa thông tin của admin nên bỏ đi lựa chọn sửa role thành admin							
 				Iterator<User> itr = users_edit.iterator();
 				while (itr.hasNext()) {
 					User user = itr.next();
@@ -88,6 +91,7 @@ public class TaskController extends HttpServlet {
 						itr.remove();
 					}
 
+				//User leader chỉ có thể sửa những dự án của mình làm
 					Iterator<Job> itr_job = jobs_edit.iterator();
 					while (itr_job.hasNext()) {
 						Job j = itr_job.next();
@@ -139,9 +143,6 @@ public class TaskController extends HttpServlet {
 
 			break;
 		case UrlConstants.URL_TASK_ADD:
-
-
-
 			try {
 				Date startDate = sdf.parse(start_date);
 				Date endDate = sdf.parse(end_date);
@@ -165,8 +166,11 @@ public class TaskController extends HttpServlet {
 				Task task = new Task(taskName, startDate, endDate, user, job, 1);
 				System.out.println(task);
 				System.out.println(id);
+				
 				taskRepository.editTask(task, id);
+				
 				response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_TASK);
+				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());

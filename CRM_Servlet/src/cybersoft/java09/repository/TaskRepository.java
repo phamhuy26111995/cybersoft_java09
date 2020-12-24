@@ -301,7 +301,14 @@ public class TaskRepository {
 		return taskDtos;
 	}
 
-
+	/*
+	 * Hàm thay đổi trạng thái tasks 
+	 * param status_id: trạng thái của task
+	 * param id: id của task
+	 * param user_id: id của user
+	 * return: trả về tast đã sửa đổi trạng thái 
+	 * Author: 
+	 */
 	public void editTaskStatus(int status_id,int id,int user_id) {
 		try {
 
@@ -333,7 +340,13 @@ public class TaskRepository {
 
 	}
 
-
+	/*
+	 * Hàm lấy ra task dựa vào id của user và id của task
+	 * param user_id: id của user cần lấy
+	 * param task_id: id của task cần lấy
+	 * return: tasks có id user và task user cần lấy 
+	 * Author: 
+	 */
 	public TaskDto getTaskByUserIDAndTaskID(int user_id,int task_id){ 
 		TaskDto taskDto = new TaskDto();
 		try {
@@ -384,7 +397,12 @@ public class TaskRepository {
 		return taskDto;
 	}
 
-
+	/*
+	 * Hàm đếm user này làm bao nhiêu task 
+	 * param id: id của user cần lấy
+	 * return: số lượng task của user
+	 * Author: 
+	 */
 	public int countTaskOfUser(int id) {
 		int tong = 0;
 		try {
@@ -393,11 +411,12 @@ public class TaskRepository {
 			PreparedStatement statement = connection.prepareStatement(query);
 
 			statement.setInt(1, id);
+			
 			ResultSet result = statement.executeQuery();
+			
 			while(result.next()) {
 				tong += result.getInt("numberTask");
 			}
-
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -408,7 +427,12 @@ public class TaskRepository {
 		return tong;
 	}
 	
-	
+	/*
+	 * Hàm đếm user này còn bao nhiêu task chưa làm xong 
+	 * param id: id của user cần lấy
+	 * return: số lượng task user chưa làm xong làm
+	 * Author: 
+	 */
 	public float countTaskNotDoneOfUser(int id) {
 		float tong = 0;
 		try {
@@ -432,6 +456,13 @@ public class TaskRepository {
 
 		return tong;
 	}
+	
+	/*
+	 * Hàm đếm user này có bao nhiêu task đang chờ xử lý 
+	 * param id: id của user cần lấy
+	 * return: số lượng task user đang chờ để làm
+	 * Author: 
+	 */
 	public float countTaskPendingOfUser(int id) {
 		float tong = 0;
 		try {
@@ -442,6 +473,7 @@ public class TaskRepository {
 			statement.setInt(1, id);
 		
 			ResultSet result = statement.executeQuery();
+			
 			while(result.next()) {
 				tong += result.getInt("numberTaskPending");
 			}
@@ -449,7 +481,6 @@ public class TaskRepository {
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-
 
 		}
 
