@@ -32,6 +32,7 @@ public class AdminRoleController {
 		this.roleService = roleService;
 	}
 	
+	//Lấy ra toàn bộ role
 	@GetMapping("")
 	public Object get() {
 		try {
@@ -44,6 +45,7 @@ public class AdminRoleController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	//Lấy role theo id
 	@GetMapping("{id}")
 	public Object get(@PathVariable int id) {
 		try {
@@ -56,45 +58,28 @@ public class AdminRoleController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@PostMapping("")
-	public Object post(@Valid @RequestBody RoleDto role) {
-		
-		try {
-			roleService.save(role);
-			return new ResponseEntity<Object>(HttpStatus.CREATED);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-	}
-	
-	@PutMapping("{id}")
-	public Object put(@PathVariable int id, @Valid @RequestBody RoleDto role) {
-		try {
-			if(id != role.getId()) {
-				return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-			}
-			
-			roleService.edit(role);
-			return new ResponseEntity<Object>(HttpStatus.OK);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-	}
-	
-	@DeleteMapping("{id}")
-	public Object put(@PathVariable int id) {
-		try {
-			roleService.delete(id);
-			return new ResponseEntity<Object>(HttpStatus.OK);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-	}
-	
+	/*
+	 * @PostMapping("") public Object post(@Valid @RequestBody RoleDto role) {
+	 * 
+	 * try { roleService.save(role); return new
+	 * ResponseEntity<Object>(HttpStatus.CREATED); } catch (Exception e) {
+	 * e.printStackTrace(); } return new
+	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
+	 * 
+	 * @PutMapping("{id}") public Object put(@PathVariable int
+	 * id, @Valid @RequestBody RoleDto role) { try { if(id != role.getId()) { return
+	 * new ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
+	 * 
+	 * roleService.edit(role); return new ResponseEntity<Object>(HttpStatus.OK);
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } return new
+	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
+	 * 
+	 * @DeleteMapping("{id}") public Object put(@PathVariable int id) { try {
+	 * roleService.delete(id); return new ResponseEntity<Object>(HttpStatus.OK);
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } return new
+	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
+	 */
 	
 }

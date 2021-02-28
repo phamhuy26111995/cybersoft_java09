@@ -49,11 +49,12 @@ public class AdminCourseController {
 	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); } }
 	 */
 	
-	
+	//Trả về đối tượng CourseDto
 	@GetMapping("")
 	public Object get() {
 		try {
 			List<CourseDto> dtos ;
+			//Nếu user hiện tại có role là Admin thì lấy toàn bộ , còn nếu là Teacher thì sẽ lấy các khóa học thuộc về mình
 			if(IndentifyRole.getRolePrincipal().contains("ROLE_ADMIN")) {
 				 dtos = courseService.getAll();
 			}
@@ -68,6 +69,7 @@ public class AdminCourseController {
 		}
 	}
 	
+	//Trả về khóa học cuối cùng nằm trong danh sách
 	@GetMapping("last")
 	public Object getLastCourse() {
 		try {
@@ -80,7 +82,7 @@ public class AdminCourseController {
 		}
 	}
 	
-	
+	//Thêm khóa học
 	@PostMapping("")
 	public Object save(@RequestBody CourseDto dto) {
 
@@ -103,6 +105,8 @@ public class AdminCourseController {
 	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
 	 */
 	
+	
+	//Edit khóa học
 	@PutMapping("{id}")
 	public Object put(@PathVariable int id,@RequestBody CourseDto dto) {
 		try {
@@ -119,7 +123,8 @@ public class AdminCourseController {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
+	//Xóa khóa học
 	@DeleteMapping("{id}")
 	public Object delete(@PathVariable int id) {
 		try {

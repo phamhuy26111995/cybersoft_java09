@@ -3,7 +3,7 @@ package com.cybersoft.common;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-
+//Class kế thừa passwordEncoder , tạo ra một phương thức không mã hóa password 
 public class PasswordEnconderTest implements PasswordEncoder {
     @Override
     public String encode(CharSequence charSequence) {

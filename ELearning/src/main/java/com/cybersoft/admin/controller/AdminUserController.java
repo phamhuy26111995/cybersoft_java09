@@ -49,7 +49,8 @@ public class AdminUserController {
 	}
 
 
-
+//Nếu là user Admin thì sẽ lấy toàn bộ user
+//Nếu là user Teacher thì sẽ lấy toàn bộ danh sách user là Student thuộc về khóa học của user Teacher này
 	@GetMapping("")
 	public Object get() {
 		try {
@@ -81,7 +82,7 @@ public class AdminUserController {
 
 
 
-
+//Get User theo id
 	@GetMapping("{id}")
 	public Object getById(@PathVariable int id) {
 		try {
@@ -96,6 +97,7 @@ public class AdminUserController {
 	}
 
 
+	//Lấy ra thông tin của User hiện tại đang tương tác với hệ thống
 	@GetMapping("current")
 	public Object getByEmail() {
 		try {
@@ -111,7 +113,7 @@ public class AdminUserController {
 	}
 
 
-
+//Thêm mới user
 	@PostMapping("")
 	public Object post(@RequestBody UserDto dto) {
 		try {
@@ -123,6 +125,7 @@ public class AdminUserController {
 	}
 
 
+//Edit User
 	@PutMapping("{id}")
 	public Object put(@PathVariable int id,@RequestBody UserDto dto) {
 		try {
@@ -143,6 +146,8 @@ public class AdminUserController {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+//Xóa User
 	@DeleteMapping("{id}")
 	public Object delete(@PathVariable int id) {
 		try {
@@ -156,6 +161,7 @@ public class AdminUserController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 
+//Update Profile của user
 	@PutMapping("profile")
 	public Object put(@RequestBody UserDto dto) {
 		try {

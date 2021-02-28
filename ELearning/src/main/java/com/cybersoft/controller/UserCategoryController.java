@@ -21,7 +21,8 @@ public class UserCategoryController {
 		this.categoryService = categoryService;
 		
 	}
-
+	
+	//Get toàn bộ category
 	@GetMapping("")
 	public Object get() {
 		try {

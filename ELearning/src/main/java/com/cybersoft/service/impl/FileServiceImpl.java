@@ -1,6 +1,6 @@
 package com.cybersoft.service.impl;
 
-
+//Tầng Service thực hiện chức năng upload hình ảnh
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,18 +13,23 @@ import com.cybersoft.service.FileService;
 @Service
 public class FileServiceImpl implements FileService {
 	
+	//Biến nhận giá trị đường dẫn đến folder category
 	@Value("${file.upload-dir-category}")
 	private String uploadDir;
 	
+	//Biến nhận giá trị đường dẫn đến folder video
 	@Value("${file.upload-dir-video}")
 	private String uploadDirVideo;
 	
+	//Biến nhận giá trị đường dẫn đến folder profile
 	@Value("${file.upload-dir-profile}")
 	private String uploadDirProfile;
 	
+	//Biến nhận giá trị đường dẫn đến folder course
 	@Value("${file.upload-dir-course}")
 	private String uploadDirCourse;
 
+	//Lưu trữ file vào folder category
 	@Override
 	public String saveFileCategory(MultipartFile file) {
 		try {
@@ -40,7 +45,8 @@ public class FileServiceImpl implements FileService {
 		}
 		return "";
 	}
-
+	
+	//Lưu trữ file vào folder video
 	@Override
 	public String saveFileVideo(MultipartFile file) {
 		try {
@@ -56,7 +62,8 @@ public class FileServiceImpl implements FileService {
 		}
 		return "";
 	}
-
+	
+	//Lưu trữ file vào folder profile
 	@Override
 	public String saveFileProfile(MultipartFile file) {
 		try {
@@ -73,6 +80,7 @@ public class FileServiceImpl implements FileService {
 		return "";
 	}
 
+	//Lưu trữ file vào folder course
 	@Override
 	public String saveFileCourse(MultipartFile file) {
 		try {

@@ -180,7 +180,9 @@ function addCourse() {
             "lecturesCount": lecturesCountInput,
             "price": priceInput,
             "hourCount": hourCountInput,
-            "categoryId": cateInput,
+            "category": {
+				"id":cateInput
+			},
             "content": contentInput,
             "description": descriptionInput,
             "discount": discountInput,

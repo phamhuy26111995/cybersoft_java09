@@ -22,6 +22,7 @@ public class UserTargetController {
 		this.targetService = targetService;
 	}
 	
+	//get Target thuộc về khóa học
 	@GetMapping("{id}")
 	public Object get(@PathVariable int id) {
 		try {

@@ -17,7 +17,7 @@ function loadCourse() {
                 <th>${courseDto.id}</th>
                 <td>${courseDto.title}</td>
                 <td><img src="http://localhost:8080/course/${courseDto.image}"></td>
-                <td>${courseDto.lectureCount}</td>
+                <td>${courseDto.lecturesCount}</td>
                 <td>${courseDto.price}</td>
                 
                 <td>
@@ -32,6 +32,7 @@ function loadCourse() {
            tableCourse.innerHTML = courseRow;
         })
         .catch(function (err) {
+            location.replace("/403.html");
             console.log(err.response);
             
         })

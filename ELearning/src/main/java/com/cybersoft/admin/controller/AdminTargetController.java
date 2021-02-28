@@ -32,17 +32,19 @@ public class AdminTargetController {
 		this.courseService = courseService;
 	}
 	
-	
+	//Lấy ra targer
 	@GetMapping("")
 	public Object get() {
 		try {
 			List<TargetDto> dtos ;
+			//Nếu là user Admin sẽ lấy ra toàn bộ target
 			if(IndentifyRole.getRolePrincipal().contains("ROLE_ADMIN")) {
 				dtos = targetService.getAll();
 			}
 
 			else {
 				dtos = new ArrayList<TargetDto>();
+				//Nếu là user Teacher thì sẽ lấy tất cả các target thuộc về khóa học của user
 				List<CourseDto> courseDtos = courseService.getCourseByUser(IndentifyEmail.getEmailPrincipal());
 				for(CourseDto dto : courseDtos) {
 					List<TargetDto> targets = targetService.getByCourse(dto.getId());
@@ -57,6 +59,7 @@ public class AdminTargetController {
 		}
 	}
 	
+	//Thêm mới target
 	@PostMapping("")
 	public Object save(@RequestBody TargetDto dto) {
 
@@ -69,6 +72,7 @@ public class AdminTargetController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	//Edit Target
 	@PutMapping("{id}")
 	public Object put(@PathVariable int id,@RequestBody TargetDto dto) {
 		try {
@@ -81,6 +85,7 @@ public class AdminTargetController {
 		
 	}
 
+	//Xóa target
 	@DeleteMapping("{id}")
 	public Object delete(@PathVariable int id) {
 		try {

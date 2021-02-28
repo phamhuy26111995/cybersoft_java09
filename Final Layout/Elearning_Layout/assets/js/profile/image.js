@@ -14,6 +14,7 @@ function getProfileImage(){
             
             idUser = user.id;
             getUserById(idUser);
+          
         })
         .catch(function (err) {
             console.log(err);

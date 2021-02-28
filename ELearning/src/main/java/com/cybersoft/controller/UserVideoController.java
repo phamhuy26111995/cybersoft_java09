@@ -21,6 +21,7 @@ public class UserVideoController {
 		this.videoService = videoService;
 	}
 	
+	//Get video thuộc về khóa học
 	@GetMapping("{id}")
 	public Object get(@PathVariable int id) {
 		try {

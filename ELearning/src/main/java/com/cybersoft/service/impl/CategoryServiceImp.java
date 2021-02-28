@@ -20,6 +20,7 @@ public class CategoryServiceImp implements CategoryService {
 		this.categoryRepository = categoryRepository;
 	}
 
+	//Lấy toàn bộ danh sách category
 	@Override
 	public List<CategoryDto> getAll() {
 		List<CategoryDto> dtos = new ArrayList<CategoryDto>();
@@ -38,6 +39,7 @@ public class CategoryServiceImp implements CategoryService {
 		return dtos;
 	}
 
+	//Lấy category theo id
 	@Override
 	public CategoryDto getById(int id) {
 		Category entity = categoryRepository.findById(id).get();
@@ -45,6 +47,7 @@ public class CategoryServiceImp implements CategoryService {
 		return new CategoryDto(entity.getId(),entity.getIcon(),entity.getTitle());
 	}
 
+	//Thêm mới một category
 	@Override
 	public void save(CategoryDto dto) {
 		Category entity = new Category();
@@ -55,11 +58,13 @@ public class CategoryServiceImp implements CategoryService {
 
 	}
 
+	//Sửa một category
 	@Override
 	public void edit(CategoryDto dto) {
 		Category entity = categoryRepository.findById(dto.getId()).get();
 		// MAPPING USER DTO SANG USER ENTITY
 
+		//Check dto có khác null hay khác rỗng , nếu khác thì cho phép edit dữ liệu đó
 		if(dto.getTitle() != null && !dto.getTitle().equalsIgnoreCase("")) {
 			entity.setTitle(dto.getTitle());
 		}

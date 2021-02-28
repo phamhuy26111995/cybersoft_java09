@@ -148,6 +148,21 @@ public class CourseDto {
 		this.viewCount = viewCount;
 	}
 
+	public CourseDto(int id, String title, String image, int lecturesCount, double price, int hourCount,
+			String description, int discount, double promotionPrice, int viewCount,String content) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.image = image;
+		this.lecturesCount = lecturesCount;
+		this.price = price;
+		this.hourCount = hourCount;
+		this.description = description;
+		this.discount = discount;
+		this.promotionPrice = promotionPrice;
+		this.viewCount = viewCount;
+		this.content = content;
+	}
 	
 	
 	

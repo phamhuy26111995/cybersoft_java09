@@ -23,6 +23,7 @@ public class CourseServiceImpl implements CourseService {
 	public CourseServiceImpl(CourseRepository courseRepository) {
 		this.courseRepository = courseRepository;
 	}
+	//Lấy toàn bộ course để hiển thị
 	@Override
 	public List<CourseDto> getAll() {
 		List<CourseDto> dtos = new ArrayList<CourseDto>();
@@ -34,6 +35,8 @@ public class CourseServiceImpl implements CourseService {
 						entity.getImage(), 
 						entity.getLeturesCount(),
 						entity.getPrice());
+				dto.setHourCount(entity.getHourCount());
+				dto.setContent(entity.getContent());
 				dtos.add(dto);
 			}
 		} catch (Exception e) {
@@ -42,6 +45,7 @@ public class CourseServiceImpl implements CourseService {
 		return dtos;
 	}
 
+	//Lấy course theo id
 	@Override
 	public CourseDto getById(int id) {
 		Course entity = courseRepository.findById(id).get();
@@ -61,6 +65,8 @@ public class CourseServiceImpl implements CourseService {
 		return dto;
 
 	}
+	
+	//Thêm mới một course
 	@Override
 	public void save(CourseDto dto) {
 		Course entity = new Course();
@@ -85,6 +91,7 @@ public class CourseServiceImpl implements CourseService {
 
 
 
+	//Edit một course
 	@Override
 	public void update(CourseDto dto) {
 		Course entity = courseRepository.findById(dto.getId()).get();
@@ -106,22 +113,30 @@ public class CourseServiceImpl implements CourseService {
 		courseRepository.save(entity);
 
 	}
+	
+	//Xóa một course
 	@Override
 	public void delete(int id) {
 		courseRepository.deleteById(id);
 
 	}
+	
+	//Lấy toàn bộ khóa học thuộc về user theo email của user
 	@Override
 	public List<CourseDto> getCourseByUser(String email) {
 		List<CourseDto> dtos = courseRepository.getCourseByUser(email);
 		return dtos;
 
 	}
+	
+	//Lấy toàn bộ course thuộc category
 	@Override
 	public List<CourseDto> getCourseByCategory(int id) {
 		List<CourseDto> dtos = courseRepository.getCourseByCategory(id);
 		return dtos;
 	}
+	
+	//Lấy ra course đang nằm cuối danh sách
 	@Override
 	public CourseDto getTheLastCourse() {
 		Course entity = courseRepository.findTop1ByOrderByIdDesc();

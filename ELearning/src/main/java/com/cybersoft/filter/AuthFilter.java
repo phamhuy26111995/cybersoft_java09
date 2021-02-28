@@ -31,15 +31,16 @@ public class AuthFilter extends BasicAuthenticationFilter {
 			
 		
 	}
-
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		//Các Api bắt đầu bằng các ký tự này sẽ được đi qua filter mà không cần Token
 		if(request.getServletPath().startsWith("/api/admin/auth") || request.getServletPath().startsWith("/api/auth") || request.getServletPath().startsWith("/api/register")) {
 			chain.doFilter(request, response);
 			return;
 		}
-		
+		//Lấy token để giải mã ra thông tin email , nếu hợp lệ thì cho đi qua filter 
 		String tokenHeader = request.getHeader("Authorization");
 		if(tokenHeader != null && !tokenHeader.isEmpty() && tokenHeader.startsWith("Bearer ")) {
 			String token = tokenHeader.replace("Bearer ","");
@@ -63,6 +64,7 @@ public class AuthFilter extends BasicAuthenticationFilter {
 			
 			}
 		else {
+			//Nếu không hợp lệ thì trả về response này
 			response.sendError(401,"Chưa đăng nhập");
 		}
 	}

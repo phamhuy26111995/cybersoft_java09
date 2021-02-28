@@ -33,16 +33,19 @@ public class AdminVideoController {
 		this.courseService = courseService;
 	}
 
+	//Lấy ra danh sách video
 	@GetMapping("")
 	public Object get() {
 		try {
 			List<VideoDto> dtos ;
+			//Nếu là Admin thì sẽ lấy ra toàn bộ
 			if(IndentifyRole.getRolePrincipal().contains("ROLE_ADMIN")) {
 				dtos = videoService.getAll();
 			}
 
 			else {
 				dtos = new ArrayList<VideoDto>();
+				//Nếu là Teacher thì sẽ lấy ra các video thuộc về khóa học của user
 				List<CourseDto> courseDtos = courseService.getCourseByUser(IndentifyEmail.getEmailPrincipal());
 				for(CourseDto dto : courseDtos) {
 					List<VideoDto> videos = videoService.getByCourse(dto.getId());
@@ -58,6 +61,7 @@ public class AdminVideoController {
 
 	}
 
+	//Thêm mới một video
 	@PostMapping("")
 	public Object save(@RequestBody VideoDto dto) {
 
@@ -70,6 +74,7 @@ public class AdminVideoController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 
+	//Edit một video
 	@PutMapping("{id}")
 	public Object put(@PathVariable int id,@RequestBody VideoDto dto) {
 		try {
@@ -82,6 +87,7 @@ public class AdminVideoController {
 
 	}
 
+	//Xóa một video
 	@DeleteMapping("{id}")
 	public Object delete(@PathVariable int id) {
 		try {

@@ -25,7 +25,8 @@ public class AuthController {
 	public AuthController(AuthService authService) {
 		this.authService = authService;
 	}
-
+	
+	//Gọi phương thức login cho Student
 	@PostMapping("login")
 	public Object post(@RequestBody LoginDto dto) {
 		try {	

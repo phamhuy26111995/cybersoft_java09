@@ -12,8 +12,6 @@ public interface CourseService {
 	List<CourseDto> getAll();
 	CourseDto getById(int id);
 	void update(CourseDto dto);
-
-	/* void updateUserCourse(CourseDto dto); */
 	void delete(int id);
 	List<CourseDto> getCourseByUser(String email);
 	List<CourseDto> getCourseByCategory(int id);

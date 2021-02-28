@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+//Thay đổi
 public class ValidExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override

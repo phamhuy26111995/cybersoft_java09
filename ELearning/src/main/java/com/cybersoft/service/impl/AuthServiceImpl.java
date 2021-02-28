@@ -19,6 +19,7 @@ public class AuthServiceImpl implements AuthService {
 		 
 		this.authenticationManager = authenticationManager;
 	}
+	 //Phương thức login tầng Service trả về token khi user được xác thực
 	@Override
 	public String login(LoginDto dto) {
 		authenticationManager.authenticate(

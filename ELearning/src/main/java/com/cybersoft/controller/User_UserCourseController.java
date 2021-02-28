@@ -1,4 +1,4 @@
-package com.cybersoft.admin.controller;
+package com.cybersoft.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +12,10 @@ import com.cybersoft.dto.UserCourseDto;
 import com.cybersoft.service.UserCourseService;
 
 @RestController
-@RequestMapping("api/admin/userCourse")
-public class AdminUserCourseController {
+@RequestMapping("api/user/userCourse")
+public class User_UserCourseController {
 	private UserCourseService userCourseService;
-	public AdminUserCourseController(UserCourseService userCourseService) {
+	public User_UserCourseController(UserCourseService userCourseService) {
 		this.userCourseService = userCourseService;
 	}
 	

@@ -28,6 +28,7 @@ public class UserCourseController {
 		this.courseService = courseService;
 	}
 	
+	//Lấy Toàn bộ Course
 	@GetMapping("")
 	public Object get() {
 		try {
@@ -40,13 +41,14 @@ public class UserCourseController {
 		}
 	}
 	
-
-	@GetMapping("category")
-	public Object getCourseOfCategory(@RequestBody CategoryDto dto) {
+	//Lấy toàn bộ Course thuộc category
+	@GetMapping("category/{id}")
+	public Object getCourseOfCategory(@PathVariable int id) {
 		try {
-			List<CourseDto> dtos = courseService.getCourseByCategory(dto.getId());
+			List<CourseDto> dtos = courseService.getCourseByCategory(id);
 			
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
+			
 		} catch (Exception e) {
 			System.out.println("Lỗi");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
@@ -54,7 +56,7 @@ public class UserCourseController {
 
 	}
 	
-	
+	//Lấy toàn bộ course thuộc về user Student mà user đã ghi danh
 	@GetMapping("details")
 	public Object getCourseOfUser() {
 		try {
@@ -70,18 +72,7 @@ public class UserCourseController {
 	}
 	
 	
-	@GetMapping("{id}")
-	public Object getCourseOfCategory(@PathVariable int id) {
-		try {
-			CourseDto dto = courseService.getById(id);
-			
-			return new ResponseEntity<Object>(dto, HttpStatus.OK);
-		} catch (Exception e) {
-			
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		}
-
-	}
+	
 	@PostMapping("")
 	public Object post(@RequestBody CourseDto dto) {
 		try {

@@ -16,45 +16,28 @@ import com.cybersoft.service.UserService;
 public class UserServiceImpl implements UserService{
 	
 	private UserRepository userRepository;
-//	private RoleRepository roleRepository; 
+
 	
 	public UserServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
-//		this.roleRepository = roleRepository;
+
 	}
 
+	//Lấy toàn bộ thông tin User để hiển thị lên Front End
 	@Override
 	public List<UserDto> getAll() {
-//		List<UserDto> dtos = new ArrayList<UserDto>();
-//		// GỌI PHƯƠNG THỨC TRUY VẤN LẤY DANH SÁCH USER
-//		List<User> entities = userRepository.findAll();
-//		// MAPPING USER ENTITY SANG USER DTO
-//		for (User entity : entities) {
-//			// GỌI PHƯƠNG THỨC TRUY VẤN LẤY ROLE THEO id 
-//			// (roleId là khóa ngoại lưu trong bảng user)
-//			Role role = roleRepository.findById(entity.getRoleId()).get();
-//			UserDto dto = new UserDto(
-//					entity.getId(),
-//					entity.getEmail(),
-//					entity.getPassword(),
-//					entity.getFullname(),
-//					entity.getAvatar(),
-//					entity.getRoleId()
-//				);
-//			dto.setRoleDesc(role.getDescription());
-//			dtos.add(dto);
-//		}
 		
 		List<UserDto> dtos = userRepository.findAllJoin();
 		return dtos;
 	}
 
+	//Edit User
 	@Override
 	public void update(UserDto dto) {
 		// TRUY VẤN LẤY RA DỮ LIỆU ĐANG LƯU TRONG DB
 		User entity = userRepository.findById(dto.getId()).get();
-		// MAPPING USER DTO SANG USER ENTITY
-			
+		
+		//Kiểm tra data trên Front End trả về , nếu khác null hoặc rỗng thì set	
 		if(dto.getFullname() != null && !dto.getFullname().equalsIgnoreCase("")) {
 			entity.setFullname(dto.getFullname());
 		}
@@ -79,10 +62,6 @@ public class UserServiceImpl implements UserService{
 		entity.setRoleId(dto.getRoleId());
 		
 		
-	
-		
-		
-		// NẾU NGƯỜI DÙNG NHẬP MẬT KHẨU MỚI THÌ ĐỔI LẠI MẬT KHẨU
 		
 		userRepository.save(entity);
 
@@ -90,12 +69,14 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	
-
+	//Xóa user
 	@Override
 	public void delete(int id) {
 		userRepository.deleteById(id);
 	}
 
+	
+	//Get User theo id
 	@Override
 	public UserDto getById(int id) {
 		User entity = userRepository.findById(id).get();
@@ -116,6 +97,7 @@ public class UserServiceImpl implements UserService{
 		return dto;
 	}
 
+	//Thêm mới một user
 	@Override
 	public void insert(UserDto dto) {
 		String hashed = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
@@ -131,6 +113,7 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	//Lấy các user là Student thuộc về khóa học
 	@Override
 	public List<UserDto> getStudentOfCourse(int id) {
 		List<UserDto> dtos = userRepository.findAllUserOfCourse(id);
@@ -138,6 +121,7 @@ public class UserServiceImpl implements UserService{
 		return dtos;
 	}
 
+	//Lấy user cuối cùng trong danh sách
 	@Override
 	public UserDto getTheLastUser() {
 		User entity= userRepository.findTop1ByOrderByIdDesc();
@@ -150,6 +134,7 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	//Tìm kiếm user theo email
 	@Override
 	public UserDto getByEmail(String email) {
 		User entity = userRepository.findByEmail(email);

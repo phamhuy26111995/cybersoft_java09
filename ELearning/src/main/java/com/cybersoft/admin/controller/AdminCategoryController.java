@@ -27,6 +27,7 @@ public class AdminCategoryController {
 		this.categoryService = categoryService;
 	}
 
+//Lấy toàn bộ category
 	@GetMapping("")
 	public Object get() {
 		try {
@@ -39,6 +40,7 @@ public class AdminCategoryController {
 		}
 	}
 
+	//Thêm mới một category
 	@PostMapping("")
 	public Object save(@Valid @RequestBody CategoryDto dto) {
 
@@ -50,7 +52,9 @@ public class AdminCategoryController {
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-
+	
+	
+	//Edit một category
 	@PutMapping("{id}")
 	public Object put(@PathVariable int id,@RequestBody CategoryDto dto) {
 		try {
@@ -68,6 +72,7 @@ public class AdminCategoryController {
 		}
 	}
 
+	//Xóa Category
 	@DeleteMapping("{id}")
 	public Object delete(@PathVariable int id) {
 		try {

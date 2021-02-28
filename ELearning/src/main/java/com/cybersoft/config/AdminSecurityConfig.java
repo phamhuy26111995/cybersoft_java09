@@ -27,12 +27,12 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		this.userDetailsService = userDetailsService;
 	}
 	
-	
+	//Phương thức mã hóa
 	 @Bean 
 	 public PasswordEncoder passwordEncoder() { 
 		 return new BCryptPasswordEncoder();
 		 }
-	 
+	 //Gọi hàm kiểm tra đăng nhập
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -40,12 +40,14 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
+	//Khai báo service lấy thông tin user từ db và khai báo phương thức mã hóa password
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// TODO Auto-generated method stub
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
+	//Phân quyền
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors();
@@ -61,10 +63,13 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest()
 		.authenticated();
 		
+		//Add thêm Filter
 		http.addFilter(new AuthFilter(authenticationManager(), userDetailsService));
+		//Không cho phép sử dụng session
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
+	//bỏ xác thực trang Swagger
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()

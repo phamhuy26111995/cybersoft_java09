@@ -22,6 +22,7 @@ public class AdminAuthController {
 		this.authService = authService;
 	}
 
+	//Gọi API để đăng nhập vào hệ thống , trả về một chuỗi JWT nếu đăng nhập thành công
 	@PostMapping("login")
 	public Object post(@Valid @RequestBody LoginDto dto) {
 		try {

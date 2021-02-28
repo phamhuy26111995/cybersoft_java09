@@ -20,6 +20,7 @@ public class AdminFileController {
 		this.fileService = fileService;
 	}
 	
+	//Upload file vào thư mục category
 	@PostMapping("category")
 	public Object upload(@RequestParam MultipartFile file) {
 		try {
@@ -31,6 +32,7 @@ public class AdminFileController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	//Upload file vào thư mục video
 	@PostMapping("video")
 	public Object uploadVideo(@RequestParam MultipartFile file) {
 		try {
@@ -42,6 +44,7 @@ public class AdminFileController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	//Upload file vào thư mục profile
 	@PostMapping("profile")
 	public Object uploadProfile(@RequestParam MultipartFile file) {
 		try {
@@ -53,6 +56,7 @@ public class AdminFileController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	//Upload file vào thư mục course
 	@PostMapping("course")
 	public Object uploadCourse(@RequestParam MultipartFile file) {
 		try {

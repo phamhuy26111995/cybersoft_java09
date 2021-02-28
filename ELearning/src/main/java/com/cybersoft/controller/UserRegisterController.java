@@ -18,6 +18,7 @@ public class UserRegisterController {
 		this.userService = userService;
 	}
 	
+	//thêm mới một user Student vào db
 	@PostMapping("")
 	public Object post(@RequestBody UserDto dto) {
 		try {

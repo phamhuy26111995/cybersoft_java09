@@ -13,7 +13,7 @@ import com.cybersoft.entity.UserCourse;
 public interface UserCourseRepository extends JpaRepository<UserCourse, Integer> {
 	
 	 
-	 
+	 //xóa UserCourse
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM UserCourse uc WHERE uc.user.id = ?1 AND uc.course.id = ?2")

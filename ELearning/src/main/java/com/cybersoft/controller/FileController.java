@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+//Controller upload file của user Student
 @RestController
 @RequestMapping("api/user/file")
 public class FileController {
@@ -27,7 +27,7 @@ public class FileController {
 	@Value("${file.upload-dir-profile}")
 	private String uploadDirProfile;
 	
-	
+	//upload vào folder category
 	@PostMapping("upload")
 	public Object upload(@RequestParam MultipartFile file) {
 		try {
@@ -44,6 +44,7 @@ public class FileController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	//upload vào folder video
 	@PostMapping("upload/video")
 	public Object uploadVideo(@RequestParam MultipartFile file) {
 		try {
@@ -60,6 +61,7 @@ public class FileController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 	
+	//upload vào folder profile
 	@PostMapping("upload/profile")
 	public Object uploadProfile(@RequestParam MultipartFile file) {
 		try {

@@ -32,6 +32,7 @@ function loadUser() {
            
         })
         .catch(function (err) {
+            location.replace("/403.html");
             console.log(err.response);
         })
 }

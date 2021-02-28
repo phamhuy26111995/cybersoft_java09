@@ -26,7 +26,7 @@ public class Course {
 	private String image;
 	
 	@Column(name = "lectures_count")
-	private int leturesCount;
+	private int lecturesCount;
 	
 	@Column(name = "hour_count")
 	private int hourCount;
@@ -85,11 +85,11 @@ public class Course {
 	}
 
 	public int getLeturesCount() {
-		return leturesCount;
+		return lecturesCount;
 	}
 
 	public void setLeturesCount(int leturesCount) {
-		this.leturesCount = leturesCount;
+		this.lecturesCount = leturesCount;
 	}
 
 	public int getHourCount() {
@@ -180,7 +180,7 @@ public class Course {
 		this.id = id;
 		this.title = title;
 		this.image = image;
-		this.leturesCount = leturesCount;
+		this.lecturesCount = leturesCount;
 		this.hourCount = hourCount;
 		this.viewCount = viewCount;
 		this.price = price;
@@ -206,7 +206,7 @@ public class Course {
 		this.id = id;
 		this.title = title;
 		this.image = image;
-		this.leturesCount = leturesCount;
+		this.lecturesCount = leturesCount;
 		this.hourCount = hourCount;
 		this.viewCount = viewCount;
 		this.price = price;
@@ -217,7 +217,7 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Course [id=" + id + ", title=" + title + ", image=" + image + ", leturesCount=" + leturesCount
+		return "Course [id=" + id + ", title=" + title + ", image=" + image + ", leturesCount=" + lecturesCount
 				+ ", hourCount=" + hourCount + ", viewCount=" + viewCount + ", price=" + price + ", discount="
 				+ discount + ", promotionPrice=" + promotionPrice + ", description=" + description + ", content="
 				+ content + ", categoryId=" + ", lastUpdate=" + lastUpdate + ", category=" + category
