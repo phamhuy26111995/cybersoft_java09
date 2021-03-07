@@ -13,7 +13,7 @@ import com.cybersoft.dto.VideoDto;
 import com.cybersoft.service.VideoService;
 
 @RestController
-@RequestMapping("api/user/video")
+@RequestMapping("api/user/video/public")
 public class UserVideoController {
 	private VideoService videoService;
 	

@@ -42,7 +42,9 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
-		.antMatchers("/api/user/category","api/register","/api/user/course/**");
+		.antMatchers("/api/user/course/public/**","/api/user/auth/public/**","/api/user/category/public/**"
+				,"/api/user/target/public/**",
+				"/api/user/video/public/**","/api/user/register/public");
 	}
 }
 

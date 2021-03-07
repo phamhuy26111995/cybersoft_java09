@@ -1,4 +1,4 @@
-
+//Hàm upload hình ảnh lên server
 function saveAvatar() {
     let avatarInput = document.getElementById("avatar");
     // KIỂM TRA XEM CHỌN HÌNH CHƯA
@@ -9,7 +9,7 @@ function saveAvatar() {
     formData.append('file', avatarInput.files[0]);
 
     axios({
-        url: 'http://localhost:8080/api/admin/file/profile',
+        url: 'http://localhost:8080/api/user/file/upload/profile',
         method: 'POST',
         data: formData,
         headers: {
@@ -30,6 +30,7 @@ function saveAvatar() {
     
 }
 
+//Hàm lấy ra file name từ máy local của user và sẽ lưu tên của hình ảnh này xuống server
 function getFileName() {
     var fullPath = document.getElementById('avatar').value;
     if (fullPath) {
@@ -226,6 +227,8 @@ function editPassword(id){
 
 }
 
+
+//Hàm sẽ hiển thị profile name của user đang tương tác với hệ thống
 function showProfileName(){
     
     axios({
@@ -240,7 +243,7 @@ function showProfileName(){
             let userDto = resp.data;
             let idUser = userDto.id;
             let roleId = userDto.roleId;
-            getUserById(idUser);
+            getUserById();
             
             
 
@@ -251,9 +254,10 @@ function showProfileName(){
         })
 }
 
-function getUserById(id){
+//Hàm con của showProfileName()
+function getUserById(){
     axios({
-        url: `http://localhost:8080/api/user/${id}`,
+        url: `http://localhost:8080/api/user`,
         method: 'GET',
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem("USER_TOKEN")
@@ -263,7 +267,7 @@ function getUserById(id){
         .then(function (resp) {
             let userDto = resp.data;
             
-            document.getElementById('profileFullname').innerHTML = userDto.fullname;
+            document.getElementById('profileFullname').innerHTML = userDto.fullname; //add thông tin vào các thẻ HTML
             document.getElementById('profileEmail').innerHTML = userDto.email;
             document.getElementById('emailProfile').value = userDto.email;
             
@@ -276,6 +280,9 @@ function getUserById(id){
           
         })
 }
+
+
+
 
 showProfileName();
 

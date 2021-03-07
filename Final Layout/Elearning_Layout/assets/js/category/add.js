@@ -1,3 +1,5 @@
+
+//Hàm lấy ra tên file hình ảnh từ đường dẫn của máy local user để lưu xuống database
 function getFileName() {
     var fullPath = document.getElementById('icon').value;
     if (fullPath) {
@@ -10,9 +12,10 @@ function getFileName() {
     }
 }
 
+//Hàm Save ảnh xuống server
 function saveIcon() {
     let iconInput = document.getElementById("icon");
-    // KIỂM TRA XEM CHỌN HÌNH CHƯA
+    
 
 
     // ADD FILE VÀO ĐỐI TƯỢNG FORMDATA
@@ -39,6 +42,7 @@ function saveIcon() {
 
 }
 
+//Thêm 1 Category
 function addCategory() {
 
     let flag = true;
@@ -86,6 +90,7 @@ function addCategory() {
 }
 
 
+//Hàm sign out
 function logout(){
     localStorage.removeItem('USER_TOKEN');
     location.replace("/login.html");

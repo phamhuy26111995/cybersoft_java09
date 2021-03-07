@@ -11,7 +11,7 @@ import com.cybersoft.dto.UserDto;
 import com.cybersoft.service.UserService;
 
 @RestController
-@RequestMapping("api/register")
+@RequestMapping("api/user/register/public")
 public class UserRegisterController {
 	private UserService userService;
 	public UserRegisterController(UserService userService) {

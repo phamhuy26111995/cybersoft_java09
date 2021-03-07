@@ -1,3 +1,5 @@
+
+//Load ra danh sách user
 function loadUser() {
     let role ="";
     axios({
@@ -36,6 +38,8 @@ function loadUser() {
             console.log(err.response);
         })
 }
+
+//Xóa user
 function deleteUser(id){
 
 

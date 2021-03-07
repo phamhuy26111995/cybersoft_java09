@@ -23,7 +23,7 @@ public class UserCategoryController {
 	}
 	
 	//Get toàn bộ category
-	@GetMapping("")
+	@GetMapping("public")
 	public Object get() {
 		try {
 			List<CategoryDto> dtos = categoryService.getAll();

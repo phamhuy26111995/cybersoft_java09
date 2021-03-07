@@ -64,10 +64,12 @@ public class AdminUserController {
 				dtos = new ArrayList<UserDto>();
 				List<CourseDto> courseDtos = courseService.getCourseByUser(IndentifyEmail.getEmailPrincipal());
 				for(CourseDto dto : courseDtos) {
+					
 					List<UserDto> students = userService.getStudentOfCourse(dto.getId());
+				
 					dtos.addAll(students);
+					
 				}
-
 
 			}
 
@@ -166,11 +168,12 @@ public class AdminUserController {
 	public Object put(@RequestBody UserDto dto) {
 		try {
 			userService.updateProfile(dto);
-
+			System.out.println(dto);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 
 
 		} catch (Exception e) {
+			System.out.println(dto);
 			System.out.println("Lỗi update profile");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}

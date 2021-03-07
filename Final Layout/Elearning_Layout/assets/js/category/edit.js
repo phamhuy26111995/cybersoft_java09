@@ -66,6 +66,8 @@ function editCate() {
     // ADD FILE VÀO ĐỐI TƯỢNG FORMDATA
     let formData = new FormData();
     formData.append('file', iconInput.files[0]);
+    
+    //Lấy ra tham số của URL
     const queryString = window.location.search;
 
     const urlParams = new URLSearchParams(queryString);
@@ -156,6 +158,7 @@ function editCate() {
     }
 }
 
+//Hàm sign out
 function logout(){
     localStorage.removeItem('USER_TOKEN');
     location.replace("/login.html");

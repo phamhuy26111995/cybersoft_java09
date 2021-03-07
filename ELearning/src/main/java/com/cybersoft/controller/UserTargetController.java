@@ -14,7 +14,7 @@ import com.cybersoft.service.TargetService;
 import com.cybersoft.service.VideoService;
 
 @RestController
-@RequestMapping("api/user/target")
+@RequestMapping("api/user/target/public")
 public class UserTargetController {
 	private TargetService targetService;
 	

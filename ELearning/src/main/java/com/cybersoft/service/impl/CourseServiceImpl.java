@@ -61,6 +61,7 @@ public class CourseServiceImpl implements CourseService {
 		dto.setDescription(entity.getDescription());
 		dto.setPrice(entity.getPrice());
 		dto.setPromotionPrice(entity.getPromotionPrice());
+		dto.setContent(entity.getContent());
 
 		return dto;
 

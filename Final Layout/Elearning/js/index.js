@@ -1,6 +1,6 @@
 function loadCategory() {
     axios({
-        url: 'http://localhost:8080/api/user/category',
+        url: 'http://localhost:8080/api/user/category/public',
         method: 'GET',
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem("USER_TOKEN")
@@ -75,7 +75,7 @@ function register(){
     }
 
     axios({
-        url: 'http://localhost:8080/api/register',
+        url: 'http://localhost:8080/api/user/register/public',
         method: 'POST',
         data : userDto,
         headers: {
@@ -104,7 +104,7 @@ function login(){
     }
 
     axios({
-        url: 'http://localhost:8080/api/auth/login',
+        url: 'http://localhost:8080/api/user/auth/public/login',
         method: 'POST',
         data : userDto,
         headers: {
@@ -147,14 +147,19 @@ function getUserById(){
             
             let user = resp.data;
             signUpAndIn.innerHTML = `<div class="dropdown">
+            <div class="dropdown-toggle font-weight-bold text-dark" data-toggle="dropdown">
             <img src="http://localhost:8080/profile/${user.avatar}" class="img-radius"
             alt="User-Profile-Image">
-            <span">${user.fullname}</span>
+            <span style=" cursor: pointer">${user.fullname}</span>
+            </div>
             <input type="hidden" id="idUser" value = "${user.id}"></input>
-            <div class="dropdown-content">
-                <a href="profile.html" style="">Profile</a>
-                <br />
-                <a href="javascript:void(0)" onclick="logout()">Đăng xuất</a>
+            <input type="hidden" id="roleId" value = "${user.roleId}"></input>
+            <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="profile.html">Thông tin cá nhân</a>
+            <a class="dropdown-item" href="course.html">Khóa học của tôi</a>
+                
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:void(0)" onclick="logout()">Đăng xuất</a>
             </div>
         </div>`
 
@@ -175,7 +180,7 @@ function getUserById(){
 //Hàm hiển thị tất cả các khóa học
   function getAllCourses(){
     axios({
-        url: 'http://localhost:8080/api/user/course',
+        url: 'http://localhost:8080/api/user/course/public',
         method: 'GET',
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem("USER_TOKEN")
@@ -200,7 +205,7 @@ function getUserById(){
                    </div>
                    <div class="seller-label">Sale 10%</div>
                    <div class="course-overlay">
-                       <a href="details.html">
+                       <a href="details.html?id=${courseDto.id}">
                            <h6 class="course-title">
                            ${courseDto.title}
                            </h6>
@@ -234,7 +239,7 @@ function getUserById(){
                    <span>${courseDto.price} đ</span>
                </div>
                <div class="course-overlay">
-                   <a href="details.html">
+                   <a href="details.html?id=${courseDto.id}">
                        <h6 class="course-title">
                            ${courseDto.title}
                        </h6>
@@ -276,13 +281,15 @@ function getUserById(){
 //Hàm mua khóa học
 function addUserCourse(idCourse){
     let idUser = document.getElementById('idUser').value;
+    let roleId = document.getElementById('roleId').value;
     let userCourse = {
         "user":{
             "id":idUser
         },
         "course":{
             "id":idCourse
-        },    
+        },
+        "roleId": roleId  
     }
     axios({
         url: 'http://localhost:8080/api/user/userCourse',
@@ -318,7 +325,7 @@ function logout(){
 function getCourseByCategory(id){
    
     axios({
-        url: `http://localhost:8080/api/user/course/category/${id}`,
+        url: `http://localhost:8080/api/user/course/public/category/${id}`,
         method: 'GET',
         
         headers: {
@@ -370,7 +377,7 @@ function getCourseByCategory(id){
             }
             
             document.getElementById('listCoursePopular').innerHTML = stringCoursePopular;
-    
+            document.getElementById('listCoursePopular').focus();
             
         })
         .catch(function (err) {

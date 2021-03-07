@@ -1,3 +1,4 @@
+//Hàm load ra category
 function loadCategory() {
     axios({
         url: 'http://localhost:8080/api/admin/category',
@@ -26,6 +27,7 @@ function loadCategory() {
         })
 }
 loadCategory();
+
 
 function getFileName() {
     var fullPath = document.getElementById('image').value;
@@ -73,10 +75,12 @@ function saveImage() {
 
 
 function editCourse() {
-
+    //Lấy ra tham số từ URL
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const idCourse = urlParams.get('id');
+
+
     let flag = true;
 
     let titleInput = document.getElementById('title').value;
@@ -88,15 +92,6 @@ function editCourse() {
     let discountInput = document.getElementById('discount').value;
     let descriptionInput = document.getElementById('description').value;
     
-    
- 
-
-   
-
-
-
-    
-        
 
     if (flag === true) {
         // TẠO ĐỐI TƯỢNG USER
@@ -117,14 +112,6 @@ function editCourse() {
             
         }
 
-     
-
-
-            
-
-
-                
-
 
         // GỌI API THÊM MỚI
         axios({
@@ -140,16 +127,6 @@ function editCourse() {
                 console.log('Thành công! ' + resp.data);
                 swal("Good job!", "Sửa Thành Công!", "success");
                 saveImage();
-                
-                
-
-               
-
-                
-            
-        
-
-
 
             })
             .catch(function (err) {

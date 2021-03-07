@@ -35,7 +35,7 @@ loadRole();
 
 
 
-
+//Lấy ra file name từ máy local của user để lưu vào database
 function getFileName() {
     var fullPath = document.getElementById('avatar').value;
     if (fullPath) {
@@ -48,7 +48,7 @@ function getFileName() {
     }
 }
 
-
+//Save hình ảnh xuống project
 function saveAvatar() {
     let avatarInput = document.getElementById("avatar");
     // KIỂM TRA XEM CHỌN HÌNH CHƯA
@@ -78,7 +78,7 @@ function saveAvatar() {
 }
 
 
-
+//Thêm mới 1 user
 function addUser() {
     
     let flag = true;
@@ -182,6 +182,8 @@ function addUser() {
     }
 }
 
+
+//Hàm đăng xuất
 function logout(){
     localStorage.removeItem('USER_TOKEN');
     location.replace("/login.html");

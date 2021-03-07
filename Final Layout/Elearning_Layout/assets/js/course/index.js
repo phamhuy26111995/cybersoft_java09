@@ -1,3 +1,4 @@
+//load Course
 function loadCourse() {
     axios({
         url: 'http://localhost:8080/api/admin/course',
@@ -39,6 +40,7 @@ function loadCourse() {
 }
 loadCourse();
 
+//Xóa Course
 function deleteCourse(id){
 
     axios({

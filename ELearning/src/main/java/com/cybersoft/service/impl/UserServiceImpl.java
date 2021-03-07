@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService{
 		if(dto.getEmail() != null && !dto.getEmail().isEmpty()) {
 			entity.setEmail(dto.getEmail());
 		}
-		if(dto.getFullname() != null && !dto.getFullname().equalsIgnoreCase("")) {
+		if(dto.getFullname() != null && !dto.getFullname().isEmpty()) {
 			entity.setFullname(dto.getFullname());
 		}
 		if(dto.getAddress() != null && !dto.getAddress().isEmpty()) {
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService{
 		if(dto.getAvatar() != null && !dto.getAvatar().isEmpty()) {
 			entity.setAvatar(dto.getAvatar());
 		}
-		if(entity.getPassword() != null && !entity.getPassword().isEmpty()) {
+		if(dto.getPassword() != null && !dto.getPassword().isEmpty()) {
 			String hashed = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
 			entity.setPassword(hashed);
 		}

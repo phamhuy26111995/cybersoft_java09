@@ -1,3 +1,5 @@
+
+//Hàm load ra category
 function loadCategory() {
     axios({
         url: 'http://localhost:8080/api/admin/category',
@@ -27,6 +29,7 @@ function loadCategory() {
 }
 loadCategory();
 
+//Hàm lấy ra tên file từ máy local của user để save xuống database
 function getFileName() {
     var fullPath = document.getElementById('image').value;
     if (fullPath) {
@@ -39,10 +42,10 @@ function getFileName() {
     }
 }
 
-
+//Hàm save image xuống project
 function saveImage() {
     let imageInput = document.getElementById("image");
-    // KIỂM TRA XEM CHỌN HÌNH CHƯA
+   
 
 
     // ADD FILE VÀO ĐỐI TƯỢNG FORMDATA
@@ -74,6 +77,7 @@ var roleId = document.getElementById('roleId').value;
 var lastCourseId = document.getElementById('lastCourseId').value;
 
 
+//Hàm thêm một khóa học
 function addCourse() {
 
     let flag = true;
@@ -229,22 +233,11 @@ function addCourse() {
                 console.log(courseDto);
                 swal("Sorry", "Thêm Mới Thất Bại!", "error");
             })
-    
-            //////////////
-           
-             
-
-
-
-
-
-
-
 
     }
 }
 
-//
+//Thêm user Course để biết được khóa học được thêm bởi user nào
 function addUserCourse(){
     axios({
         url: 'http://localhost:8080/api/admin/user/current',
@@ -325,18 +318,9 @@ function addUserCourse(){
             console.log(courseDto);
             swal("Sorry", "Thêm Mới Thất Bại!", "error");
         })
-
-        
-              
-
-        
-   
-
-       
-
 }
 
-
+//Hàm sign out
 function logout(){
     localStorage.removeItem('USER_TOKEN');
     location.replace("/login.html");

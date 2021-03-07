@@ -17,6 +17,8 @@ import com.cybersoft.dto.CourseDto;
 import com.cybersoft.service.CourseService;
 import com.cybersoft.service.UserService;
 
+import javassist.expr.NewArray;
+
 import java.util.List;
 
 
@@ -29,7 +31,7 @@ public class UserCourseController {
 	}
 	
 	//Lấy Toàn bộ Course
-	@GetMapping("")
+	@GetMapping("public")
 	public Object get() {
 		try {
 			
@@ -42,7 +44,7 @@ public class UserCourseController {
 	}
 	
 	//Lấy toàn bộ Course thuộc category
-	@GetMapping("category/{id}")
+	@GetMapping("public/category/{id}")
 	public Object getCourseOfCategory(@PathVariable int id) {
 		try {
 			List<CourseDto> dtos = courseService.getCourseByCategory(id);
@@ -71,7 +73,17 @@ public class UserCourseController {
 		}
 	}
 	
-	
+	@GetMapping("public/{id}")
+	public Object getById(@PathVariable int id) {
+		try {
+			CourseDto dto = courseService.getById(id);
+			return new ResponseEntity<Object>(dto, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 	
 	@PostMapping("")
 	public Object post(@RequestBody CourseDto dto) {
@@ -82,6 +94,7 @@ public class UserCourseController {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 	
 	
 	

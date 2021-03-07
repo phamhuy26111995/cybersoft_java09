@@ -1,3 +1,5 @@
+
+//Hàm đăng nhập
 function login() {
     // B1. LẤY THÔNG TIN FORM ĐĂNG NHẬP
     let email = document.getElementById("email").value;
@@ -19,7 +21,7 @@ function login() {
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
 
-        // B3. LƯU TOKEN VÀO MÁY NGƯỜI DÙNG
+        // B3. LƯU TOKEN VÀO MÁY NGƯỜI DÙNG và rediect sang trang user index
         localStorage.setItem('USER_TOKEN', resp.data);
         location.replace("/user-index.html");
 

@@ -1,3 +1,4 @@
+//Load ra danh sách khóa học
 function loadCourse() {
     axios({
         url: 'http://localhost:8080/api/admin/course',
@@ -27,6 +28,7 @@ function loadCourse() {
 }
 loadCourse();
 
+//Lấy ra file name từ máy local của user để lưu xuống database
 function getFileName() {
     var fullPath = document.getElementById('image').value;
     if (fullPath) {
@@ -39,6 +41,7 @@ function getFileName() {
     }
 }
 
+//Save ảnh xuống project
 function saveImage() {
     let imageInput = document.getElementById("image");
     // KIỂM TRA XEM CHỌN HÌNH CHƯA
@@ -68,6 +71,7 @@ function saveImage() {
 
 }
 
+//Thêm mới một video
 function addVideo() {
 
     let flag = true;
@@ -126,6 +130,8 @@ function addVideo() {
             })
     }
 }
+
+//Hàm sign out
 function logout(){
     localStorage.removeItem('USER_TOKEN');
     location.replace("/login.html");

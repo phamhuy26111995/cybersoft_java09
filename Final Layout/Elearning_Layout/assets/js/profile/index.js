@@ -187,6 +187,7 @@ function editImage(id){
         .then(function (resp) {
             console.log('Thành công');
             swal("Good job!", "Thêm Mới Thành Công!", "success");
+            console.log(user);
         
         })
         .catch(function (err) {

@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	public User findByEmail(String email);
 	
 	//Tìm kiếm user thuộc về khóa học
-	@Query("SELECT new com.cybersoft.dto.UserDto(u.id, u.fullname, u.email,r.description) FROM UserCourse uc JOIN Course c ON uc.course.id = c.id JOIN User u ON uc.user.id = u.id JOIN Role r ON uc.roleId = r.id WHERE u.roleId = 3 AND c.id=?1")
+	@Query("SELECT DISTINCT new com.cybersoft.dto.UserDto(u.id, u.fullname, u.email,r.description) FROM UserCourse uc JOIN Course c ON uc.course.id = c.id JOIN User u ON uc.user.id = u.id JOIN Role r ON uc.roleId = r.id WHERE u.roleId = 3 AND c.id=?1")
 	public List<UserDto> findAllUserOfCourse(int id);
 	
 	//Tìm kiếm User nằm cuối danh sách

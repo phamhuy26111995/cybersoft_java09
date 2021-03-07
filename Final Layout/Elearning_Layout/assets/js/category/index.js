@@ -1,3 +1,5 @@
+
+//Hàm load ra category
 function loadCategory() {
     axios({
         url: 'http://localhost:8080/api/admin/category',
@@ -34,6 +36,8 @@ function loadCategory() {
             console.log(err.response);
         })
 }
+
+//Hàm xóa Category
 function deleteCate(id){
 
     axios({
