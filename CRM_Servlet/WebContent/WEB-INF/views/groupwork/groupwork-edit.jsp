@@ -61,7 +61,7 @@
                     <div class="col-md-2 col-12"></div>
                     <div class="col-md-8 col-xs-12">
                         <div class="white-box">
-                            <form class="form-horizontal form-material" method="post" action="<%=contextPath %>/groupwork-edit">
+                            <form class="form-horizontal form-material" method="post" action="<%=contextPath %>/groupwork-edit" onsubmit="return validateForm()" name="group-work-form">
                                 <input type="hidden" class="form-control form-control-line"
 									name="id" value="${job.id }">
                                 
@@ -115,6 +115,8 @@
 	<script src="<%=contextPath %>/static/js/waves.js"></script>
 	<!-- Custom Theme JavaScript -->
 	<script src="<%=contextPath %>/static/js/custom.min.js"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script charset="UTF-8"  src="<%=contextPath %>/static/js/group-work.js"></script>
 </body>
 
 </html>

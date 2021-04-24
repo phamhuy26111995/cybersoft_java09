@@ -37,8 +37,10 @@
                     <li>
                         <div class="dropdown">
                             <a class="profile-pic dropdown-toggle" data-toggle="dropdown" href="#"> 
-                                <img src="<%=contextPath %>/static/plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle" />
-                                <b class="hidden-xs">Cybersoft</b> 
+                                <img src="<%=contextPath %>/static/avatar/${user.avatar}" alt="user-img" width="36" class="img-circle" />
+                                <b class="hidden-xs">${user.fullName}</b> 
+                              
+                                
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<%=contextPath %>/profile?id=${user.id}">Thông tin cá nhân</a></li>
@@ -78,15 +80,11 @@
                         <a href="<%=contextPath %>/task" class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Công việc</span></a>
                     </li>
-                    <li>
-                        <a href="blank.html" class="waves-effect"><i class="fa fa-columns fa-fw"
-                                aria-hidden="true"></i><span class="hide-menu">Blank Page</span></a>
-                    </li>
-                    <li>
-                        <a href="404.html" class="waves-effect"><i class="fa fa-info-circle fa-fw"
-                                aria-hidden="true"></i><span class="hide-menu">Error 404</span></a>
-                    </li>
+                   
                 </ul>
             </div>
         </div>
         <!-- Left navbar-header end -->
+        
+        
+ 

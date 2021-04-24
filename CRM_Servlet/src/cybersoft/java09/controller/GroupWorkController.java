@@ -68,6 +68,8 @@ public class GroupWorkController extends HttpServlet {
 		case UrlConstants.URL_JOB_DETAILS:
 			int id_detail = Integer.parseInt(request.getParameter("id"));
 			
+			jobRepository.getUserOfListDto(id_detail);
+			
 			List<JobDto> jobDtos = jobRepository.getUserOfListDto(id_detail);
 			
 			for(JobDto jobDto : jobDtos) {
@@ -76,8 +78,8 @@ public class GroupWorkController extends HttpServlet {
 				jobDto.setTaskPending(userRepository.findTaskOfUser(jobDto.getUser().getId(), 2));
 				jobDto.setTaskDone(userRepository.findTaskOfUser(jobDto.getUser().getId(), 3));
 			}
-			System.out.println(jobDtos.get(0).getTaskNotDone().get(0));
 			
+			 
 			request.setAttribute("jobDtos", jobDtos);
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_JOB + UrlConstants.URL_JOB_DETAILS + ".jsp").forward(request, response);
 			break;

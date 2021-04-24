@@ -44,7 +44,7 @@
    
          <jsp:include page="../layout/navbar.jsp"></jsp:include>
    
-   
+   		
         <!-- Page Content -->
         <div id="page-wrapper">
             <div class="container-fluid">

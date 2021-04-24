@@ -1,16 +1,22 @@
 package cybersoft.java09.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import com.google.gson.Gson;
+
+import cybersoft.java09.constants.UploadFile;
 import cybersoft.java09.constants.UrlConstants;
 import cybersoft.java09.dto.UserDto;
 import cybersoft.java09.entity.Role;
@@ -29,6 +35,7 @@ import cybersoft.java09.service.UserService;
 		UrlConstants.URL_USER_EDIT,
 		UrlConstants.URL_USER_DELETE,
 		UrlConstants.URL_USER_TABLE})
+@MultipartConfig
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService userService;
@@ -50,24 +57,30 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getServletPath();
 		HttpSession session = request.getSession();
-		User user_session = (User)session.getAttribute("user");
+		User user_session = (User)session.getAttribute("user"); //Gọi ra user hiện tại đang tương tác với hệ thống
 		switch (path) {
+		
+		// Hiển thị bảng user bằng cách một phương thức GET
 		case UrlConstants.URL_USER_TABLE:
 			List<UserDto> usersDto = userService.getAllUserRole(); 
 			request.setAttribute("users", usersDto);
 
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_TABLE + ".jsp").forward(request, response);
 			break;
+		//	Kết thúc
+			
+			
 		case UrlConstants.URL_USER_ADD:
 			List<Role> roles = roleRepository.getAllRole(); //Lấy toàn bộ Role
 
 			request.setAttribute("roles", roles);
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_ADD + ".jsp").forward(request, response);
 			break;
+			
+			
 		case UrlConstants.URL_USER_EDIT:
-
 			int id = Integer.valueOf(request.getParameter("id"));
-
+			
 			User user = userRepository.findById(id);
 			
 			//Leader không thể sửa thông tin của admin
@@ -80,7 +93,7 @@ public class UserController extends HttpServlet {
 				}
 			}
 
-			request.setAttribute("user", user);
+			request.setAttribute("userEdit", user);
 
 			List<Role> roles_edit = roleRepository.getAllRole();
 
@@ -116,8 +129,21 @@ public class UserController extends HttpServlet {
 				}
 			}
 
-			userRepository.deleteUser(id_del);
-			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
+			int resultDelete = userRepository.deleteUser(id_del);
+			
+			if(resultDelete > 0) {
+				request.setAttribute("success", "success");
+		
+				
+			}
+			else
+			{
+				request.setAttribute("error", "error");
+			}
+			
+			request.setAttribute("users", userService.getAllUserRole());
+
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_TABLE + ".jsp").forward(request, response);
 
 
 
@@ -127,6 +153,7 @@ public class UserController extends HttpServlet {
 
 		case UrlConstants.URL_USER_DETAILS:
 			int id_detail = Integer.valueOf(request.getParameter("id"));
+			
 			List<Task> listTaskNotDone = userRepository.findTaskOfUser(id_detail, 1);
 			List<Task> listTaskPending = userRepository.findTaskOfUser(id_detail, 2);
 			List<Task> listTaskDone = userRepository.findTaskOfUser(id_detail, 3);
@@ -136,7 +163,7 @@ public class UserController extends HttpServlet {
 			int notDoneTask = (int) ((taskRepository.countTaskNotDoneOfUser(id_detail)*100)/totalTask);
 			int pendingTask = (int) ((taskRepository.countTaskPendingOfUser(id_detail)*100)/totalTask);
 			int finishTask = 100 - (notDoneTask+pendingTask);
-
+			
 			//Gán phần trăm để tạo biểu đồ
 			UserDto userDto = new UserDto();
 			userDto.setNotDoneWorkPercent(notDoneTask);
@@ -173,25 +200,46 @@ public class UserController extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("passwd");
 		String fullname = request.getParameter("fullname");
-		String avatar = request.getParameter("avatar");
+		Part part = request.getPart("avatar");
+		String avatar = part.getSubmittedFileName();
+		String avatarPath =  request.getServletContext().getRealPath("/static/avatar");
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
-
+		
 		switch (path) {
 
 		case UrlConstants.URL_USER_ADD:
 
 			/* String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12)); */
 			User user = new User(email, password, fullname, avatar, roleId);
+			
+			UploadFile.handleFileUpload(part, avatarPath);
+			int result = userRepository.addUser(user);
+			
+			if(result > 0) {
+				request.setAttribute("success", "success");
+		
+				
+			}
+			else
+			{
+				request.setAttribute("error", "error");
+			}
+			
+			//request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_ADD + ".jsp").forward(request, response);
+			//response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
+			
+			request.setAttribute("users", userService.getAllUserRole());
 
-			userRepository.addUser(user);
-
-			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_TABLE + ".jsp").forward(request, response);
 			break;
 
 		case UrlConstants.URL_USER_EDIT:
 
 			int id = Integer.parseInt(request.getParameter("id"));
 			User userEdit = userRepository.findById(id);
+			
+			UploadFile.handleFileUpload(part, avatarPath);
+			
 			userEdit.setEmail(email);
 			userEdit.setFullName(fullname);
 			userEdit.setAvatar(avatar);
@@ -205,8 +253,22 @@ public class UserController extends HttpServlet {
 			 */
 
 			userRepository.editUser(userEdit, id);
+			
+			int resultEdit = userRepository.editUser(userEdit, id);;
+			
+			if(resultEdit > 0) {
+				request.setAttribute("success", "success");
+		
+				
+			}
+			else
+			{
+				request.setAttribute("error", "error");
+			}
+			
+			request.setAttribute("users", userService.getAllUserRole());
 
-			response.sendRedirect(request.getContextPath()+ UrlConstants.URL_USER_TABLE);
+			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_USER + UrlConstants.URL_USER_TABLE + ".jsp").forward(request, response);
 
 
 			break;

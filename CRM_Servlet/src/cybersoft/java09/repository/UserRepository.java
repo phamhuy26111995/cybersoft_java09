@@ -97,7 +97,7 @@ public class UserRepository {
 	 * return: table users đã được update theo id 
 	 * Author: 
 	 */
-	public void editUser(User user,int id) {
+	public int editUser(User user,int id) {
 		try {
 			//Tạo câu lệnh truy vấn
 			String query = "UPDATE users SET email = ? , password = ? , fullname = ? , avatar = ? , role_id = ? WHERE id=?";
@@ -119,14 +119,10 @@ public class UserRepository {
 			int result = statement.executeUpdate();
 
 			//Kiểm tra có thành công hay không
-			if(result < 1) {
-				System.out.println("Thêm Thất bại");
-			}
-			else {
-				System.out.println("Thêm Thành Công");
-			}
+			return result;
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			return 0;
 		}
 	}
 
@@ -136,7 +132,7 @@ public class UserRepository {
 	 * return: table users mới có chứa user vừa được thêm
 	 * Author: 
 	 */
-	public void addUser(User user) { //Thêm mới một user vào database
+	public int addUser(User user) { //Thêm mới một user vào database
 		try {
 			//Tạo câu lệnh truy vấn
 			String query = "INSERT INTO users (email,password,fullname,avatar,role_id) VALUES(?,?,?,?,?)";
@@ -156,15 +152,10 @@ public class UserRepository {
 			//Thực thi
 			int result = statement.executeUpdate();
 
-			//Trả về kết quả có thành công hay không
-			if(result < 1) {
-				System.out.println("Thêm Thất bại");
-			}
-			else {
-				System.out.println("Thêm Thành Công");
-			}
+			return result;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	
@@ -174,7 +165,7 @@ public class UserRepository {
 	 * return: table users sau khi xóa 1 user theo id 
 	 * Author: 
 	 */
-	public void deleteUser(int id) {
+	public int deleteUser(int id) {
 		try {
 			
 			//Tạo câu lệnh truy vấn
@@ -192,14 +183,10 @@ public class UserRepository {
 			int result = statement.executeUpdate();
 			
 			//in ra kết quả
-			if(result < 1) {
-				System.out.println("Xóa Thất bại");
-			}
-			else {
-				System.out.println("Xóa Thành Công");
-			}
+			return result;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	

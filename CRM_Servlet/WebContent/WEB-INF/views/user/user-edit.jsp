@@ -50,8 +50,10 @@
 
 	<jsp:include page="../layout/navbar.jsp"></jsp:include>
 	<% List<Role> roles = (List<Role>)request.getAttribute("roles"); %>
-	<%  %>
-
+	<% User userEdit =(User) request.getAttribute("userEdit"); %>
+	<input id="toastrSuccess" type="hidden" value="<%=request.getAttribute("success")%>"/>
+	<input id="toastrError" type="hidden "value="<%=request.getAttribute("error")%>"/>
+	
 	<!-- Page Content -->
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -67,7 +69,7 @@
 				<div class="col-md-8 col-xs-12">
 					<div class="white-box">
 						<form class="form-horizontal form-material" method="POST"
-							action="<%=request.getContextPath()%>/user-edit">
+							action="<%=request.getContextPath()%>/user-edit"  onsubmit="return validateForm()" enctype="multipart/form-data" name="user-form">
 							<div class="form-group">
 								<label class="col-md-12">Full Name</label>
 								<div class="col-md-12">
@@ -78,7 +80,7 @@
 
 							
 								<input type="hidden" class="form-control form-control-line"
-									name="id" value="${user.id }">
+									name="id" value="${userEdit.id }">
 						
 
 
@@ -100,8 +102,7 @@
 							<div class="form-group">
 								<label class="col-md-12">Avatar</label>
 								<div class="col-md-12">
-									<input type="text" placeholder="123 456 7890"
-										class="form-control form-control-line" name="avatar">
+									Select file to upload: <input type="file" name="avatar" /><br /><br /> 	
 								</div>
 							</div>
 							<div class="form-group">
@@ -151,6 +152,9 @@
 	<script src="<%=contextPath %>/static/js/waves.js"></script>
 	<!-- Custom Theme JavaScript -->
 	<script src="<%=contextPath %>/static/js/custom.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script charset="UTF-8"  src="<%=contextPath %>/static/js/user.js"></script>
+	
 </body>
 
 </html>

@@ -48,8 +48,11 @@
 	</div>
 
 	<jsp:include page="../layout/navbar.jsp"></jsp:include>
-	<% List<Role> roles = (List<Role>)request.getAttribute("roles"); %>
-
+	<% List<Role> roles = (List<Role>)request.getAttribute("roles");
+	%>
+	
+	
+	
 	<!-- Page Content -->
 	<div id="page-wrapper">
 		<div class="container-fluid">
@@ -65,12 +68,12 @@
 				<div class="col-md-8 col-xs-12">
 					<div class="white-box">
 						<form class="form-horizontal form-material" method="POST"
-							action="<%=request.getContextPath()%>/user-add">
+							action="<%=request.getContextPath()%>/user-add" name="user-form" onsubmit="return validateForm()"  enctype="multipart/form-data">
 							<div class="form-group">
 								<label class="col-md-12">Full Name</label>
 								<div class="col-md-12">
 									<input type="text" placeholder="Johnathan Doe"
-										class="form-control form-control-line" name="fullname">
+										class="form-control form-control-line" name="fullname" id="example-fullname">
 								</div>
 							</div>
 							<div class="form-group">
@@ -90,10 +93,7 @@
 							</div>
 							<div class="form-group">
 								<label class="col-md-12">Avatar</label>
-								<div class="col-md-12">
-									<input type="text" placeholder="123 456 7890"
-										class="form-control form-control-line" name="avatar">
-								</div>
+								Select file to upload: <input type="file" name="avatar" /><br /><br /> 	
 							</div>
 							<div class="form-group">
 								<label class="col-sm-12">Select Role</label>
@@ -110,11 +110,20 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-12">
-									<button type="submit" class="btn btn-success">Add User</button>
+									<button type="submit"  class="btn btn-success" >Add User</button>
 									<a href="<%= contextPath %>/user-table" class="btn btn-primary">Quaylại</a>
 								</div>
 							</div>
+						
+						
+							
+							
 						</form>
+						
+						
+						
+						
+					<!--	<button  class="btn btn-success" onclick="submitForm()">Add User</button>-->
 					</div>
 				</div>
 				<div class="col-md-2 col-12"></div>
@@ -142,6 +151,9 @@
 	<script src="<%=contextPath %>/static/js/waves.js"></script>
 	<!-- Custom Theme JavaScript -->
 	<script src="<%=contextPath %>/static/js/custom.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script charset="UTF-8"  src="<%=contextPath %>/static/js/user.js"></script>
+	
 </body>
 
 </html>

@@ -282,25 +282,38 @@ public class JobRepository {
 			
 			ResultSet result = statement.executeQuery();
 			
+//			while(result.next()) {
+//				User user = new User();
+//				
+//				user.setId(result.getInt("id"));
+//				user.setFullName(result.getString("fullname"));
+//				
+//				JobDto jobDto=new JobDto();
+//				jobDto.setUser(user);
+//				listJobDto.add(jobDto);
+//				
+//			}
+			
 			while(result.next()) {
 				User user = new User();
 				
 				user.setId(result.getInt("id"));
 				user.setFullName(result.getString("fullname"));
-				
 				JobDto jobDto=new JobDto();
-				jobDto.setUser(user);;
-
+				jobDto.setUser(user);
 				listJobDto.add(jobDto);
-
 			}
-
+			
+		
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			System.out.println("Lỗi tại đây nè");
+			
 		}
-
+		
 		return listJobDto;
+		
 	}
 	
 	/*

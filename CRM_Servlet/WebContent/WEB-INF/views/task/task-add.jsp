@@ -49,7 +49,7 @@
 	<!-- Page Content -->
 	<% List<User> users = (List<User>)request.getAttribute("users");
 		 	List<Job> jobs = (List<Job>)request.getAttribute("jobs");%>
-	 <h1><%= users.get(0) %></h1>
+
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<div class="row bg-title">
@@ -63,7 +63,7 @@
 				<div class="col-md-2 col-12"></div>
 				<div class="col-md-8 col-xs-12">
 					<div class="white-box">
-						<form class="form-horizontal form-material" method="POST" action="<%=contextPath%>/task-add">
+						<form class="form-horizontal form-material" method="POST" action="<%=contextPath%>/task-add" name="task-form" onsubmit="return validateForm()">
 							<div class="form-group">
 								<label class="col-md-12">Dự án</label>
 								<div class="col-md-12">
@@ -146,6 +146,10 @@
 	<script src="<%=contextPath %>/static/js/waves.js"></script>
 	<!-- Custom Theme JavaScript -->
 	<script src="<%=contextPath %>/static/js/custom.min.js"></script>
+	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
+	<script charset="UTF-8"  src="<%=contextPath %>/static/js/task.js"></script>
 </body>
 
 </html>

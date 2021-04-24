@@ -82,12 +82,13 @@
 								<c:forEach items="<%= roles %>" var="item">
 								
 										<tr>
+										
 										<td>${item.id }</td>
 										<td>${item.name }</td>
 										<td>${item.description }</td>
-										<td><a href="<%= contextPath %>/role-edit?id=${item.id}" class="btn btn-sm btn-primary">Sửa</a> <a
-											href="<%= contextPath %>/role-delete?id=${item.id}" class="btn btn-sm btn-danger">Xóa</a></td>
-									</tr>
+										<td><a href="javascript:void(0)" class="btn btn-sm btn-primary">Sửa</a> <a
+											href="javascript:void(0)" class="btn btn-sm btn-danger">Xóa</a></td>
+										</tr>
 								
 								</c:forEach>
 							

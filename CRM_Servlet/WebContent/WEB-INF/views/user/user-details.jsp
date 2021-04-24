@@ -56,7 +56,7 @@
 
 	<!-- Page Content -->
 	<%
-		List<Task> listTaskNotDone = (List<Task>) request.getAttribute("listTaskNotDone");
+	List<Task> listTaskNotDone = (List<Task>) request.getAttribute("listTaskNotDone");
 	List<Task> listTaskPending = (List<Task>) request.getAttribute("listTaskPending");
 	List<Task> listTaskDone = (List<Task>) request.getAttribute("listTaskDone");
 	User userDetail = (User) request.getAttribute("userDetail");
@@ -80,7 +80,7 @@
 							<div class="overlay-box">
 								<div class="user-content">
 									<a href="javascript:void(0)"><img
-										src="<%=contextPath%>/static/plugins/images/users/genu.jpg"
+										src="<%=contextPath%>/static/avatar/${userDetail.avatar}"
 										class="thumb-lg img-circle" alt="img"></a>
 									<h4 class="text-white">${userDetail.fullName}</h4>
 									<h5 class="text-white">${userDetail.email}</h5>

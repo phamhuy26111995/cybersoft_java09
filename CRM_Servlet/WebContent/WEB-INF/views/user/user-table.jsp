@@ -49,7 +49,9 @@
     </div>
     
       <jsp:include page="../layout/navbar.jsp"></jsp:include>
-    
+    <input id="toastrSuccess" type="hidden" value="<%=request.getAttribute("success")%>"/>
+	<input id="toastrError" type="hidden "value="<%=request.getAttribute("error")%>"/>
+	
     
     
       <!-- Page Content -->
@@ -103,7 +105,10 @@
                                             <td>${item.roleName} </td>
                                             <td>
                                                 <a href="<%=contextPath %>/user-edit?id=${item.id}" class="btn btn-sm btn-primary">Sửa</a>
-                                                <a href="<%=contextPath %>/user-delete?id=${item.id}" class="btn btn-sm btn-danger">Xóa</a>
+                                                
+                                                <a href="<%=contextPath %>/user-delete?id=${item.id}" class="btn btn-sm btn-danger" onclick="deleteUser()" id="delete-button">Xóa</a>
+                                               
+                                            
                                                 <a href="<%=request.getContextPath() %>/user-details?id=${item.id}" class="btn btn-sm btn-info">Xem</a>
                                             </td>
                                         </tr>
@@ -125,8 +130,9 @@
         <!-- /#page-wrapper -->
     </div>
      
+    
      
-     
+     <input id="toastrError" value="<%= request.getAttribute("error")%>">
      
      
     <!-- /#wrapper -->
@@ -142,10 +148,18 @@
     <!--Wave Effects -->
     <script src="<%=contextPath %>/static/js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="<%=contextPath %>/static/js/add-user.js"></script>
     <script src="<%=contextPath %>/static/js/custom.min.js"></script>
+    <script charset="UTF-8"  src="<%=contextPath %>/static/js/delete-user.js"></script>
+    <script src="<%=contextPath %>/static/plugins/toastr/toastr.min.js"></script>
+    <script src="<%=contextPath %>/static/plugins/toastr/toastr.min.css"></script>
+    
     <script>
         $(document).ready(function () {
             $('#example').DataTable();
+            
+          
         });
     </script>
 </body>

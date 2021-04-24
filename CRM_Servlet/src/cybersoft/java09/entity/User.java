@@ -1,5 +1,6 @@
 package cybersoft.java09.entity;
 
+import javax.validation.constraints.*;
 public class User {
 	private int id;
 	private String email;
@@ -13,18 +14,22 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@NotEmpty
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@NotEmpty
 	public String getPassWord() {
 		return passWord;
 	}
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
 	}
+	@NotEmpty
 	public String getFullName() {
 		return fullName;
 	}
@@ -37,6 +42,7 @@ public class User {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+	@NotEmpty
 	public int getRole_Id() {
 		return role_Id;
 	}
@@ -68,7 +74,7 @@ public class User {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "id = "+this.id;
+		return "id = "+this.id +" fullname "+this.fullName;
 	}
 
 }
