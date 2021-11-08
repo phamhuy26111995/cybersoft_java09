@@ -152,6 +152,7 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="<%=contextPath %>/static/js/custom.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
 	<script charset="UTF-8"  src="<%=contextPath %>/static/js/user.js"></script>
 	
 </body>

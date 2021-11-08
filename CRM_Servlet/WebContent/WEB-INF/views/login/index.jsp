@@ -173,17 +173,12 @@ a{color:inherit;text-decoration:none}
 					<label for="pass" class="label">Password</label>
 					<input id="pass" type="password" class="input" placeholder="Enter Password" name="password" required >
 				</div>
-				<div class="group">
-					<input id="check" type="checkbox" class="check" checked name="remember">
-					<label for="check"><span class="icon"></span> Keep me Signed in</label>
-				</div>
+				
 				<div class="group">
 					<input type="submit" class="button">
 				</div>
 				<div class="hr"></div>
-				<div class="foot-lnk">
-					<a href="#forgot">Forgot Password?</a>
-				</div>
+				
 			</form>
 
 		</div>

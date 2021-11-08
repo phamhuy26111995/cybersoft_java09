@@ -160,7 +160,7 @@ public class GroupWorkController extends HttpServlet {
 				response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_JOB);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 			break;
 			
@@ -181,7 +181,7 @@ public class GroupWorkController extends HttpServlet {
 				response.sendRedirect(getServletContext().getContextPath()+ UrlConstants.URL_JOB);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 			
 			

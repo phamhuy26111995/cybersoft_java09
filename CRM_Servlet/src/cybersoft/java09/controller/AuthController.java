@@ -18,64 +18,57 @@ import cybersoft.java09.repository.UserRepository;
 @WebServlet(urlPatterns = {UrlConstants.URL_LOGIN,UrlConstants.URL_LOGOUT})
 public class AuthController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private UserRepository userRepository;   
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AuthController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private UserRepository userRepository;   
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	public AuthController() {
+
+	}
+
+	// Phương thức doGet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		String action = request.getParameter("action");
 		//Kiểm tra đã đăng nhập hay chưa
 		if(action !=null && !action.isEmpty()) {
 			HttpSession session = request.getSession();
 			session.removeAttribute("user");
-			
+
 		}
-		
+
 		request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_LOGIN + UrlConstants.URL_INDEX + ".jsp").forward(request, response);
-		
+
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	// Phương thức doPost
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
+
 		//Lấy ra user có email và password đã nhập
 		User user = userRepository.checkLogin(email, password);
-		System.out.println(user.getEmail());
 		
+
 		//Kiểm tra nếu có tồn tại user và email khác null thì chuyển đến trang home
 		if(user!=null && user.getEmail()!=null) {
 			//Gán user vào session
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
-			
+
 			response.sendRedirect(request.getContextPath()+UrlConstants.URL_HOME);
-		
-		//Ngược lại là không đăng nhập thành công thì quay lại trang đăng nhập và đăng nhập lại
+
+			//Ngược lại là không đăng nhập thành công thì quay lại trang đăng nhập và đăng nhập lại
 		}else {
 			request.getRequestDispatcher(UrlConstants.CONTEXT_PATH + UrlConstants.URL_LOGIN + UrlConstants.URL_INDEX + ".jsp").forward(request, response);
-			
+
 		}
 
 
-		
+
 	}
 
 	@Override
 	public void init() throws ServletException {
 		userRepository = new UserRepository();
 	}
-	
+
 }

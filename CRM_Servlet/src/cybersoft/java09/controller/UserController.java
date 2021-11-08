@@ -47,8 +47,7 @@ public class UserController extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public UserController() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**

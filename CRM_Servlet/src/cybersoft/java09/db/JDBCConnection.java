@@ -8,7 +8,7 @@ public class JDBCConnection  {
 	
 	public static Connection getConnection() {
 		final String DRIVER = "com.mysql.cj.jdbc.Driver";
-		final String URL = "jdbc:mysql://192.168.59.128:3307/crm";
+		final String URL = "jdbc:mysql://localhost:3306/crm";
 		final String USERNAME = "root";
 		final String PASSWORD = "SakataGintoki@123";
 		
