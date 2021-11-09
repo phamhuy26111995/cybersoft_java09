@@ -58,5 +58,6 @@ INSERT INTO status( name ) VALUES ("Đã hoàn thành");
 
 INSERT INTO  users(email,password,fullname,role_id)  VALUES('phamhuy700@test.com','123456','Phạm Huy 700',1),
 							('phamhuy800@test.com','123456','Phạm Huy 800',2),
-                                                    	('phamhuy900@test.com','123456','Phạm Huy 900',3)
-                                                    	('phamhuy1000@test.com','123456','Phạm Huy 1000',2)
+                                                    	('phamhuy900@test.com','123456','Phạm Huy 900',3),
+                                                    	('phamhuy1000@test.com','123456','Phạm Huy 1000',2),
+							('phamhuy1000@test.com','123456','Phạm Huy 1000',2)
