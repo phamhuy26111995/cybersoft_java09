@@ -2,6 +2,7 @@ package com.cybersoft.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,10 +22,10 @@ public class Category {
 	private String name;
 	
 	
-	@OneToMany(mappedBy = "cate" , fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cate" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Vocabulary> vocabularies;
 	
-	@OneToMany(mappedBy = "category" , fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "category" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<UserCategory> userCategories;
 	public int getId() {
 		return id;

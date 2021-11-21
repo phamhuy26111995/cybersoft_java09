@@ -16,8 +16,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="${contextPath}/files/css/bootstrap.min.css">
-    <link rel="stylesheet" href='${contextPath}/files/css/style.css'>
+    <link rel="stylesheet" href="${contextPath}/resources/files/css/bootstrap.min.css">
+    <link rel="stylesheet" href='${contextPath}/resources/files/css/style.css'>
 </head>
 
 
@@ -52,9 +52,9 @@
             </section>
         </div>
     </div>
-      <script src="${contextPath}/files/js/jquery.slim.min.js"></script>
-    <script src="${contextPath}/files/js/popper.min.js"></script>
-    <script src="${contextPath}/files/js/bootstrap.min.js"></script>
+      <script src="${contextPath}/resources/files/js/jquery.slim.min.js"></script>
+    <script src="${contextPath}/resources/files/js/popper.min.js"></script>
+    <script src="${contextPath}/resources/files/js/bootstrap.min.js"></script>
 </body>
 
 </html>

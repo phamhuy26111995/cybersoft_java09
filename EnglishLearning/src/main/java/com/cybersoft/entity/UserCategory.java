@@ -51,8 +51,15 @@ public class UserCategory {
 	}
 	
 	public UserCategory(int id, int user_id, int cate_id) {
-		super();
+		
 		this.id = id;
+		this.user_id = user_id;
+		this.cate_id = cate_id;
+	}
+	
+public UserCategory(int user_id, int cate_id) {
+		
+		
 		this.user_id = user_id;
 		this.cate_id = cate_id;
 	}

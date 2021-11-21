@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cybersoft.common.CurrentUser;
 import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.dto.VocabularyDto;
 import com.cybersoft.service.CategoryService;
@@ -94,7 +95,7 @@ public class ExamController {
 	@GetMapping("/api/vocabulary")
 	@ResponseBody
 	public Object getVocabularies(@RequestParam ("cate") int cateId) {
-		List<VocabularyDto> dtos = vocabularyService.getAllVocabularyByUserAndCate(1, cateId);
+		List<VocabularyDto> dtos = vocabularyService.getAllVocabularyByUserAndCate(CurrentUser.getPrincipal().getId(), cateId);
 		
 		return dtos;
 	}
@@ -103,7 +104,7 @@ public class ExamController {
 		@GetMapping("/api/vocabulary/all")
 		@ResponseBody
 		public Object getAllVocabulary() {
-			List<VocabularyDto> dtos = vocabularyService.getAllVocabulary(1);
+			List<VocabularyDto> dtos = vocabularyService.getAllVocabulary(CurrentUser.getPrincipal().getId());
 			
 			return dtos;
 		}

@@ -21,7 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryDto> getAllCategory() {
 		List<CategoryDto> dtos = new ArrayList<CategoryDto>();
 		
-		for(Category entity : categoryRepository.listAllCategory()) {
+		for(Category entity : categoryRepository.listAllCategoryByUser()) {
 			CategoryDto dto = new CategoryDto();
 			dto.setId(entity.getId());
 			dto.setName(entity.getName());

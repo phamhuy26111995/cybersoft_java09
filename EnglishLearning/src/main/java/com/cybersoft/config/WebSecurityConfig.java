@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,8 +12,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.cybersoft.common.PasswordEncoderNonEncrypt;
@@ -22,6 +22,7 @@ import com.cybersoft.common.PasswordEncoderNonEncrypt;
 @ComponentScan("com.cybersoft")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
@@ -43,13 +44,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 	
+
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-		.authorizeRequests().antMatchers("/login","/signup").permitAll().
-		antMatchers("/vocabulary","/exam").access("hasAnyRole('ROLE_ADMIN')")
-		.anyRequest().authenticated()
-		.and().exceptionHandling().accessDeniedPage("/login/403");
+		
+		http.csrf().disable();
+		
+		http.authorizeRequests().antMatchers("/login","/signup").permitAll().anyRequest().authenticated()
+		.and().exceptionHandling().accessDeniedPage("/login/403")
+		.and().sessionManagement().maximumSessions(1).expiredUrl("/login?expired");
 		
 		http.authorizeRequests().and().formLogin()//
 	    
@@ -63,9 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
         // Cấu hình cho Logout Page.
         .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
-
+		
 	}
 	
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// TODO Auto-generated method stub

@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		String roleName = roleRepository.findById(user.getRole_id()).getName();
 		authorities.add(new SimpleGrantedAuthority(roleName));
-		return new UserDetailsDto(user.getUsername(), user.getPassword(), authorities);
+		return new UserDetailsDto(user.getId(),user.getUsername(), user.getPassword(), authorities);
 	}
 
 }

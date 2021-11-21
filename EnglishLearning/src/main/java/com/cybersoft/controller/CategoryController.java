@@ -1,6 +1,7 @@
 package com.cybersoft.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -20,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cybersoft.common.CurrentUser;
 import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.entity.Category;
 import com.cybersoft.entity.User;
+import com.cybersoft.entity.UserCategory;
 import com.cybersoft.repository.CategoryRepository;
+import com.cybersoft.repository.UserCategoryRepository;
 import com.cybersoft.service.CategoryService;
 
 @Controller
@@ -31,8 +35,13 @@ import com.cybersoft.service.CategoryService;
 public class CategoryController {
 	
 	private CategoryService categoryService;
-	public CategoryController(CategoryService categoryService) {
+	private UserCategoryRepository userCategoryRepository;
+	private CategoryRepository categoryRepository;
+	public CategoryController(CategoryService categoryService, CategoryRepository categoryRepository,
+			UserCategoryRepository userCategoryRepository) {
 		this.categoryService = categoryService;
+		this.categoryRepository = categoryRepository;
+		this.userCategoryRepository = userCategoryRepository;
 	}
 	
 
@@ -74,9 +83,20 @@ public class CategoryController {
 	
 	@PostMapping("/add")
 	public String add(@RequestParam("name") String name) {
+		int id = categoryRepository.findLastId() + 1;
+		int currenUserId = CurrentUser.getPrincipal().getId();
+		
+		
+		
 		CategoryDto dto = new CategoryDto();
 		dto.setName(name);
 		categoryService.add(dto);
+		
+		System.out.println("Thêm category thành công");
+		
+		UserCategory userCategory = new UserCategory(currenUserId, id);
+		userCategoryRepository.save(userCategory);
+		System.out.println("Thêm user Category thành công");
 		
 		return "redirect:/category";
 	}
@@ -88,5 +108,14 @@ public class CategoryController {
 		return "redirect:/category";
 	}
 	
+	@GetMapping("/api/category")
+	@ResponseBody
+	public Object listCateByUser() {
+		Integer entity = categoryRepository.findLastId();
+		
+		
+		
+		return entity;
+	}
 	
 }

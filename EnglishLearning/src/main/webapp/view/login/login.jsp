@@ -47,7 +47,7 @@
 				<span class="login100-form-title p-b-41">
 					Account Login
 				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5" action="j_spring_security_check" method="post">
+				<form class="login100-form validate-form p-b-33 p-t-5" action="j_spring_security_check"" method="post">
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
 						<input class="input100" type="text" name="j_username" placeholder="User name">
@@ -73,15 +73,15 @@
 	</div>
 	
 	
-		<form class="login100-form validate-form p-b-33 p-t-5" action="j_spring_security_check" method="post">
+		<form class="login100-form validate-form p-b-33 p-t-5" action="j_spring_security_check_test" method="post">
 
 					<div class="wrap-input100" data-validate = "Enter username">
-						<input class="input100" type="text" name="j_username" placeholder="User name">
+						<input class="input100" type="text" name="j_username_test" placeholder="User name">
 						
 					</div>
 
 					<div class="wrap-input100" data-validate="Enter password">
-						<input class="input100" type="password" name="j_password" placeholder="Password">
+						<input class="input100" type="password" name="j_password_test" placeholder="Password">
 					
 					</div>
 

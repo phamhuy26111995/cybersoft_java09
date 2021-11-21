@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.cybersoft.common.CurrentUser;
 import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.dto.VocabularyDto;
 import com.cybersoft.service.VocabularyService;
@@ -45,7 +46,7 @@ public class VocabularyController {
 	
 	@GetMapping("")
 	public String index(@RequestParam("cate") int cateId,Model model,HttpServletRequest request) {
-		List<VocabularyDto> dtos = vocabularyService.getAllVocabularyByUserAndCate(1, cateId);
+		List<VocabularyDto> dtos = vocabularyService.getAllVocabularyByUserAndCate(CurrentUser.getPrincipal().getId(), cateId);
 		  String paramUrl = getParamFromUrl(request);
 		  model.addAttribute("dtos", dtos);
 		  model.addAttribute("cate", paramUrl);

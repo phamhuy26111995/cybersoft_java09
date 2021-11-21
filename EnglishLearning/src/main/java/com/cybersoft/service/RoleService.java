@@ -1,7 +1,11 @@
 package com.cybersoft.service;
 
-import com.cybersoft.entity.Role;
+import java.util.List;
+
+import com.cybersoft.dto.RoleDto;
+
 
 public interface RoleService {
-	Role findById(int id);
+	RoleDto findById(int id);
+	List<RoleDto> getAllRoles();
 }

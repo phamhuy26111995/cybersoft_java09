@@ -45,4 +45,12 @@ public class UserRepositoryImpl implements UserRepository {
 		session.saveOrUpdate(user);
 	}
 
+	public List<User> listAllUser() {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM User";
+		Query<User> query = session.createQuery(hql,User.class);
+		
+		return query.getResultList();
+	}
+
 }
