@@ -14,7 +14,7 @@ public class AppInitialize extends AbstractAnnotationConfigDispatcherServletInit
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		// TODO Auto-generated method stub
-		return new Class[] {HibernateConfig.class,WebSecurityConfig.class};
+		return new Class[] {HibernateConfig.class,AdminWebSecurityConfig.class,WebSecurityConfig.class};
 	}
 
 	@Override

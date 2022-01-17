@@ -19,4 +19,9 @@ public class LoginController {
 		
 		return "403/403";
 	}
+	@GetMapping("/admin")
+	public String loginAdmin() {
+		
+		return "adminlogin/adminlogin";
+	}
 }

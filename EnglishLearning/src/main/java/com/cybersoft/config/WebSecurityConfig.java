@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,62 +20,64 @@ import com.cybersoft.common.PasswordEncoderNonEncrypt;
 @Configuration
 @EnableWebSecurity
 @ComponentScan("com.cybersoft")
+@Order(2)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	 @Bean
-	    public PasswordEncoder passwordEncoder() {
-	        return new PasswordEncoderNonEncrypt();
-	    }
-	
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		// TODO Auto-generated method stub
-		return super.authenticationManagerBean();
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// TODO Auto-generated method stub
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
-	
+//
+//	@Autowired
+//	private UserDetailsService userDetailsService;
+//
+//	@Bean
+//	public PasswordEncoder passwordEncoder() {
+//		return new PasswordEncoderNonEncrypt();
+//	}
+//
+//	@Bean
+//	@Override
+//	public AuthenticationManager authenticationManagerBean() throws Exception {
+//		// TODO Auto-generated method stub
+//		return super.authenticationManagerBean();
+//	}
+//
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//		// TODO Auto-generated method stub
+//		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+//	}
 
-	
+
+
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		http.csrf().disable();
-		
-		http.authorizeRequests().antMatchers("/login","/signup").permitAll().anyRequest().authenticated()
-		.and().exceptionHandling().accessDeniedPage("/login/403")
-		.and().sessionManagement().maximumSessions(1).expiredUrl("/login?expired");
-		
-		http.authorizeRequests().and().formLogin()//
-	    
-        // Submit URL của trang login
-        .loginProcessingUrl("/j_spring_security_check") // Submit URL
-        .loginPage("/login")//
-        .defaultSuccessUrl("/category")//
-        .failureUrl("/login/403")//
-        .usernameParameter("j_username")//
-        .passwordParameter("j_password")
-    
-        // Cấu hình cho Logout Page.
-        .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
-		
-	}
-	
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		// TODO Auto-generated method stub
-		web.ignoring().antMatchers("/resources/**");
+		http.csrf().disable();
+
+		http.authorizeRequests().antMatchers("/login","/signup").permitAll();
+//		.and().exceptionHandling().accessDeniedPage("/login/403")
+//		.and().sessionManagement().maximumSessions(1).expiredUrl("/login?expired");
+
+		http.authorizeRequests().and().formLogin()//
+
+		// Submit URL của trang login
+		.loginProcessingUrl("/j_spring_security_check") // Submit URL
+		.loginPage("/login")//
+		.defaultSuccessUrl("/category")//
+		.failureUrl("/login/403")//
+		.usernameParameter("j_username")//
+		.passwordParameter("j_password")
+
+		// Cấu hình cho Logout Page.
+		.and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+
 	}
-	
-	
+
+
+//	@Override
+//	public void configure(WebSecurity web) throws Exception {
+//		// TODO Auto-generated method stub
+//		web.ignoring().antMatchers("/resources/**");
+//	}
+
+
 }

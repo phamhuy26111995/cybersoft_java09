@@ -30,6 +30,6 @@ public class AdminController {
 		List<UserDto> dtos = userService.getAllUser();
 		model.addAttribute("dtos",dtos);
 		
-		return "adminlogin/admin-list";
+		return "adminlogin/welcome";
 	}
 }
