@@ -14,7 +14,7 @@ public class RoleRepository {
 	/*
 	 * Hàm lấy tất cả role trong database roles
 	 * return: List role đã được lấy trong database
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public List<Role> getAllRole(){ // Truy vấn các cột trong bảng roles và add vào một ArrayList
 		List<Role> roles = new ArrayList<Role>();
@@ -41,7 +41,7 @@ public class RoleRepository {
 				roles.add(role);
 			}
 			
-			
+			connection.close();
 		} catch (Exception e) {
 			e.getMessage();
 		}
@@ -53,7 +53,7 @@ public class RoleRepository {
 	 * Hàm thêm một role mới vào database của roles
 	 * param role: chứa các thuộc tính của role mới được truyền vào
 	 * return: table roles mới có chứa role vừa được thêm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void addNewRole(Role role) {
 		try {
@@ -79,6 +79,7 @@ public class RoleRepository {
 			else {
 				System.out.println("Thêm Thành Công");
 			}
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -88,7 +89,7 @@ public class RoleRepository {
 	 * Hàm tìm kiếm thông tin của role trong database
 	 * param id: id của role cần tìm kiếm
 	 * return: trả về một role có id cần tìm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public Role findRoleById(int id) {
 		Role role = new Role();
@@ -113,7 +114,7 @@ public class RoleRepository {
 				role.setName(result.getString("name"));
 				role.setDescription(result.getString("description"));
 			}
-			
+			connection.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -126,7 +127,7 @@ public class RoleRepository {
 	 * param role_edit: chứa các thuộc tính của role cần sửa
 	 * param id : Id của role dùng để tìm kiếm role theo id
 	 * return: table roles đã được update theo id 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void editRole(Role role_edit, int id) {
 		try {
@@ -153,6 +154,8 @@ public class RoleRepository {
 			else {
 				System.out.println("Edit Thành Công");
 			}
+			
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage()+"Hello");
 		}
@@ -163,7 +166,7 @@ public class RoleRepository {
 	 * Hàm xóa 1 role trong database
 	 * param id: id của role cần xóa
 	 * return: table roles sau khi xóa 1 role theo id 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void deleteRole(int id) {
 		try {
@@ -187,6 +190,7 @@ public class RoleRepository {
 			else {
 				System.out.println("Xóa Thành Công");
 			}
+			conn.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

@@ -74,7 +74,7 @@
 										<th>STT</th>
 										<th>Tên Quyền</th>
 										<th>Mô Tả</th>
-										<th>Hành Động</th>
+									
 									</tr>
 								</thead>
 								<tbody>
@@ -86,8 +86,7 @@
 										<td>${item.id }</td>
 										<td>${item.name }</td>
 										<td>${item.description }</td>
-										<td><a href="javascript:void(0)" class="btn btn-sm btn-primary">Sửa</a> <a
-											href="javascript:void(0)" class="btn btn-sm btn-danger">Xóa</a></td>
+									
 										</tr>
 								
 								</c:forEach>

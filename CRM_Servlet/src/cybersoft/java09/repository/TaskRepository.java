@@ -21,7 +21,7 @@ public class TaskRepository {
 	/*
 	 * Hàm lấy tất cả task trong database tasks
 	 * return: List task đã được lấy trong database
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public List<TaskDto> getAllTask(){ 
 		List<TaskDto>  taskDtos = new ArrayList<TaskDto>();
@@ -67,6 +67,8 @@ public class TaskRepository {
 				taskDtos.add(taskDto);
 
 			}
+			
+			connection.close();
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -79,7 +81,7 @@ public class TaskRepository {
 	 * Hàm tìm kiếm thông tin của task trong database
 	 * param id: id của task cần tìm kiếm
 	 * return: trả về một task có id cần tìm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public Task findTaskById(int id) {
 		Task task = new Task();
@@ -120,7 +122,7 @@ public class TaskRepository {
 				task.setStatusID(result.getInt("status_id"));
 
 			}
-
+			connection.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -132,7 +134,7 @@ public class TaskRepository {
 	 * Hàm thêm một task mới vào database của tasks
 	 * param task: chứa các thuộc tính của task mới được truyền vào
 	 * return: table tasks mới có chứa task vừa được thêm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void addNewTask(Task task) {
 		try {
@@ -163,6 +165,8 @@ public class TaskRepository {
 			else {
 				System.out.println("Thêm Thành Công");
 			}
+			
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -174,7 +178,7 @@ public class TaskRepository {
 	 * param task: chứa các thuộc tính của task cần sửa
 	 * param id : Id của user dùng để tìm kiếm task theo id
 	 * return: table tasks đã được update theo id 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void editTask(Task task,int id) {
 		try {
@@ -205,6 +209,7 @@ public class TaskRepository {
 			else {
 				System.out.println("Edit Thành Công");
 			}
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -215,7 +220,7 @@ public class TaskRepository {
 	 * Hàm xóa 1 task trong database
 	 * param id: id của task cần xóa
 	 * return: table tasks sau khi xóa 1 task theo id 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void deleteTask(int id) {
 		try {
@@ -239,6 +244,7 @@ public class TaskRepository {
 			else {
 				System.out.println("Xóa Thành Công");
 			}
+			conn.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -249,7 +255,7 @@ public class TaskRepository {
 	 * Hàm lấy ra list tasks dựa vào id của user
 	 * param id: id của user cần lấy
 	 * return: list tasks của user 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public List<TaskDto> getTaskByUserID(int user_id){ 
 		List<TaskDto>  taskDtos = new ArrayList<TaskDto>();
@@ -293,7 +299,7 @@ public class TaskRepository {
 
 			}
 
-
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -307,7 +313,7 @@ public class TaskRepository {
 	 * param id: id của task
 	 * param user_id: id của user
 	 * return: trả về tast đã sửa đổi trạng thái 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void editTaskStatus(int status_id,int id,int user_id) {
 		try {
@@ -334,6 +340,7 @@ public class TaskRepository {
 			else {
 				System.out.println("Edit Thành Công");
 			}
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -345,7 +352,7 @@ public class TaskRepository {
 	 * param user_id: id của user cần lấy
 	 * param task_id: id của task cần lấy
 	 * return: tasks có id user và task user cần lấy 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public TaskDto getTaskByUserIDAndTaskID(int user_id,int task_id){ 
 		TaskDto taskDto = new TaskDto();
@@ -388,7 +395,7 @@ public class TaskRepository {
 
 			}
 
-
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -401,7 +408,7 @@ public class TaskRepository {
 	 * Hàm đếm user này làm bao nhiêu task 
 	 * param id: id của user cần lấy
 	 * return: số lượng task của user
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public int countTaskOfUser(int id) {
 		int tong = 0;
@@ -431,7 +438,7 @@ public class TaskRepository {
 	 * Hàm đếm user này còn bao nhiêu task chưa làm xong 
 	 * param id: id của user cần lấy
 	 * return: số lượng task user chưa làm xong làm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public float countTaskNotDoneOfUser(int id) {
 		float tong = 0;
@@ -447,7 +454,7 @@ public class TaskRepository {
 				tong += result.getInt("numberTaskNotDone");
 			}
 
-
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 
@@ -461,7 +468,7 @@ public class TaskRepository {
 	 * Hàm đếm user này có bao nhiêu task đang chờ xử lý 
 	 * param id: id của user cần lấy
 	 * return: số lượng task user đang chờ để làm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public float countTaskPendingOfUser(int id) {
 		float tong = 0;
@@ -478,7 +485,7 @@ public class TaskRepository {
 				tong += result.getInt("numberTaskPending");
 			}
 
-
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 

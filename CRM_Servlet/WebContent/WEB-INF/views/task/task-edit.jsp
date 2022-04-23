@@ -55,12 +55,12 @@
 		List<Job> jobs = (List<Job>)request.getAttribute("jobs");
 		 	Task task = (Task)request.getAttribute("task");
 		 	%>
-	<h1><%= users.get(0) %></h1>
+	
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<div class="row bg-title">
 				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-					<h4 class="page-title">Thêm mới công việc</h4>
+					<h4 class="page-title">Sửa công việc</h4>
 				</div>
 			</div>
 			<!-- /.row -->

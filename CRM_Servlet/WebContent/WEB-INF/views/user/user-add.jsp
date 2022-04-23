@@ -72,14 +72,14 @@
 							<div class="form-group">
 								<label class="col-md-12">Full Name</label>
 								<div class="col-md-12">
-									<input type="text" placeholder="Johnathan Doe"
+									<input type="text" placeholder="Fullname"
 										class="form-control form-control-line" name="fullname" id="example-fullname">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="example-email" class="col-md-12">Email</label>
 								<div class="col-md-12">
-									<input type="email" placeholder="johnathan@admin.com"
+									<input type="email" placeholder="example@test.com"
 										class="form-control form-control-line" name="email"
 										id="example-email">
 								</div>

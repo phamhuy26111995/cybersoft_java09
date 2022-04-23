@@ -17,7 +17,7 @@ public class StatusRepository {
 	 * Hàm tìm kiếm thông tin của status trong database
 	 * param id: id của status cần tìm kiếm
 	 * return: trả về một status có id cần tìm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public Status findStatusById(int id) {
 		Status status = new Status();
@@ -41,7 +41,7 @@ public class StatusRepository {
 				
 				status.setName(result.getString("name"));
 			}
-			
+			connection.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -69,7 +69,7 @@ public class StatusRepository {
 				listStatus.add(status);
 			
 			}
-			
+			connection.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

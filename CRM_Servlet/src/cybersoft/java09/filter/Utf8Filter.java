@@ -21,7 +21,7 @@ public class Utf8Filter implements javax.servlet.Filter {
 			throws IOException, ServletException {
 		ServletContext context=request.getServletContext();
 		String path=((HttpServletRequest)request).getServletPath();
-		System.out.println("RECEIVED: path: "+path);
+		
 		
 		HttpServletRequest req=(HttpServletRequest)request;
 		HttpServletResponse resp=(HttpServletResponse)response;

@@ -19,7 +19,7 @@ public class JobRepository {
 	/*
 	 * Hàm lấy tất cả job trong database jobs
 	 * return: List job đã được lấy trong database
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public List<Job> getAllJob(){ 
 		List<Job> jobs = new ArrayList<Job>();
@@ -56,6 +56,7 @@ public class JobRepository {
 				jobs.add(job);
 
 			}
+			connection.close();
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -68,7 +69,7 @@ public class JobRepository {
 	 * Hàm thêm một job mới vào database của jobs
 	 * param job: chứa các thuộc tính của job mới được truyền vào
 	 * return: table jobs mới có chứa job vừa được thêm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void addNewJob(Job job) {
 		try {
@@ -95,6 +96,7 @@ public class JobRepository {
 			else {
 				System.out.println("Thêm Thành Công");
 			}
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -105,7 +107,7 @@ public class JobRepository {
 	 * Hàm tìm kiếm thông tin của job trong database
 	 * param id: id của job cần tìm kiếm
 	 * return: trả về một job có id cần tìm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public Job findJobById(int id) {
 		Job job = new Job();
@@ -139,7 +141,7 @@ public class JobRepository {
 				job.setStartDate(dateStart);
 				job.setEndDate(endDate);
 			}
-			
+			connection.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -152,7 +154,7 @@ public class JobRepository {
 	 * param job: chứa các thuộc tính của job cần sửa
 	 * param id : Id của job dùng để tìm kiếm job theo id
 	 * return: table jobs đã được update theo id 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void editJob(Job job,int id) {
 		try {
@@ -180,6 +182,7 @@ public class JobRepository {
 			else {
 				System.out.println("Edit Thành Công");
 			}
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -190,7 +193,7 @@ public class JobRepository {
 	 * Hàm xóa 1 job trong database
 	 * param id: id của job cần xóa
 	 * return: table jobs sau khi xóa 1 job theo id 
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public void deleteJob(int id) {
 		try {
@@ -215,6 +218,8 @@ public class JobRepository {
 			else {
 				System.out.println("Xóa Thành Công");
 			}
+			
+			conn.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -224,7 +229,7 @@ public class JobRepository {
 	 * Hàm tìm kiếm thông tin của user trong database dựa vào id của job, status
 	 * param id: id của job cần tìm kiếm
 	 * return: trả về một user có id job cần tìm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public List<User> findUsersByJobID(int id) { // Lấy list user thuộc dự án
 		List<User> users = new ArrayList<User>();
@@ -253,10 +258,10 @@ public class JobRepository {
 
 			}
 
-
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		}
+		} 
 
 
 		return users;
@@ -304,7 +309,7 @@ public class JobRepository {
 				listJobDto.add(jobDto);
 			}
 			
-		
+		connection.close();
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -320,7 +325,7 @@ public class JobRepository {
 	 * Hàm tìm job thuộc user
 	 * param id: id của user cần tìm kiếm
 	 * return: trả về list job có id user cần tìm
-	 * Author: 
+	 * Author: Phạm Huy
 	 */
 	public Job findJobByUserID(int id) { //Tìm dự án thuộc user
 		Job job = new Job();
@@ -341,7 +346,7 @@ public class JobRepository {
 				job.setId(result.getInt("id"));
 				job.setName(result.getString("name"));
 			}
-
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

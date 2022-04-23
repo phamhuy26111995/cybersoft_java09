@@ -49,8 +49,7 @@
     </div>
     
       <jsp:include page="../layout/navbar.jsp"></jsp:include>
-    <input id="toastrSuccess" type="hidden" value="<%=request.getAttribute("success")%>"/>
-	<input id="toastrError" type="hidden "value="<%=request.getAttribute("error")%>"/>
+   
 	
     
     
@@ -94,11 +93,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      
+                                      	<% int rownum = 1; %>
                 						   <c:forEach items="<%=usersDto %>" var="item">
-                                      
+                                      		
                                         <tr>
-                                            <td>${item.id}</td>
+                                            <td><%=rownum %></td>
                                             <td>${item.fullName}</td>
                                             <td>${item.email }</td>
                                             
@@ -106,14 +105,15 @@
                                             <td>
                                                 <a href="<%=contextPath %>/user-edit?id=${item.id}" class="btn btn-sm btn-primary">Sửa</a>
                                                 
-                                                <a href="<%=contextPath %>/user-delete?id=${item.id}" class="btn btn-sm btn-danger" onclick="deleteUser()" id="delete-button">Xóa</a>
+                                                <a href="<%=contextPath %>/user-delete?id=${item.id}" class="btn btn-sm btn-danger"  id="delete-button">Xóa</a>
                                                
                                             
                                                 <a href="<%=request.getContextPath() %>/user-details?id=${item.id}" class="btn btn-sm btn-info">Xem</a>
                                             </td>
                                         </tr>
                                       
-                                      
+                                      	<% rownum++;  %>
+                                     
                                       </c:forEach>
                         
                                     </tbody>
@@ -149,11 +149,10 @@
     <script src="<%=contextPath %>/static/js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="<%=contextPath %>/static/js/add-user.js"></script>
+   
     <script src="<%=contextPath %>/static/js/custom.min.js"></script>
     <script charset="UTF-8"  src="<%=contextPath %>/static/js/delete-user.js"></script>
-    <script src="<%=contextPath %>/static/plugins/toastr/toastr.min.js"></script>
-    <script src="<%=contextPath %>/static/plugins/toastr/toastr.min.css"></script>
+    
     
     <script>
         $(document).ready(function () {

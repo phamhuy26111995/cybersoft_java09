@@ -83,11 +83,11 @@
 									</tr>
 								</thead>
 								<tbody>
-
+									<%int rownum = 1; %>
 									<c:forEach items="<%=jobs %>" var="item">
 									
 										<tr>
-											<td>${item.id }</td>
+											<td><%=rownum%></td>
 											<td>${item.name }</td>
 											<td>${item.startDateToString() }</td>
 											<td>${item.endDateToString() }</td>
@@ -97,7 +97,7 @@
 												class="btn btn-sm btn-info">Xem</a></td>
 										</tr>
 									
-									
+									<% rownum++; %>
 									</c:forEach>
 
 									

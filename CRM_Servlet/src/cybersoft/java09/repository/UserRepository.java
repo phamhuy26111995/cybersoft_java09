@@ -48,10 +48,15 @@ public class UserRepository {
 				users.add(user);
 
 			}
+			
+
+
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		}
+		} 
+			
+		
 		//Trả về list user
 		return users;
 	}
@@ -84,6 +89,8 @@ public class UserRepository {
 						resultSet.getString("name"));
 				users.add(userDto);
 			}
+			
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -117,9 +124,11 @@ public class UserRepository {
 			
 			//Thực thi câu truy vấn
 			int result = statement.executeUpdate();
-
+			connection.close();
 			//Kiểm tra có thành công hay không
 			return result;
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -151,7 +160,7 @@ public class UserRepository {
 
 			//Thực thi
 			int result = statement.executeUpdate();
-
+			connection.close();
 			return result;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -181,7 +190,7 @@ public class UserRepository {
 			
 			//thực thi
 			int result = statement.executeUpdate();
-			
+			conn.close();
 			//in ra kết quả
 			return result;
 		} catch (Exception e) {
@@ -221,6 +230,8 @@ public class UserRepository {
 						resultSet.getInt("role_id"));
 				break;
 			}
+			
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -281,13 +292,13 @@ public class UserRepository {
 				listTaskUser.add(task);
 
 			}
-
-
+			
+		connection.close();	
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
-
+		
 		return listTaskUser;
 	}
 	
@@ -324,6 +335,8 @@ public class UserRepository {
 						resultSet.getInt("role_id"));
 				break;
 			}
+			
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -365,8 +378,8 @@ public class UserRepository {
 				listTaskDto.add(taskDto);
 
 			}
-
-
+			
+			connection.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

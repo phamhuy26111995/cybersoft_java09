@@ -76,11 +76,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    
+                                    <%int rownum = 1; %>
                                     <c:forEach items="<%=taskDtos %>" var="item">
                                     
                                      <tr>
-                                            <td>${item.id}</td>
+                                            <td><%= rownum %></td>
                                             <td>${item.name}</td>
                                             <td>${item.job}</td>
                                             <td>${item.user}</td>
@@ -91,11 +91,11 @@
                                             <td>
                                                 <a href="<%= contextPath %>/task-edit?id=${item.id}" class="btn btn-sm btn-primary">Sửa</a>
                                                 <a href="<%= contextPath %>/task-delete?id=${item.id}" class="btn btn-sm btn-danger">Xóa</a>
-                                                <a href="#" class="btn btn-sm btn-info">Xem</a>
+                                                
                                             </td>
                                         </tr>
                                     
-                                    
+                                    <%rownum++; %>
                                     </c:forEach>
                                        
                                        
