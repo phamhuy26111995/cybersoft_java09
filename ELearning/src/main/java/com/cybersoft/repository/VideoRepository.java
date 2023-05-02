@@ -18,5 +18,5 @@ public interface VideoRepository extends JpaRepository<Video, Integer> {
 	
 	//Trả về danh sách các video thuộc về khóa học
 	@Query("SELECT new com.cybersoft.dto.VideoDto(v.id, v.title, v.url,v.image,v.timeCount, c.description) FROM Video v JOIN Course c ON v.courseId = c.id WHERE c.id = ?1")
-	public List<VideoDto> findVideosByUser(int id);
+	public List<VideoDto> findVideosByUser(Long id);
 }

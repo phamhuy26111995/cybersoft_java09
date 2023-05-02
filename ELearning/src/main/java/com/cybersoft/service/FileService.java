@@ -7,4 +7,5 @@ public interface FileService {
 	String saveFileVideo(MultipartFile file);
 	String saveFileProfile(MultipartFile file);
 	String saveFileCourse(MultipartFile file);
+	String saveImageToCloudinary(MultipartFile file);
 }

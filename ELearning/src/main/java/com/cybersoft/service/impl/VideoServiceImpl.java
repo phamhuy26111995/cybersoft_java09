@@ -67,7 +67,7 @@ public class VideoServiceImpl implements VideoService {
 	}
 
 	@Override
-	public List<VideoDto>  getByCourse(int id) {
+	public List<VideoDto>  getByCourse(Long id) {
 		List<VideoDto> dtos = videoRepository.findVideosByUser(id);
 		return dtos;
 	}

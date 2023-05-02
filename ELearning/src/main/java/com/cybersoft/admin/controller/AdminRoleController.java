@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.cybersoft.consts.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,15 +25,11 @@ import com.cybersoft.service.RoleService;
 
 
 @RestController
-@RequestMapping("api/admin/role")
+@RequestMapping(Consts.PREFIX_ADMIN + "/file")
 public class AdminRoleController {
-
+	@Autowired
 	private RoleService roleService;
-	
-	public AdminRoleController(RoleService roleService) {
-		this.roleService = roleService;
-	}
-	
+
 	//Lấy ra toàn bộ role
 	@GetMapping("")
 	public Object get() {
@@ -57,29 +55,5 @@ public class AdminRoleController {
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-	
-	/*
-	 * @PostMapping("") public Object post(@Valid @RequestBody RoleDto role) {
-	 * 
-	 * try { roleService.save(role); return new
-	 * ResponseEntity<Object>(HttpStatus.CREATED); } catch (Exception e) {
-	 * e.printStackTrace(); } return new
-	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
-	 * 
-	 * @PutMapping("{id}") public Object put(@PathVariable int
-	 * id, @Valid @RequestBody RoleDto role) { try { if(id != role.getId()) { return
-	 * new ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
-	 * 
-	 * roleService.edit(role); return new ResponseEntity<Object>(HttpStatus.OK);
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } return new
-	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
-	 * 
-	 * @DeleteMapping("{id}") public Object put(@PathVariable int id) { try {
-	 * roleService.delete(id); return new ResponseEntity<Object>(HttpStatus.OK);
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } return new
-	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
-	 */
 	
 }

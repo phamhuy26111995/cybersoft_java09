@@ -1,5 +1,8 @@
 package com.cybersoft.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +16,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "roles") // ÁNh xạ lớp Role với bảng roles trong db
+@Getter
+@Setter
 public class Role {
 
 	@Id // Khai báo đây khóa chính
@@ -33,30 +38,6 @@ public class Role {
 		super();
 		this.id = id;
 		this.name = name;
-		this.description = description;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
 		this.description = description;
 	}
 }

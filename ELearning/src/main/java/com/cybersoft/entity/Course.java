@@ -1,27 +1,22 @@
 package com.cybersoft.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+
 @Entity
 @Table(name = "courses")
+@Getter
+@Setter
 public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private String title;
 	private String image;
 	
@@ -50,9 +45,9 @@ public class Course {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
-	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
-	private List<UserCourse> userCourses;
+
+	@ManyToMany(mappedBy = "userCourse" , fetch = FetchType.LAZY)
+	private Set<User> users;
 	
 	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
 	private List<Video> videoCourses;
@@ -60,120 +55,8 @@ public class Course {
 	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
 	private List<Target> targetCourses;
 	
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public int getLeturesCount() {
-		return lecturesCount;
-	}
-
-	public void setLeturesCount(int leturesCount) {
-		this.lecturesCount = leturesCount;
-	}
-
-	public int getHourCount() {
-		return hourCount;
-	}
-
-	public void setHourCount(int hourCount) {
-		this.hourCount = hourCount;
-	}
-
-	public int getViewCount() {
-		return viewCount;
-	}
-
-	public void setViewCount(int viewCount) {
-		this.viewCount = viewCount;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public int getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(int discount) {
-		this.discount = discount;
-	}
-
-	public double getPromotionPrice() {
-		return promotionPrice;
-	}
-
-	public void setPromotionPrice(double promotionPrice) {
-		this.promotionPrice = promotionPrice;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	
-	public Date getLastUpdate() {
-		return lastUpdate;
-	}
-
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public List<UserCourse> getUserCourses() {
-		return userCourses;
-	}
-
-	public void setUserCourses(List<UserCourse> userCourses) {
-		this.userCourses = userCourses;
-	}
-	
-	public Course(int id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
+	public Course(Long id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
 			int discount, double promotionPrice, String description, String content, int categoryId, Date lastUpdate,
 			Category category) {
 		super();
@@ -200,7 +83,7 @@ public class Course {
 	
 	
 
-	public Course(int id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
+	public Course(Long id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
 			int discount, double promotionPrice, String description) {
 		super();
 		this.id = id;
@@ -221,7 +104,7 @@ public class Course {
 				+ ", hourCount=" + hourCount + ", viewCount=" + viewCount + ", price=" + price + ", discount="
 				+ discount + ", promotionPrice=" + promotionPrice + ", description=" + description + ", content="
 				+ content + ", categoryId=" + ", lastUpdate=" + lastUpdate + ", category=" + category
-				+ ", userCourses=" + userCourses + "]";
+				+ ", userCourses=" + "]";
 	}
 	
 	

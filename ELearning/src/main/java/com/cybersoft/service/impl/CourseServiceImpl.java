@@ -6,12 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.cybersoft.common.IndentifyRole;
-import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.dto.CourseDto;
-import com.cybersoft.entity.Category;
 import com.cybersoft.entity.Course;
-import com.cybersoft.entity.User;
-import com.cybersoft.entity.UserCourse;
 import com.cybersoft.repository.CourseRepository;
 import com.cybersoft.service.CourseService;
 
@@ -33,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
 				CourseDto dto = new CourseDto(entity.getId(), 
 						entity.getTitle(), 
 						entity.getImage(), 
-						entity.getLeturesCount(),
+						entity.getLecturesCount(),
 						entity.getPrice());
 				dto.setHourCount(entity.getHourCount());
 				dto.setContent(entity.getContent());
@@ -47,14 +43,14 @@ public class CourseServiceImpl implements CourseService {
 
 	//Lấy course theo id
 	@Override
-	public CourseDto getById(int id) {
+	public CourseDto getById(Long id) {
 		Course entity = courseRepository.findById(id).get();
 
 		CourseDto dto = new CourseDto();
 		dto.setId(entity.getId());
 		dto.setTitle(entity.getTitle());
 		dto.setImage(entity.getImage());
-		dto.setLectureCount(entity.getLeturesCount());
+		dto.setLecturesCount(entity.getLecturesCount());
 		dto.setHourCount(entity.getHourCount());
 		dto.setViewCount(entity.getViewCount());
 		dto.setDiscount(entity.getDiscount());
@@ -74,7 +70,7 @@ public class CourseServiceImpl implements CourseService {
 		if(IndentifyRole.getRolePrincipal().contains("ROLE_ADMIN") || IndentifyRole.getRolePrincipal().contains("ROLE_TEACHER")) {
 			entity.setTitle(dto.getTitle());
 			entity.setImage(dto.getImage());
-			entity.setLeturesCount(dto.getLectureCount());
+			entity.setLecturesCount(dto.getLecturesCount());
 			entity.setHourCount(dto.getHourCount());
 			entity.setDiscount(dto.getDiscount());
 			entity.setPrice(dto.getPrice());
@@ -99,7 +95,7 @@ public class CourseServiceImpl implements CourseService {
 
 		entity.setTitle(dto.getTitle());
 		entity.setImage(dto.getImage());
-		entity.setLeturesCount(dto.getLectureCount());
+		entity.setLecturesCount(dto.getLecturesCount());
 		entity.setHourCount(dto.getHourCount());
 		entity.setDiscount(dto.getDiscount());
 		entity.setPrice(dto.getPrice());
@@ -117,7 +113,7 @@ public class CourseServiceImpl implements CourseService {
 	
 	//Xóa một course
 	@Override
-	public void delete(int id) {
+	public void delete(Long id) {
 		courseRepository.deleteById(id);
 
 	}
@@ -125,8 +121,8 @@ public class CourseServiceImpl implements CourseService {
 	//Lấy toàn bộ khóa học thuộc về user theo email của user
 	@Override
 	public List<CourseDto> getCourseByUser(String email) {
-		List<CourseDto> dtos = courseRepository.getCourseByUser(email);
-		return dtos;
+//		List<CourseDto> dtos = courseRepository.getCourseByUser(email);
+		return null;
 
 	}
 	
@@ -145,7 +141,7 @@ public class CourseServiceImpl implements CourseService {
 		dto.setId(entity.getId());
 		dto.setTitle(entity.getTitle());
 		dto.setImage(entity.getImage());
-		dto.setLectureCount(entity.getLeturesCount());
+		dto.setLecturesCount(entity.getLecturesCount());
 		dto.setHourCount(entity.getHourCount());
 		dto.setViewCount(entity.getViewCount());
 		dto.setDiscount(entity.getDiscount());

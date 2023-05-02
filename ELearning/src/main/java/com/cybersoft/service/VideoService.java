@@ -10,5 +10,5 @@ public interface VideoService {
 	VideoDto getById(int id);
 	void edit(VideoDto dto);
 	void delete(int id);
-	List<VideoDto>  getByCourse(int id);
+	List<VideoDto>  getByCourse(Long id);
 }

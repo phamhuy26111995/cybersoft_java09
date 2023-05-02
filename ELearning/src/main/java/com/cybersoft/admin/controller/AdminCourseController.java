@@ -2,12 +2,10 @@ package com.cybersoft.admin.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
+import com.cybersoft.consts.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,35 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cybersoft.common.IndentifyEmail;
 import com.cybersoft.common.IndentifyRole;
-import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.dto.CourseDto;
-import com.cybersoft.entity.UserCourse;
-import com.cybersoft.service.CategoryService;
 import com.cybersoft.service.CourseService;
 
 @RestController
-@RequestMapping("api/admin/course")
+@RequestMapping(Consts.PREFIX_ADMIN + "/course")
 public class AdminCourseController {
+	@Autowired
 	private CourseService courseService;
-	public AdminCourseController(CourseService courseService) {
-		this.courseService = courseService;
-	}
 
-	/*
-	 * @GetMapping("user") public Object getByUser() { try { String email; Object
-	 * principal =
-	 * SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	 * if(principal instanceof UserDetails) { email =
-	 * ((UserDetails)principal).getUsername();
-	 * 
-	 * }else { email = principal.toString(); } List<CourseDto> dtos =
-	 * courseService.getCourseByUser(email);
-	 * 
-	 * return new ResponseEntity<Object>(dtos, HttpStatus.OK);
-	 * 
-	 * } catch (Exception e) { return new
-	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); } }
-	 */
 	
 	//Trả về đối tượng CourseDto
 	@GetMapping("")
@@ -83,7 +61,7 @@ public class AdminCourseController {
 	}
 	
 	//Thêm khóa học
-	@PostMapping("")
+	@PostMapping("/save")
 	public Object save(@RequestBody CourseDto dto) {
 
 		try {
@@ -108,7 +86,7 @@ public class AdminCourseController {
 	
 	//Edit khóa học
 	@PutMapping("{id}")
-	public Object put(@PathVariable int id,@RequestBody CourseDto dto) {
+	public Object put(@PathVariable Long id,@RequestBody CourseDto dto) {
 		try {
 			if(courseService.getById(id)==null) {
 				return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
@@ -126,7 +104,7 @@ public class AdminCourseController {
 	
 	//Xóa khóa học
 	@DeleteMapping("{id}")
-	public Object delete(@PathVariable int id) {
+	public Object delete(@PathVariable Long id) {
 		try {
 			
 			courseService.delete(id);

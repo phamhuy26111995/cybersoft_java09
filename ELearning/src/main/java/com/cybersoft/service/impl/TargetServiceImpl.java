@@ -51,7 +51,7 @@ public class TargetServiceImpl implements TargetService {
 		
 	}
 	@Override
-	public List<TargetDto> getByCourse(int id) {
+	public List<TargetDto> getByCourse(Long id) {
 		List<TargetDto> dtos = targetRepository.findTargetsByCourse(id);
 		return dtos;
 	}

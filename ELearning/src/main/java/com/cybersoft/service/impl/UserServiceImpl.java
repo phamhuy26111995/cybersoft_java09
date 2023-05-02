@@ -1,27 +1,23 @@
 package com.cybersoft.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cybersoft.dto.UserDto;
 import com.cybersoft.entity.User;
-import com.cybersoft.entity.UserCourse;
 import com.cybersoft.repository.UserRepository;
 import com.cybersoft.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
-	
+
+	@Autowired
 	private UserRepository userRepository;
 
-	
-	public UserServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
 
-	}
 
 	//Lấy toàn bộ thông tin User để hiển thị lên Front End
 	@Override
@@ -71,14 +67,14 @@ public class UserServiceImpl implements UserService{
 	
 	//Xóa user
 	@Override
-	public void delete(int id) {
+	public void delete(Long id) {
 		userRepository.deleteById(id);
 	}
 
 	
 	//Get User theo id
 	@Override
-	public UserDto getById(int id) {
+	public UserDto getById(Long id) {
 		User entity = userRepository.findById(id).get();
 		
 		System.out.println(entity.getFullname());
@@ -108,17 +104,16 @@ public class UserServiceImpl implements UserService{
 		entity.setFullname(dto.getFullname());
 		entity.setAvatar(dto.getAvatar());
 		entity.setRoleId(dto.getRoleId());
-		entity.setUserCourses(dto.getUserCourses());
 		userRepository.save(entity);
 		
 	}
 
 	//Lấy các user là Student thuộc về khóa học
 	@Override
-	public List<UserDto> getStudentOfCourse(int id) {
-		List<UserDto> dtos = userRepository.findAllUserOfCourse(id);
+	public List<UserDto> getStudentOfCourse(Long id) {
+//		List<UserDto> dtos = userRepository.findAllUserOfCourse(id);
 		
-		return dtos;
+		return null;
 	}
 
 	//Lấy user cuối cùng trong danh sách
@@ -151,11 +146,11 @@ public class UserServiceImpl implements UserService{
 		entity.setEmail(dto.getEmail());
 		entity.setPassword(hashed);
 		entity.setFullname(dto.getFullname());
-		entity.setRoleId(3);
-		
-		
+		entity.setRoleId(1);
+
+
 		userRepository.save(entity);
-		
+
 	}
 
 	@Override

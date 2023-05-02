@@ -23,7 +23,7 @@ public class UserVideoController {
 	
 	//Get video thuộc về khóa học
 	@GetMapping("{id}")
-	public Object get(@PathVariable int id) {
+	public Object get(@PathVariable Long  id) {
 		try {
 			List<VideoDto> dtos = videoService.getByCourse(id);
 			return new ResponseEntity<Object>(dtos, HttpStatus.ACCEPTED);

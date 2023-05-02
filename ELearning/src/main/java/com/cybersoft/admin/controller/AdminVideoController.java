@@ -3,6 +3,8 @@ package com.cybersoft.admin.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cybersoft.consts.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,15 +25,14 @@ import com.cybersoft.service.CourseService;
 import com.cybersoft.service.VideoService;
 
 @RestController
-@RequestMapping("api/admin/video")
+@RequestMapping(Consts.PREFIX_ADMIN + "/video/")
 public class AdminVideoController {
+	@Autowired
 	private VideoService videoService;
+	@Autowired
 	private CourseService courseService;
 
-	public AdminVideoController(VideoService videoService,CourseService courseService) {
-		this.videoService = videoService;
-		this.courseService = courseService;
-	}
+
 
 	//Lấy ra danh sách video
 	@GetMapping("")

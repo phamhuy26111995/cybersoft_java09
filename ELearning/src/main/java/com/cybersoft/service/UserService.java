@@ -7,10 +7,10 @@ import com.cybersoft.dto.UserDto;
 public interface UserService {
 	void insert(UserDto dto);
 	List<UserDto> getAll();
-	UserDto getById(int id);
+	UserDto getById(Long id);
 	void update(UserDto dto);
-	void delete(int id);
-	List<UserDto> getStudentOfCourse(int id);
+	void delete(Long id);
+	List<UserDto> getStudentOfCourse(Long id);
 	UserDto getTheLastUser();
 	UserDto getByEmail(String email);
 	void insertUserRegister(UserDto dto);

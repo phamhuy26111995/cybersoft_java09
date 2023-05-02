@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.cybersoft.consts.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,12 +22,10 @@ import com.cybersoft.dto.UserDto;
 import com.cybersoft.service.CategoryService;
 
 @RestController
-@RequestMapping("api/admin/category")
+@RequestMapping(Consts.PREFIX_ADMIN + "/categories")
 public class AdminCategoryController {
+	@Autowired
 	private CategoryService categoryService;
-	public AdminCategoryController(CategoryService categoryService) {
-		this.categoryService = categoryService;
-	}
 
 //Lấy toàn bộ category
 	@GetMapping("")
@@ -41,7 +41,7 @@ public class AdminCategoryController {
 	}
 
 	//Thêm mới một category
-	@PostMapping("")
+	@PostMapping("/save")
 	public Object save(@Valid @RequestBody CategoryDto dto) {
 
 		try {

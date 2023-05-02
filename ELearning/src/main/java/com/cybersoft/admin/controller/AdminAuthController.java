@@ -2,6 +2,8 @@ package com.cybersoft.admin.controller;
 
 import javax.validation.Valid;
 
+import com.cybersoft.consts.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,17 +15,14 @@ import com.cybersoft.dto.LoginDto;
 import com.cybersoft.service.AuthService;
 
 @RestController
-@RequestMapping("api/admin/auth")
+@RequestMapping(Consts.PREFIX_ADMIN + "/auth")
 public class AdminAuthController {
-
+	@Autowired
 	private AuthService authService;
 
-	public AdminAuthController(AuthService authService) {
-		this.authService = authService;
-	}
 
 	//Gọi API để đăng nhập vào hệ thống , trả về một chuỗi JWT nếu đăng nhập thành công
-	@PostMapping("login")
+	@PostMapping("/login")
 	public Object post(@Valid @RequestBody LoginDto dto) {
 		try {
 			String token = authService.login(dto);

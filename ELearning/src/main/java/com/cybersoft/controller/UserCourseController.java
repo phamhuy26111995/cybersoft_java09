@@ -74,7 +74,7 @@ public class UserCourseController {
 	}
 	
 	@GetMapping("public/{id}")
-	public Object getById(@PathVariable int id) {
+	public Object getById(@PathVariable Long id) {
 		try {
 			CourseDto dto = courseService.getById(id);
 			return new ResponseEntity<Object>(dto, HttpStatus.OK);

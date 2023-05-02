@@ -50,29 +50,36 @@ public class CategoryServiceImp implements CategoryService {
 	//Thêm mới một category
 	@Override
 	public void save(CategoryDto dto) {
+		Category entity = createNew(dto);
+		categoryRepository.save(entity);
+	}
+
+	private Category createNew(CategoryDto dto) {
 		Category entity = new Category();
 		entity.setIcon(dto.getIcon());
 		entity.setTitle(dto.getTitle());
 
-		categoryRepository.save(entity);
-
+		return entity;
 	}
 
 	//Sửa một category
 	@Override
 	public void edit(CategoryDto dto) {
-		Category entity = categoryRepository.findById(dto.getId()).get();
-		// MAPPING USER DTO SANG USER ENTITY
+		Category entity = update(dto);
+		categoryRepository.save(entity);
+	}
 
-		//Check dto có khác null hay khác rỗng , nếu khác thì cho phép edit dữ liệu đó
+	private Category update(CategoryDto dto) {
+		Category entity = categoryRepository.findById(dto.getId()).get();
+
 		if(dto.getTitle() != null && !dto.getTitle().equalsIgnoreCase("")) {
 			entity.setTitle(dto.getTitle());
 		}
 		if(dto.getIcon() != null && !dto.getIcon().isEmpty()) {
 			entity.setIcon(dto.getIcon());;
 		}
-		categoryRepository.save(entity);
 
+		return entity;
 	}
 
 
@@ -80,7 +87,6 @@ public class CategoryServiceImp implements CategoryService {
 	@Override
 	public void delete(int id) {
 		categoryRepository.deleteById(id);
-
 	}
 
 

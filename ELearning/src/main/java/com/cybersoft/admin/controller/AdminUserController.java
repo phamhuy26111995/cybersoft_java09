@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.cybersoft.consts.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -36,10 +38,12 @@ import com.cybersoft.service.CourseService;
 import com.cybersoft.service.UserService;
 
 @RestController
-@RequestMapping("api/admin/user")
+@RequestMapping(Consts.PREFIX_ADMIN + "/users/")
 
 public class AdminUserController {
+	@Autowired
 	private UserService userService;
+	@Autowired
 	private CourseService courseService;
 
 
@@ -86,7 +90,7 @@ public class AdminUserController {
 
 //Get User theo id
 	@GetMapping("{id}")
-	public Object getById(@PathVariable int id) {
+	public Object getById(@PathVariable Long id) {
 		try {
 			UserDto user = userService.getById(id);
 
@@ -129,7 +133,7 @@ public class AdminUserController {
 
 //Edit User
 	@PutMapping("{id}")
-	public Object put(@PathVariable int id,@RequestBody UserDto dto) {
+	public Object put(@PathVariable Long id,@RequestBody UserDto dto) {
 		try {
 			if(userService.getById(id)==null) {
 
@@ -151,7 +155,7 @@ public class AdminUserController {
 	
 //Xóa User
 	@DeleteMapping("{id}")
-	public Object delete(@PathVariable int id) {
+	public Object delete(@PathVariable Long id) {
 		try {
 
 			userService.delete(id);

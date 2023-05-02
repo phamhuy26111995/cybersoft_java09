@@ -3,6 +3,8 @@ package com.cybersoft.admin.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cybersoft.consts.Consts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,14 +25,13 @@ import com.cybersoft.service.CourseService;
 import com.cybersoft.service.TargetService;
 
 @RestController
-@RequestMapping("api/admin/target")
+@RequestMapping(Consts.PREFIX_ADMIN + "/roles")
 public class AdminTargetController {
+	@Autowired
 	private TargetService targetService;
+	@Autowired
 	private CourseService courseService;
-	public AdminTargetController(TargetService targetService,CourseService courseService) {
-		this.targetService = targetService;
-		this.courseService = courseService;
-	}
+
 	
 	//Lấy ra targer
 	@GetMapping("")
@@ -89,7 +90,6 @@ public class AdminTargetController {
 	@DeleteMapping("{id}")
 	public Object delete(@PathVariable int id) {
 		try {
-			System.out.println(id);
 			targetService.delete(id);;
 			return new ResponseEntity<Object>(HttpStatus.OK);
 
