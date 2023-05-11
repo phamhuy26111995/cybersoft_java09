@@ -1,0 +1,60 @@
+#spring:
+#  datasource :
+#    url: jdbc:postgresql://db-postgresql-sgp1-36178-do-user-13908703-0.b.db.ondigitalocean.com:25060/Elearning_OceanDigital?createDatabaseIfNotExist=true&useSSL=true&useUnicode=yes&characterEncoding=UTF-8
+#    username: phamhuy
+#    password: AVNS_58vQG4IZptgIvN_qcWL
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#  servlet:
+#    multipart:
+#      enabled: true
+#      max-file-size: 12MB
+#      max-request-size: 13MB
+#  config:
+#    activate:
+#      on-profile: test
+#name: test-YAML
+#environment: testing
+#enabled: false
+#servers:
+#  - www.abc.test.com
+#  - www.xyz.test.com
+#
+#file:
+#  upload-dir: src/main/resources/static/
+#  upload-dir-category: src/main/resources/static/category/
+#  upload-dir-video: src/main/resources/static/video/
+#  upload-dir-profile: src/main/resources/static/profile/
+#  upload-dir-course: src/main/resources/static/course/
+#
+#cloudinary:
+#  cloud-name: dgmmn28ih
+#  api-key: 757986568173463
+#  api-secret: CrZ6slBn30U7EeEfv-zo5LaHNM4
+spring:
+  config:
+    activate:
+      on-profile: test
+name: test-YAML
+environment: testing
+enabled: false
+servers:
+  - www.abc.test.com
+  - www.xyz.test.com
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+name: prod-YAML
+environment: production
+enabled: false
+servers:
+  - www.abc.com
+  - www.xyz.com

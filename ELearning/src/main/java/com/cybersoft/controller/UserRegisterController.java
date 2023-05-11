@@ -1,5 +1,6 @@
 package com.cybersoft.controller;
 
+import com.cybersoft.consts.Consts;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,7 @@ import com.cybersoft.dto.UserDto;
 import com.cybersoft.service.UserService;
 
 @RestController
-@RequestMapping("api/user/register/public")
+@RequestMapping(Consts.PREFIX_PUBLIC + "/register")
 public class UserRegisterController {
 	private UserService userService;
 	public UserRegisterController(UserService userService) {

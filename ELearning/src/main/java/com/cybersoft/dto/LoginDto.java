@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-public class LoginDto {
+public class LoginDto  {
 	
 	@NotEmpty(message = "Vui lòng nhập email!")
 	@Email(message = "Email không đúng định dạng!")

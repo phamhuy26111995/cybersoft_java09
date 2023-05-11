@@ -2,11 +2,15 @@ package com.cybersoft.dto;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
 	
 	private Long id;
@@ -16,7 +20,7 @@ public class UserDto {
 	private String email;
 	@NotEmpty(message = "Vui lòng nhập password")
 	private String password;
-	@NotEmpty(message = "Vui lòng nhập avatar")
+
 	private String avatar;
 	
 	private String address;
@@ -24,6 +28,8 @@ public class UserDto {
 	
 	private int roleId;
 	private String roleDesc;
+
+	private Set<CourseDto> courseList;
 	
 	public UserDto() {}
 	
@@ -33,6 +39,23 @@ public class UserDto {
 		this.fullname = fullname;
 		this.email = email;
 		this.roleDesc = roleDesc;
+	}
+
+	public UserDto(Long id, String fullname, String email, String roleDesc, int roleId) {
+		this.roleId = roleId;
+		this.id = id;
+		this.fullname = fullname;
+		this.email = email;
+		this.roleDesc = roleDesc;
+	}
+
+	public UserDto(Long id, String fullname, String email, String roleDesc, int roleId, Set<CourseDto> courseList) {
+		this.roleId = roleId;
+		this.id = id;
+		this.fullname = fullname;
+		this.email = email;
+		this.roleDesc = roleDesc;
+		this.courseList = courseList;
 	}
 	
 	public UserDto(Long id, String fullname, String email, String password, String avatar, int roleId) {
@@ -44,6 +67,7 @@ public class UserDto {
 		this.avatar = avatar;
 		this.roleId = roleId;
 	}
+
 	
 	
 	
@@ -51,8 +75,7 @@ public class UserDto {
 
 	public UserDto(Long id, @NotEmpty(message = "Vui lòng nhập tên") String fullname,
 			@NotEmpty(message = "Vui lòng nhập email") String email,
-			@NotEmpty(message = "Vui lòng nhập password") String password,
-			@NotEmpty(message = "Vui lòng nLonghập avatar") String avatar, String address, String phone, int roleId,
+			@NotEmpty(message = "Vui lòng nhập password") String password, String avatar, String address, String phone, int roleId,
 			String roleDesc) {
 		super();
 		this.id = id;

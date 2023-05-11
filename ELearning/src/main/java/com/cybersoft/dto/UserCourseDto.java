@@ -1,12 +1,12 @@
 package com.cybersoft.dto;
 
-import com.cybersoft.entity.Course;
+import com.cybersoft.entity.CourseEntity;
 import com.cybersoft.entity.User;
 
 public class UserCourseDto {
 	private int id;
 	private User user;
-	private Course course;
+	private CourseEntity courseEntity;
 	private int roleId;
 	public int getId() {
 		return id;
@@ -20,11 +20,11 @@ public class UserCourseDto {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Course getCourse() {
-		return course;
+	public CourseEntity getCourse() {
+		return courseEntity;
 	}
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setCourse(CourseEntity courseEntity) {
+		this.courseEntity = courseEntity;
 	}
 	public int getRoleId() {
 		return roleId;
@@ -32,11 +32,11 @@ public class UserCourseDto {
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
-	public UserCourseDto(int id, User user, Course course, int roleId) {
+	public UserCourseDto(int id, User user, CourseEntity courseEntity, int roleId) {
 		super();
 		this.id = id;
 		this.user = user;
-		this.course = course;
+		this.courseEntity = courseEntity;
 		this.roleId = roleId;
 	}
 	

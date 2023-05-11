@@ -1,8 +1,14 @@
 package com.cybersoft.dto;
 
+import com.cybersoft.common.BaseDTO;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.NotEmpty;
 
-public class RoleDto {
+@Getter
+@Setter
+public class RoleDto extends BaseDTO {
 	private int id;
 
 	private String name;
@@ -17,23 +23,5 @@ public class RoleDto {
 		this.name = name;
 		this.description = description;
 	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 }

@@ -40,5 +40,10 @@ public class Role {
 		this.name = name;
 		this.description = description;
 	}
+
+	public Role(String name, String description) {
+		this.description = description;
+		this.name = name;
+	}
 }
 

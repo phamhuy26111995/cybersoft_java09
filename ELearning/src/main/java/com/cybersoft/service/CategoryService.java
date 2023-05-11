@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.dto.RoleDto;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CategoryService {
 	List<CategoryDto> getAll();
 	CategoryDto getById(int id);
-	void save(CategoryDto dto);
-	void edit(CategoryDto dto);
+	CategoryDto save(CategoryDto dto, MultipartFile file);
+	void edit(CategoryDto dto, MultipartFile file);
 	void delete(int id);
 	
 }

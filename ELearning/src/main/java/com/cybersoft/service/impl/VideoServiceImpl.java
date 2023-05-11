@@ -21,15 +21,15 @@ public class VideoServiceImpl implements VideoService {
 
 	@Override
 	public void save(VideoDto dto) {
-		Video entity = new Video(dto.getTitle(), dto.getUrl(), dto.getImage(), dto.getTimeCount(),dto.getCourseId());
-		videoRepository.save(entity);
+//		Video entity = new Video(dto.getTitle(), dto.getUrl(), dto.getImage(), dto.getTimeCount(),dto.getCourseId());
+//		videoRepository.save(entity);
 
 	}
 
 	@Override
 	public List<VideoDto> getAll() {
-		List<VideoDto> dtos = videoRepository.findAllJoin();
-		return dtos;
+//		List<VideoDto> dtos = videoRepository.find/**/AllJoin();
+		return null;
 	}
 
 	@Override
@@ -37,16 +37,15 @@ public class VideoServiceImpl implements VideoService {
 		Video entity = videoRepository.findById(id).get();
 
 
-		VideoDto dto = new VideoDto(
-				entity.getId(),
-				entity.getTitle(),
-				entity.getUrl(),
-				entity.getImage(),
-
-				entity.getTimeCount(),
-				entity.getCourseId()
-				);
-		return dto;
+//		VideoDto dto = new VideoDto(
+//				entity.getId(),
+//				entity.getTitle(),
+//				entity.getUrl(),
+//				entity.getImage(),
+//
+//				entity.getTimeCount()
+//				);
+		return null;
 	}
 
 	@Override
@@ -68,8 +67,8 @@ public class VideoServiceImpl implements VideoService {
 
 	@Override
 	public List<VideoDto>  getByCourse(Long id) {
-		List<VideoDto> dtos = videoRepository.findVideosByUser(id);
-		return dtos;
+//		List<VideoDto> dtos = videoRepository.findVideosByUser(id);
+		return null;
 	}
 
 

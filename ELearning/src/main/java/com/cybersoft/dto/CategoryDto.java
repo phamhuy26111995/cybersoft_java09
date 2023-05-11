@@ -1,5 +1,6 @@
 package com.cybersoft.dto;
 
+import com.cybersoft.common.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,9 +8,8 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
-public class CategoryDto {
+public class CategoryDto extends BaseDTO {
 	private int id;
-	@NotEmpty(message = "Vui lòng không được để trống title")
 	private String title;
 	private String icon;
 
@@ -19,7 +19,6 @@ public class CategoryDto {
 		this.icon = icon;
 	}
 	public CategoryDto() {
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {

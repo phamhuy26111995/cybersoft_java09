@@ -1,59 +1,36 @@
 package com.cybersoft.admin.controller;
 
-import java.util.List;
-
 import com.cybersoft.consts.Consts;
+import com.cybersoft.dto.CourseContentDto;
+import com.cybersoft.service.CourseContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.cybersoft.common.IndentifyEmail;
-import com.cybersoft.common.IndentifyRole;
 import com.cybersoft.dto.CourseDto;
 import com.cybersoft.service.CourseService;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
-@RequestMapping(Consts.PREFIX_ADMIN + "/course")
+@RequestMapping(Consts.PREFIX_ADMIN + "/courses")
 public class AdminCourseController {
 	@Autowired
 	private CourseService courseService;
 
-	
-	//Trả về đối tượng CourseDto
-	@GetMapping("")
-	public Object get() {
-		try {
-			List<CourseDto> dtos ;
-			//Nếu user hiện tại có role là Admin thì lấy toàn bộ , còn nếu là Teacher thì sẽ lấy các khóa học thuộc về mình
-			if(IndentifyRole.getRolePrincipal().contains("ROLE_ADMIN")) {
-				 dtos = courseService.getAll();
-			}
-			else {
-				dtos = courseService.getCourseByUser(IndentifyEmail.getEmailPrincipal());
-			}
+	@Autowired
+	private CourseContentService courseContentService;
 
-			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
 
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	
 	//Trả về khóa học cuối cùng nằm trong danh sách
-	@GetMapping("last")
-	public Object getLastCourse() {
+	@GetMapping("/find-by-id")
+	public Object getLastCourse(@RequestBody CourseDto dto) {
 		try {
-			CourseDto dto = courseService.getTheLastCourse();
+			CourseDto result = courseService.findById(dto.getId());
 
-			return new ResponseEntity<Object>(dto, HttpStatus.OK);
+			return new ResponseEntity<Object>(result, HttpStatus.OK);
 
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
@@ -62,54 +39,44 @@ public class AdminCourseController {
 	
 	//Thêm khóa học
 	@PostMapping("/save")
-	public Object save(@RequestBody CourseDto dto) {
-
+	public Object save(@RequestPart CourseDto dto, @RequestPart MultipartFile file) {
 		try {
-			courseService.save(dto);;
+			courseService.save(dto, file);;
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-	
-	/*
-	 * @PutMapping("UserCourse") public Object saveUserCourse(@RequestBody CourseDto
-	 * dto) {
-	 * 
-	 * try { courseService.updateUserCourse(dto);; return new
-	 * ResponseEntity<Object>(HttpStatus.OK); } catch (Exception e) {
-	 * e.printStackTrace(); } return new
-	 * ResponseEntity<Object>(HttpStatus.BAD_REQUEST); }
-	 */
-	
-	
-	//Edit khóa học
-	@PutMapping("{id}")
-	public Object put(@PathVariable Long id,@RequestBody CourseDto dto) {
+
+	@PostMapping("/save-content")
+	public Object saveContent(@RequestBody List<CourseContentDto> dto) {
 		try {
-			if(courseService.getById(id)==null) {
-				return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-			}
-			else {
-
-				courseService.update(dto);
-				return new ResponseEntity<Object>(HttpStatus.OK);
-			}
-
+			courseContentService.save(dto);
+			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
 		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-	
-	//Xóa khóa học
-	@DeleteMapping("{id}")
-	public Object delete(@PathVariable Long id) {
-		try {
-			
-			courseService.delete(id);
-			return new ResponseEntity<Object>(HttpStatus.OK);
 
+	@PutMapping("/edit")
+	public Object edit(@RequestPart CourseDto dto, MultipartFile file) {
+		try {
+			courseService.update(dto, file);;
+			return new ResponseEntity<Object>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+
+	//Xóa khóa học
+	@DeleteMapping("/delete")
+	public Object delete(@RequestBody CourseDto dto) {
+		try {
+			courseService.delete(dto.getId());
+			return new ResponseEntity<Object>(HttpStatus.OK);
 
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);

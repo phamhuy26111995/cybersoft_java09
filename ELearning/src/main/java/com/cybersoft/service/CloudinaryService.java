@@ -34,12 +34,15 @@ public class CloudinaryService {
 
     public String uploadFile(MultipartFile file) {
         try {
+            String filenameWithoutExtension = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
             return cloudinary.uploader()
-                    .upload(file.getBytes(), ObjectUtils.asMap("public_id", file.getOriginalFilename()))
+                    .upload(file.getBytes(), ObjectUtils.asMap("public_id", filenameWithoutExtension.trim()))
                     .get("url").toString();
         } catch (Exception e) {
             log.info(e.getMessage());
             return null;
         }
     }
+
+
 }

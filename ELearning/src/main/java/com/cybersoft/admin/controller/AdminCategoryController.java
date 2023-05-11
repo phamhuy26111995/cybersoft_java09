@@ -4,35 +4,34 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.cybersoft.common.AppUtils;
 import com.cybersoft.consts.Consts;
+import com.cybersoft.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.dto.UserDto;
 import com.cybersoft.service.CategoryService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(Consts.PREFIX_ADMIN + "/categories")
 public class AdminCategoryController {
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private FileService fileService;
 
 //Lấy toàn bộ category
-	@GetMapping("")
+	@GetMapping("/get-all")
 	public Object get() {
 		try {
 			List<CategoryDto> dtos = categoryService.getAll();
-
+			AppUtils.createOrderNumberWithoutPaging(dtos);
 			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -40,32 +39,42 @@ public class AdminCategoryController {
 		}
 	}
 
+	@GetMapping("/{id}")
+	public Object getById(@PathVariable int id) {
+		try {
+			CategoryDto resultDto = categoryService.getById(id);
+			return new ResponseEntity<Object>(resultDto, HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	//Thêm mới một category
-	@PostMapping("/save")
-	public Object save(@Valid @RequestBody CategoryDto dto) {
+	@PostMapping(value = "/save" ,consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public Object save(@Valid @RequestPart CategoryDto dto,  MultipartFile file) {
 
 		try {
-			categoryService.save(dto);
-			return new ResponseEntity<Object>(HttpStatus.CREATED);
+			CategoryDto result = categoryService.save(dto, file);
+			return new ResponseEntity<Object>(result,HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-	
+
 	
 	//Edit một category
-	@PutMapping("{id}")
-	public Object put(@PathVariable int id,@RequestBody CategoryDto dto) {
+	@PutMapping(value = "/edit" ,consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public Object put(@RequestPart CategoryDto dto, MultipartFile file) {
 		try {
-			if(categoryService.getById(id)==null) {
+			if(categoryService.getById(dto.getId()) == null) {
 				return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 			}
-			else {
 
-				categoryService.edit(dto);
-				return new ResponseEntity<Object>(HttpStatus.OK);
-			}
+			categoryService.edit(dto, file);
+			return new ResponseEntity<Object>(HttpStatus.OK);
+
 
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
@@ -73,13 +82,11 @@ public class AdminCategoryController {
 	}
 
 	//Xóa Category
-	@DeleteMapping("{id}")
-	public Object delete(@PathVariable int id) {
+	@DeleteMapping("/delete")
+	public Object delete(@RequestBody CategoryDto dto) {
 		try {
-			System.out.println(id);
-			categoryService.delete(id);;
+			categoryService.delete(dto.getId());;
 			return new ResponseEntity<Object>(HttpStatus.OK);
-
 
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);

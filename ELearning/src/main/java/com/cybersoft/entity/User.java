@@ -1,13 +1,13 @@
 package com.cybersoft.entity;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name = "users")
@@ -31,16 +31,18 @@ public class User {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", insertable = false, updatable = false)
+	@JsonIgnore
 	private Role role;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_course" ,
-			joinColumns = {
-			@JoinColumn(name = "user_id" , referencedColumnName = "id")
-			},inverseJoinColumns = {
-			@JoinColumn(name = "course_id", referencedColumnName = "id")
-	})
-	private Set<Course> userCourse;
+			joinColumns =
+			@JoinColumn(name = "user_id")
+			,inverseJoinColumns =
+			@JoinColumn(name = "course_id")
+	)
+
+	private Set<CourseEntity> userCourse = new HashSet<>();
 	
 
 	public User() {}

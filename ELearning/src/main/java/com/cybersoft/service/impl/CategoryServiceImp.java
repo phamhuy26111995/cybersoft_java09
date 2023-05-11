@@ -3,7 +3,10 @@ package com.cybersoft.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cybersoft.common.BaseService;
+import com.cybersoft.service.FileService;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cybersoft.dto.CategoryDto;
@@ -11,14 +14,16 @@ import com.cybersoft.entity.Category;
 import com.cybersoft.entity.User;
 import com.cybersoft.repository.CategoryRepository;
 import com.cybersoft.service.CategoryService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class CategoryServiceImp implements CategoryService {
+public class CategoryServiceImp extends BaseService implements CategoryService {
+	@Autowired
 	private CategoryRepository categoryRepository;
 
-	public CategoryServiceImp(CategoryRepository categoryRepository) {
-		this.categoryRepository = categoryRepository;
-	}
+	@Autowired
+	private FileService fileService;
+
 
 	//Lấy toàn bộ danh sách category
 	@Override
@@ -43,40 +48,49 @@ public class CategoryServiceImp implements CategoryService {
 	@Override
 	public CategoryDto getById(int id) {
 		Category entity = categoryRepository.findById(id).get();
-
-		return new CategoryDto(entity.getId(),entity.getIcon(),entity.getTitle());
+		return new CategoryDto(entity.getId(),entity.getTitle(), entity.getIcon());
 	}
 
 	//Thêm mới một category
 	@Override
-	public void save(CategoryDto dto) {
-		Category entity = createNew(dto);
-		categoryRepository.save(entity);
+	public CategoryDto save(CategoryDto dto, MultipartFile file) {
+		Category entity = createNew(dto,file);
+		Category savedCategory = categoryRepository.save(entity);
+		CategoryDto resultDto = new CategoryDto();
+
+		modelMapper.getConfiguration().setSkipNullEnabled(true);
+		modelMapper.map(savedCategory, resultDto);
+
+		return resultDto;
+
 	}
 
-	private Category createNew(CategoryDto dto) {
+	private Category createNew(CategoryDto dto, MultipartFile file) {
 		Category entity = new Category();
-		entity.setIcon(dto.getIcon());
 		entity.setTitle(dto.getTitle());
+		if(file != null) {
+			entity.setIcon(fileService.saveImageToCloudinary(file));
+		}
 
 		return entity;
 	}
 
 	//Sửa một category
 	@Override
-	public void edit(CategoryDto dto) {
-		Category entity = update(dto);
+	public void edit(CategoryDto dto, MultipartFile file) {
+		Category entity = update(dto, file);
 		categoryRepository.save(entity);
 	}
 
-	private Category update(CategoryDto dto) {
+	private Category update(CategoryDto dto, MultipartFile file) {
 		Category entity = categoryRepository.findById(dto.getId()).get();
 
 		if(dto.getTitle() != null && !dto.getTitle().equalsIgnoreCase("")) {
 			entity.setTitle(dto.getTitle());
 		}
-		if(dto.getIcon() != null && !dto.getIcon().isEmpty()) {
-			entity.setIcon(dto.getIcon());;
+		if(file != null) {
+			String url = fileService.saveImageToCloudinary(file);
+			entity.setIcon(url);;
 		}
 
 		return entity;

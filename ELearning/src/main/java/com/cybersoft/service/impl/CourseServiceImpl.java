@@ -1,31 +1,39 @@
 package com.cybersoft.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import com.cybersoft.common.IndentifyUser;
+import com.cybersoft.entity.CourseEntity;
+import com.cybersoft.entity.User;
+import com.cybersoft.repository.UserRepository;
+import com.cybersoft.service.CloudinaryService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cybersoft.common.IndentifyRole;
 import com.cybersoft.dto.CourseDto;
-import com.cybersoft.entity.Course;
 import com.cybersoft.repository.CourseRepository;
 import com.cybersoft.service.CourseService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-
+	@Autowired
 	private CourseRepository courseRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private CloudinaryService cloudinaryService;
 
-	public CourseServiceImpl(CourseRepository courseRepository) {
-		this.courseRepository = courseRepository;
-	}
-	//Lấy toàn bộ course để hiển thị
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@Override
 	public List<CourseDto> getAll() {
 		List<CourseDto> dtos = new ArrayList<CourseDto>();
 		try {
-			List<Course> entities = courseRepository.findAll();
-			for(Course entity : entities) {
+			List<CourseEntity> entities = courseRepository.findAll();
+			for(CourseEntity entity : entities) {
 				CourseDto dto = new CourseDto(entity.getId(), 
 						entity.getTitle(), 
 						entity.getImage(), 
@@ -44,7 +52,7 @@ public class CourseServiceImpl implements CourseService {
 	//Lấy course theo id
 	@Override
 	public CourseDto getById(Long id) {
-		Course entity = courseRepository.findById(id).get();
+		CourseEntity entity = courseRepository.findById(id).get();
 
 		CourseDto dto = new CourseDto();
 		dto.setId(entity.getId());
@@ -65,55 +73,82 @@ public class CourseServiceImpl implements CourseService {
 	
 	//Thêm mới một course
 	@Override
-	public void save(CourseDto dto) {
-		Course entity = new Course();
-		if(IndentifyRole.getRolePrincipal().contains("ROLE_ADMIN") || IndentifyRole.getRolePrincipal().contains("ROLE_TEACHER")) {
-			entity.setTitle(dto.getTitle());
-			entity.setImage(dto.getImage());
-			entity.setLecturesCount(dto.getLecturesCount());
-			entity.setHourCount(dto.getHourCount());
-			entity.setDiscount(dto.getDiscount());
-			entity.setPrice(dto.getPrice());
-			entity.setDescription(dto.getDescription());
-			entity.setCategory(dto.getCategory());
-			entity.setContent(dto.getContent());
+	public void save(CourseDto dto, MultipartFile file) {
+
+		CourseEntity entity = new CourseEntity();
+
+		CourseEntity courseEntitySaved = courseRepository.save(setDataEntity(entity, dto, file));
+
+		Set<CourseEntity> courseEntitySet = null;
+		Optional<User> user = userRepository.findById(IndentifyUser.getIdPrincipal());
+		if(!user.isPresent()) {
+			return;
 		}
 
+		courseEntitySet = user.get().getUserCourse();
+		courseEntitySet.add(courseEntitySaved);
 
-		courseRepository.save(entity);
+		user.get().setUserCourse(courseEntitySet);
+
+		userRepository.save(user.get());
+
 
 	}
 
+	private CourseEntity setDataEntity(CourseEntity entity, CourseDto dto, MultipartFile file) {
+
+		entity.setLecturesCount(dto.getLecturesCount());
+		entity.setHourCount(dto.getHourCount());
+		entity.setDiscount(dto.getDiscount());
+		entity.setPrice(dto.getPrice());
+		entity.setDescription(dto.getDescription());
+		entity.setContent(dto.getContent());
+		entity.setDescription(dto.getDescription());
+		entity.setTitle(dto.getTitle());
+
+		if(dto.getCategory() != null) {
+			entity.setCategory(dto.getCategory());
+		}
+
+		if(file != null) {
+			entity.setImage(cloudinaryService.uploadFile(file));
+		}
+
+		return entity;
+	}
 
 
 
 
 	//Edit một course
 	@Override
-	public void update(CourseDto dto) {
-		Course entity = courseRepository.findById(dto.getId()).get();
+	public void update(CourseDto dto ,MultipartFile file) {
+		Optional<CourseEntity> entityOptional = courseRepository.findById(dto.getId());
+		if(!entityOptional.isPresent()) {
+			return;
+		}
 
-		entity.setTitle(dto.getTitle());
-		entity.setImage(dto.getImage());
-		entity.setLecturesCount(dto.getLecturesCount());
-		entity.setHourCount(dto.getHourCount());
-		entity.setDiscount(dto.getDiscount());
-		entity.setPrice(dto.getPrice());
-		entity.setDescription(dto.getDescription());
-		
-		
-		
-		entity.setCategory(dto.getCategory());
-		entity.setContent(dto.getContent());
-
-
-		courseRepository.save(entity);
+		courseRepository.save(setDataEntity(entityOptional.get(), dto, file));
 
 	}
 	
 	//Xóa một course
 	@Override
 	public void delete(Long id) {
+
+		Optional<CourseEntity> optionalCourse = courseRepository.findById(id);
+
+		if(!optionalCourse.isPresent()) {
+			return;
+		}
+
+		CourseEntity entity = optionalCourse.get();
+
+		for(User user : entity.getUsers()) {
+			user.getUserCourse().remove(entity);
+			userRepository.save(user);
+		}
+
 		courseRepository.deleteById(id);
 
 	}
@@ -136,7 +171,7 @@ public class CourseServiceImpl implements CourseService {
 	//Lấy ra course đang nằm cuối danh sách
 	@Override
 	public CourseDto getTheLastCourse() {
-		Course entity = courseRepository.findTop1ByOrderByIdDesc();
+		CourseEntity entity = courseRepository.findTop1ByOrderByIdDesc();
 		CourseDto dto = new CourseDto();
 		dto.setId(entity.getId());
 		dto.setTitle(entity.getTitle());
@@ -151,32 +186,21 @@ public class CourseServiceImpl implements CourseService {
 
 		return dto;
 	}
-	/*
-	 * @Override public void updateUserCourse(CourseDto dto) { Course entity =
-	 * courseRepository.findById(dto.getId()).get();
-	 * 
-	 * CourseDto dto_test = new CourseDto();
-	 * 
-	 * User user = new User(); user.setId(3); Course course = new Course();
-	 * course.setId(111); int roleId = 1;
-	 * 
-	 * 
-	 * UserCourse userCourse = new UserCourse();
-	 * 
-	 * userCourse.setUser(user); userCourse.setRoleId(roleId);
-	 * userCourse.setCourse(course);
-	 * 
-	 * List<UserCourse> userCourses = new ArrayList<UserCourse>();
-	 * 
-	 * userCourses.add(userCourse);
-	 * 
-	 * entity.setUserCourses(userCourses); courseRepository.save(entity);
-	 * 
-	 * 
-	 * }
-	 */
 
+	@Override
+	public CourseDto findById(Long id) {
 
+		Optional<CourseEntity> courseEntityOptional = courseRepository.findById(id);
+		if(!courseEntityOptional.isPresent()) {
+			return null;
+		}
+
+		CourseDto dto = new CourseDto();
+		modelMapper.getConfiguration().setSkipNullEnabled(true);
+		modelMapper.map(courseEntityOptional.get(), dto);
+
+		return dto;
+	}
 
 }
 

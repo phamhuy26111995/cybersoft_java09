@@ -1,18 +1,21 @@
 package com.cybersoft.dto;
 
+import com.cybersoft.common.BaseDTO;
 import com.cybersoft.entity.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CourseDto {
+public class CourseDto extends BaseDTO {
 	private Long id;
 	private String title;
 	private String image;
 	private int lecturesCount;
 	private double price;
 	private int hourCount;
+	@JsonIgnore
 	private Category category;
 	
 	private String content;

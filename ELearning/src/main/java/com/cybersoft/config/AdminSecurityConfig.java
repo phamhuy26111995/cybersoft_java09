@@ -51,20 +51,18 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors();
-//		http.csrf().disable() // TẮT CHỨC NĂNG CHỐNG TẤN CÔNG GIẢ MẠO REQUEST
-//		.antMatcher("api/admin/**")
-//		.authorizeRequests()
-//		.antMatchers("api/v1/admin/auth/login")
-//		.permitAll()
-//		.antMatchers("api/v1/admin/role/**")
-//		.hasAnyRole("ADMIN")
-//		.antMatchers("api/v1/admin/user/**")
-//		.hasAnyRole("ADMIN", "TEACHER")
-//		.anyRequest()
-//		.authenticated();
-		http.csrf().disable().antMatcher("/api/v1/admin/**")
-				.authorizeRequests()
-				.antMatchers("/api/v1/admin/auth/login").permitAll();
+		http.csrf().disable() // TẮT CHỨC NĂNG CHỐNG TẤN CÔNG GIẢ MẠO REQUEST
+		.antMatcher("/api/v1/admin/**")
+		.authorizeRequests()
+		.antMatchers("/api/v1/admin/auth/login")
+		.permitAll()
+		.antMatchers("/api/v1/admin/role/**")
+		.hasAnyRole("ADMIN")
+		.antMatchers("/api/v1/admin/user/**")
+		.hasAnyRole("ADMIN", "TEACHER")
+		.anyRequest()
+		.authenticated();
+
 		
 		//Add thêm Filter
 		http.addFilter(new AuthFilter(authenticationManager(), userDetailsService));

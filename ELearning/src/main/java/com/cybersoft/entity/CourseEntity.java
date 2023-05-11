@@ -1,9 +1,11 @@
 package com.cybersoft.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "courses")
 @Getter
 @Setter
-public class Course {
+public class CourseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -32,6 +34,9 @@ public class Course {
 	private int discount;
 	@Column(name = "promotion_price")
 	private double promotionPrice;
+
+	@Column(name = "target")
+	private String target;
 	
 	private String description;
 	
@@ -46,20 +51,18 @@ public class Course {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	@ManyToMany(mappedBy = "userCourse" , fetch = FetchType.LAZY)
-	private Set<User> users;
+	@ManyToMany(mappedBy = "userCourse", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<User> users = new HashSet<>();
 	
-	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
-	private List<Video> videoCourses;
-	
-	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
-	private List<Target> targetCourses;
-	
+	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<CourseContentEntity> courseContents;
 
-	public Course(Long id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
-			int discount, double promotionPrice, String description, String content, int categoryId, Date lastUpdate,
-			Category category) {
-		super();
+
+	public CourseEntity(Long id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
+						int discount, double promotionPrice, String description, String content, int categoryId, Date lastUpdate,
+						Category category) {
+
 		this.id = id;
 		this.title = title;
 		this.image = image;
@@ -76,15 +79,15 @@ public class Course {
 		this.category = category;
 	}
 
-	public Course() {
+	public CourseEntity() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	
 	
 
-	public Course(Long id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
-			int discount, double promotionPrice, String description) {
+	public CourseEntity(Long id, String title, String image, int leturesCount, int hourCount, int viewCount, double price,
+						int discount, double promotionPrice, String description) {
 		super();
 		this.id = id;
 		this.title = title;

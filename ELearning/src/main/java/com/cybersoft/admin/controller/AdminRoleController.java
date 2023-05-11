@@ -25,13 +25,13 @@ import com.cybersoft.service.RoleService;
 
 
 @RestController
-@RequestMapping(Consts.PREFIX_ADMIN + "/file")
+@RequestMapping(Consts.PREFIX_ADMIN + "/roles")
 public class AdminRoleController {
 	@Autowired
 	private RoleService roleService;
 
 	//Lấy ra toàn bộ role
-	@GetMapping("")
+	@GetMapping("/get-all")
 	public Object get() {
 		try {
 			List<RoleDto> entities = roleService.getAll();

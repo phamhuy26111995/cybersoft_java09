@@ -1,129 +1,72 @@
 package com.cybersoft.admin.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.cybersoft.common.IndentifyUser;
 import com.cybersoft.consts.Consts;
+import com.cybersoft.dto.UserDetailFilterDto;
+import com.cybersoft.dto.UserFilterDto;
+import com.cybersoft.dto.UserLoginSuccessDto;
+import com.cybersoft.model.users.UsersModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.cybersoft.common.CurrentUser;
-import com.cybersoft.common.IndentifyEmail;
-import com.cybersoft.common.IndentifyRole;
-import com.cybersoft.dto.CourseDto;
 import com.cybersoft.dto.UserDto;
-import com.cybersoft.entity.User;
-import com.cybersoft.repository.UserRepository;
 import com.cybersoft.service.CourseService;
 import com.cybersoft.service.UserService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(Consts.PREFIX_ADMIN + "/users/")
-
+@RequestMapping(Consts.PREFIX_ADMIN + "/users")
 public class AdminUserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private CourseService courseService;
 
-
-	public AdminUserController(UserService userService,CourseService courseService) {
-		this.userService = userService;
-		this.courseService = courseService;
+	@GetMapping("/get-by-role")
+	public Object getUsers(@RequestBody UserFilterDto filter) {
+		UsersModel result = userService.getUsersByRole(filter);
+		return new ResponseEntity<UsersModel>(result, HttpStatus.OK);
 	}
-
-
-//Nếu là user Admin thì sẽ lấy toàn bộ user
-//Nếu là user Teacher thì sẽ lấy toàn bộ danh sách user là Student thuộc về khóa học của user Teacher này
-	@GetMapping("")
-	public Object get() {
-		try {
-			List<UserDto> dtos ;
-
-			if(IndentifyRole.getRolePrincipal().contains("ROLE_ADMIN")) { 
-				dtos = userService.getAll(); 
-
-			}
-			else {
-				dtos = new ArrayList<UserDto>();
-				List<CourseDto> courseDtos = courseService.getCourseByUser(IndentifyEmail.getEmailPrincipal());
-				for(CourseDto dto : courseDtos) {
-					
-					List<UserDto> students = userService.getStudentOfCourse(dto.getId());
-				
-					dtos.addAll(students);
-					
-				}
-
-			}
-
-
-
-			return new ResponseEntity<Object>(dtos, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		}
-
-	}
-
-
 
 //Get User theo id
-	@GetMapping("{id}")
-	public Object getById(@PathVariable Long id) {
+	@GetMapping("/detail")
+	public Object getDetail(@RequestBody UserDetailFilterDto dto) {
 		try {
-			UserDto user = userService.getById(id);
-
-
+			UserDto user = userService.getById(dto.getId());
 			return new ResponseEntity<Object>(user, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
-
-	//Lấy ra thông tin của User hiện tại đang tương tác với hệ thống
-	@GetMapping("current")
-	public Object getByEmail() {
+	@GetMapping("/get-current-user")
+	public Object getCurrentUser() {
 		try {
-			UserDto dto = CurrentUser.getCurrentUser();
+			UserDto userDto = userService.getById(IndentifyUser.getIdPrincipal());
 
+			if(userDto == null) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 
+			UserLoginSuccessDto successDto = new UserLoginSuccessDto();
+			successDto.setEmail(userDto.getEmail());
+			successDto.setAvatar(userDto.getAvatar());
+			successDto.setFullname(userDto.getFullname());
 
-			return new ResponseEntity<Object>(dto, HttpStatus.OK);
+			return new ResponseEntity<Object>(successDto, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
 
 //Thêm mới user
-	@PostMapping("")
-	public Object post(@RequestBody UserDto dto) {
+	@PostMapping("/save")
+	public Object save(@RequestPart UserDto dto, @RequestPart MultipartFile file) {
 		try {
-			userService.insert(dto);
+			userService.save(dto, file);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
@@ -132,33 +75,27 @@ public class AdminUserController {
 
 
 //Edit User
-	@PutMapping("{id}")
-	public Object put(@PathVariable Long id,@RequestBody UserDto dto) {
+	@PutMapping("/update")
+	public Object update(@RequestPart UserDto dto, @RequestPart MultipartFile file) {
 		try {
-			if(userService.getById(id)==null) {
-
+			if(userService.getById(dto.getId()) == null) {
 				return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 			}
-			else {
 
-
-				userService.update(dto);
-				System.out.println(dto.getPassword());
-				return new ResponseEntity<Object>(HttpStatus.OK);
-			}
+			userService.update(dto, file);
+			return new ResponseEntity<Object>(HttpStatus.OK);
 
 		} catch (Exception e) {
-			System.out.println("Lỗi ở đây");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 //Xóa User
-	@DeleteMapping("{id}")
-	public Object delete(@PathVariable Long id) {
+	@DeleteMapping("/delete")
+	public Object delete(@RequestBody UserDto dto) {
 		try {
 
-			userService.delete(id);
+			userService.delete(dto.getId());
 			return new ResponseEntity<Object>(HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -166,24 +103,6 @@ public class AdminUserController {
 		}
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
-
-//Update Profile của user
-	@PutMapping("profile")
-	public Object put(@RequestBody UserDto dto) {
-		try {
-			userService.updateProfile(dto);
-			System.out.println(dto);
-			return new ResponseEntity<Object>(HttpStatus.OK);
-
-
-		} catch (Exception e) {
-			System.out.println(dto);
-			System.out.println("Lỗi update profile");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		}
-	}
-
-
 
 
 }
