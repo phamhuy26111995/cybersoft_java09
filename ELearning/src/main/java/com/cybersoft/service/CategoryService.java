@@ -10,7 +10,7 @@ public interface CategoryService {
 	List<CategoryDto> getAll();
 	CategoryDto getById(int id);
 	CategoryDto save(CategoryDto dto, MultipartFile file);
-	void edit(CategoryDto dto, MultipartFile file);
+	CategoryDto edit(CategoryDto dto, MultipartFile file);
 	void delete(int id);
 	
 }

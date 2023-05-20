@@ -2,6 +2,8 @@ package com.cybersoft.admin.controller;
 
 import com.cybersoft.consts.Consts;
 import com.cybersoft.dto.CourseContentDto;
+import com.cybersoft.dto.SearchCourseDto;
+import com.cybersoft.model.courses.CourseSearchModel;
 import com.cybersoft.service.CourseContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,19 @@ public class AdminCourseController {
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@GetMapping("/search")
+	public Object searchCourse(@RequestBody SearchCourseDto dto) {
+		try {
+
+			CourseSearchModel result = courseService.getCourseByUser(dto);
+			return new ResponseEntity<Object>(result , HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+
 	}
 	
 	//Thêm khóa học

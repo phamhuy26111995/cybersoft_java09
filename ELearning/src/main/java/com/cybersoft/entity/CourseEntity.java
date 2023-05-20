@@ -49,6 +49,7 @@ public class CourseEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
+	@JsonIgnore
 	private Category category;
 
 	@ManyToMany(mappedBy = "userCourse", fetch = FetchType.LAZY)
@@ -56,6 +57,7 @@ public class CourseEntity {
 	private Set<User> users = new HashSet<>();
 	
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<CourseContentEntity> courseContents;
 
 

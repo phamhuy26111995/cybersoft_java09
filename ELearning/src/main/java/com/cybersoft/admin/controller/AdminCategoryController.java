@@ -72,8 +72,8 @@ public class AdminCategoryController {
 				return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 			}
 
-			categoryService.edit(dto, file);
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			CategoryDto result = categoryService.edit(dto, file);
+			return new ResponseEntity<Object>(result,HttpStatus.OK);
 
 
 		} catch (Exception e) {

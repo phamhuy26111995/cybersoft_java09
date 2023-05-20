@@ -4,17 +4,22 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cybersoft.dto.CourseDto;
+import com.cybersoft.dto.SearchCourseDto;
 import com.cybersoft.entity.CourseEntity;
 import com.cybersoft.entity.User;
+import com.cybersoft.model.courses.CourseSearchModel;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface CourseService {
 	void save(CourseDto dto, MultipartFile file);
 	List<CourseDto> getAll();
+
+	CourseSearchModel getCourseByUser(SearchCourseDto dto);
+
 	CourseDto getById(Long id);
 	void update(CourseDto dto, MultipartFile file);
 	void delete(Long id);
-	List<CourseDto> getCourseByUser(String email);
+	List<CourseDto> getCourseByUserEmail(String email);
 	List<CourseDto> getCourseByCategory(int id);
 	CourseDto getTheLastCourse();
 

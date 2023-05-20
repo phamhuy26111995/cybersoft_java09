@@ -77,9 +77,15 @@ public class CategoryServiceImp extends BaseService implements CategoryService {
 
 	//Sửa một category
 	@Override
-	public void edit(CategoryDto dto, MultipartFile file) {
+	public CategoryDto edit(CategoryDto dto, MultipartFile file) {
 		Category entity = update(dto, file);
-		categoryRepository.save(entity);
+		Category savedEntity = categoryRepository.save(entity);
+		CategoryDto resultDto = new CategoryDto();
+
+		modelMapper.getConfiguration().setSkipNullEnabled(true);
+		modelMapper.map(savedEntity, resultDto);
+
+		return resultDto;
 	}
 
 	private Category update(CategoryDto dto, MultipartFile file) {
