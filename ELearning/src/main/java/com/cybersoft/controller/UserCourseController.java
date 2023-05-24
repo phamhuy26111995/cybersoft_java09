@@ -22,17 +22,17 @@ public class UserCourseController {
 	}
 	
 	//Lấy Toàn bộ Course
-	@GetMapping("public")
-	public Object get() {
-		try {
-			
-			List<CourseDto> dtos = courseService.getAll();
-			
-			return new ResponseEntity<Object>(dtos, HttpStatus.ACCEPTED);
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
-		}
-	}
+//	@GetMapping("public")
+//	public Object get() {
+//		try {
+//
+//			List<CourseDto> dtos = courseService.getAll();
+//
+//			return new ResponseEntity<Object>(dtos, HttpStatus.ACCEPTED);
+//		} catch (Exception e) {
+//			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+//		}
+//	}
 	
 	//Lấy toàn bộ Course thuộc category
 	@GetMapping("public/category/{id}")

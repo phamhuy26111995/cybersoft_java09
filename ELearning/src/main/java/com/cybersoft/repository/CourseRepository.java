@@ -15,7 +15,7 @@ import com.cybersoft.entity.CourseEntity;
 import com.cybersoft.dto.CourseDto;
 
 @Repository
-public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
+public interface CourseRepository extends JpaRepository<CourseEntity, Long>, CourseRepositoryCustom {
     //Trả về một đối tượng CourseDto thuộc user đang tương tác với hệ thống
 //	@Query("SELECT new com.cybersoft.dto.CourseDto(c.id, c.title, c.image, c.lecturesCount,c.price,c.hourCount,c.description,c.discount,c.promotionPrice,c.viewCount) FROM UserCourse uc JOIN Course c ON uc.course.id = c.id JOIN User u ON uc.user.id = u.id WHERE u.email = ?1")
 //	public List<CourseDto> getCourseByUser(String email);
@@ -33,6 +33,9 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
     @Query("SELECT new com.cybersoft.dto.CourseDto(c.id, c.title, c.image, c.lecturesCount,c.price,c.hourCount,c.description,c.discount,c.promotionPrice,c.viewCount,c.content,u.email, u.fullname)" + "  FROM CourseEntity c JOIN c.users u WHERE u IN :users")
     Page<CourseDto> findByUsersAndCourse(@Param("users") Set<User> users, Pageable pageable);
 
+
+    @Query("SELECT new com.cybersoft.dto.CourseDto(c.id, c.title, c.image, c.lecturesCount,c.price,c.hourCount,c.description,c.discount,c.promotionPrice,c.viewCount,c.content,u.email, u.fullname, category.title)" + "  FROM CourseEntity c JOIN c.users u JOIN c.category category")
+    Page<CourseDto> findAllPaging(Pageable pageable);
 
     //Tìm Course cuối cùng trong danh sách
     public CourseEntity findTop1ByOrderByIdDesc();

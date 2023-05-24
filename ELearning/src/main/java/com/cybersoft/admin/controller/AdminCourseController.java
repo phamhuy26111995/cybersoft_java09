@@ -1,5 +1,7 @@
 package com.cybersoft.admin.controller;
 
+import com.cybersoft.common.AppUtils;
+import com.cybersoft.common.BaseDTO;
 import com.cybersoft.consts.Consts;
 import com.cybersoft.dto.CourseContentDto;
 import com.cybersoft.dto.SearchCourseDto;
@@ -39,18 +41,31 @@ public class AdminCourseController {
 		}
 	}
 
-	@GetMapping("/search")
+	@PostMapping("/search")
 	public Object searchCourse(@RequestBody SearchCourseDto dto) {
 		try {
 
-			CourseSearchModel result = courseService.getCourseByUser(dto);
+//			CourseSearchModel result = courseService.getCourseByUser(dto);
+			CourseSearchModel result = courseService.search(dto);
 			return new ResponseEntity<Object>(result , HttpStatus.OK);
 
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
-
 	}
+	@PostMapping("/search-all")
+	public Object getAll(@RequestBody BaseDTO dto) {
+		try {
+
+			CourseSearchModel result = courseService.getAll(dto);
+			AppUtils.createOrderNumber(result.getContent(), dto.getPageIndex(), dto.getPageSize());
+			return new ResponseEntity<Object>(result , HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	
 	//Thêm khóa học
 	@PostMapping("/save")

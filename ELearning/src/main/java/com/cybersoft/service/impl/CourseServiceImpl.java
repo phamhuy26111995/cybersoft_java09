@@ -3,6 +3,8 @@ package com.cybersoft.service.impl;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.cybersoft.common.AppUtils;
+import com.cybersoft.common.BaseDTO;
 import com.cybersoft.common.IndentifyUser;
 import com.cybersoft.dto.*;
 import com.cybersoft.entity.CourseContentEntity;
@@ -47,24 +49,21 @@ public class CourseServiceImpl implements CourseService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public List<CourseDto> getAll() {
-		List<CourseDto> dtos = new ArrayList<CourseDto>();
-		try {
-			List<CourseEntity> entities = courseRepository.findAll();
-			for(CourseEntity entity : entities) {
-				CourseDto dto = new CourseDto(entity.getId(), 
-						entity.getTitle(), 
-						entity.getImage(), 
-						entity.getLecturesCount(),
-						entity.getPrice());
-				dto.setHourCount(entity.getHourCount());
-				dto.setContent(entity.getContent());
-				dtos.add(dto);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	public CourseSearchModel getAll(BaseDTO baseDTO) {
+		if(baseDTO.getPageIndex() < 0) {
+			throw new RuntimeException("PAGE_INDEX_MUST_NOT_LARGE_THAN_ZERO");
 		}
-		return dtos;
+		CourseSearchModel result = new CourseSearchModel();
+
+		Pageable pageable = PageRequest.of(baseDTO.getPageIndex() - 1, baseDTO.getPageSize());
+
+		Page<CourseDto> pageResult = courseRepository.findAllPaging(pageable);
+
+		result.setContent(pageResult.getContent());
+		result.setTotal(pageResult.getTotalElements());
+
+		return result;
+
 	}
 
 	@Override
@@ -105,6 +104,15 @@ public class CourseServiceImpl implements CourseService {
 		return result;
 	}
 
+	@Override
+	public CourseSearchModel search(SearchCourseDto dto) {
+		CourseSearchModel result = new CourseSearchModel();
+		List<CourseDto> dtos = courseRepository.findCourseByCondition(dto);
+		result.setContent(dtos);
+		AppUtils.createOrderNumber(result.getContent(), dto.getPageIndex(), dto.getPageSize());
+
+		return result;
+	}
 
 
 	//Lấy course theo id

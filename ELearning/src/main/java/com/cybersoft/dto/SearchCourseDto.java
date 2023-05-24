@@ -8,4 +8,6 @@ import lombok.Setter;
 @Setter
 public class SearchCourseDto extends BaseDTO {
     private Long userId;
+    private String courseName;
+    private String courseUserName;
 }

@@ -3,6 +3,7 @@ package com.cybersoft.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.cybersoft.common.BaseDTO;
 import com.cybersoft.dto.CourseDto;
 import com.cybersoft.dto.SearchCourseDto;
 import com.cybersoft.entity.CourseEntity;
@@ -12,9 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface CourseService {
 	void save(CourseDto dto, MultipartFile file);
-	List<CourseDto> getAll();
+	CourseSearchModel getAll(BaseDTO baseDTO);
 
 	CourseSearchModel getCourseByUser(SearchCourseDto dto);
+
+	CourseSearchModel search(SearchCourseDto dto);
 
 	CourseDto getById(Long id);
 	void update(CourseDto dto, MultipartFile file);
