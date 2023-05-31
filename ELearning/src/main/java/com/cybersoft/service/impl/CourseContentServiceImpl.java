@@ -1,9 +1,7 @@
 package com.cybersoft.service.impl;
 
 import com.cybersoft.common.BaseService;
-import com.cybersoft.dto.CourseContentDto;
-import com.cybersoft.dto.CourseDto;
-import com.cybersoft.dto.VideoDto;
+import com.cybersoft.dto.*;
 import com.cybersoft.entity.CourseContentEntity;
 import com.cybersoft.entity.CourseEntity;
 import com.cybersoft.entity.Video;
@@ -44,14 +42,16 @@ public class CourseContentServiceImpl extends BaseService implements CourseConte
     }
 
     @Override
-    public Long save(List<CourseContentDto> dtos) {
+    public Long save(CourseContentBody body) {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
-        CourseEntity courseEntity = courseRepository.findById(13L).get();
-        for(CourseContentDto dto : dtos) {
+        CourseEntity courseEntity = courseRepository.findById(body.getCourseId()).orElse(null);
+
+        if(courseEntity == null) return null;
+
+        for(CourseContentDto dto : body.getCourseContentDtoList()) {
             CourseContentEntity entity = new CourseContentEntity();
             modelMapper.map(dto, entity);
             entity.setCourse(courseEntity);
-
             CourseContentEntity savedEntity = courseContentRepository.save(entity);
 
             for(VideoDto videoDto : dto.getVideoDtos()) {
@@ -65,6 +65,17 @@ public class CourseContentServiceImpl extends BaseService implements CourseConte
 
 
         return null;
+    }
+
+    @Override
+    public void delete(CourseContentDeleteDto dto) {
+        for(Integer videoId : dto.getDeleteVideo()) {
+            videoRepository.deleteById(videoId);
+        }
+
+        for(Long courseContentId : dto.getDeleteCourseContent()) {
+            courseContentRepository.deleteById(courseContentId);
+        }
     }
 
 

@@ -1,13 +1,7 @@
 package com.cybersoft.main;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class ELearningApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
 
 }

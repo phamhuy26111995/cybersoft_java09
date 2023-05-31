@@ -17,6 +17,7 @@ public class CourseDto extends BaseDTO {
     private int lecturesCount;
     private double price;
     private int hourCount;
+    private Integer categoryId;
     @JsonIgnore
     private Category category;
     private String categoryTitle;

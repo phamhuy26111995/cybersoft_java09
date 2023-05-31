@@ -3,8 +3,8 @@ package com.cybersoft.admin.controller;
 import com.cybersoft.common.AppUtils;
 import com.cybersoft.common.BaseDTO;
 import com.cybersoft.consts.Consts;
-import com.cybersoft.dto.CourseContentDto;
-import com.cybersoft.dto.SearchCourseDto;
+import com.cybersoft.dto.*;
+import com.cybersoft.entity.CourseEntity;
 import com.cybersoft.model.courses.CourseSearchModel;
 import com.cybersoft.service.CourseContentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.cybersoft.dto.CourseDto;
 import com.cybersoft.service.CourseService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +28,7 @@ public class AdminCourseController {
 
 
 	//Trả về khóa học cuối cùng nằm trong danh sách
-	@GetMapping("/find-by-id")
+	@PostMapping("/detail")
 	public Object getLastCourse(@RequestBody CourseDto dto) {
 		try {
 			CourseDto result = courseService.findById(dto.getId());
@@ -71,7 +70,20 @@ public class AdminCourseController {
 	@PostMapping("/save")
 	public Object save(@RequestPart CourseDto dto, @RequestPart MultipartFile file) {
 		try {
-			courseService.save(dto, file);;
+			CourseEntity savedEntity = courseService.save(dto, file);;
+			return new ResponseEntity<Object>(savedEntity.getId(),HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+
+
+
+	@PostMapping("/save-content")
+	public Object saveContent(@RequestBody CourseContentBody body) {
+		try {
+			courseContentService.save(body);
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,10 +91,10 @@ public class AdminCourseController {
 		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 	}
 
-	@PostMapping("/save-content")
-	public Object saveContent(@RequestBody List<CourseContentDto> dto) {
+	@PostMapping("/edit-content")
+	public Object updateContent(@RequestBody CourseContentBody body) {
 		try {
-			courseContentService.save(dto);
+			courseContentService.save(body);
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,8 +105,20 @@ public class AdminCourseController {
 	@PutMapping("/edit")
 	public Object edit(@RequestPart CourseDto dto, MultipartFile file) {
 		try {
-			courseService.update(dto, file);;
-			return new ResponseEntity<Object>(HttpStatus.CREATED);
+			CourseEntity entity =  courseService.update(dto, file);;
+			return new ResponseEntity<Object>(entity.getId(),HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+	}
+
+	@PutMapping("/edit-content")
+	public Object editContent(@RequestBody CourseContentUpdateWraper wraperDto) {
+		try {
+			courseContentService.save(wraperDto.getCourseContentBody());
+			courseContentService.delete(wraperDto.getCourseContentDeleteDto());
+			return new ResponseEntity<Object>(HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

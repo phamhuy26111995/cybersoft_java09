@@ -12,7 +12,7 @@ import com.cybersoft.model.courses.CourseSearchModel;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface CourseService {
-	void save(CourseDto dto, MultipartFile file);
+	CourseEntity save(CourseDto dto, MultipartFile file);
 	CourseSearchModel getAll(BaseDTO baseDTO);
 
 	CourseSearchModel getCourseByUser(SearchCourseDto dto);
@@ -20,7 +20,7 @@ public interface CourseService {
 	CourseSearchModel search(SearchCourseDto dto);
 
 	CourseDto getById(Long id);
-	void update(CourseDto dto, MultipartFile file);
+	CourseEntity update(CourseDto dto, MultipartFile file);
 	void delete(Long id);
 	List<CourseDto> getCourseByUserEmail(String email);
 	List<CourseDto> getCourseByCategory(int id);

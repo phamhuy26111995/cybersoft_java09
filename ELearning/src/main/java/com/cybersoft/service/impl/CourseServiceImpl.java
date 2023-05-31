@@ -7,14 +7,9 @@ import com.cybersoft.common.AppUtils;
 import com.cybersoft.common.BaseDTO;
 import com.cybersoft.common.IndentifyUser;
 import com.cybersoft.dto.*;
-import com.cybersoft.entity.CourseContentEntity;
-import com.cybersoft.entity.CourseEntity;
-import com.cybersoft.entity.User;
-import com.cybersoft.entity.Video;
+import com.cybersoft.entity.*;
 import com.cybersoft.model.courses.CourseSearchModel;
-import com.cybersoft.repository.CourseContentRepository;
-import com.cybersoft.repository.UserRepository;
-import com.cybersoft.repository.VideoRepository;
+import com.cybersoft.repository.*;
 import com.cybersoft.service.CloudinaryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.cybersoft.repository.CourseRepository;
 import com.cybersoft.service.CourseService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +29,9 @@ import javax.transaction.Transactional;
 public class CourseServiceImpl implements CourseService {
 	@Autowired
 	private CourseRepository courseRepository;
+
+	@Autowired
+	private CategoryRepository categoryRepository;
 	@Autowired
 	private VideoRepository videoRepository;
 	@Autowired
@@ -139,18 +136,18 @@ public class CourseServiceImpl implements CourseService {
 	
 	//Thêm mới một course
 	@Override
-	public void save(CourseDto dto, MultipartFile file) {
+	public CourseEntity save(CourseDto dto, MultipartFile file) {
 
 		CourseEntity entity = new CourseEntity();
 
 		CourseEntity courseEntitySaved = courseRepository.save(setDataEntity(entity, dto, file));
 
-		saveCourseContent(dto.getCourseContentDtoList(), courseEntitySaved);
+//		saveCourseContent(dto.getCourseContentDtoList(), courseEntitySaved);
 
 		Set<CourseEntity> courseEntitySet = null;
 		Optional<User> user = userRepository.findById(IndentifyUser.getIdPrincipal());
 		if(!user.isPresent()) {
-			return;
+			return null;
 		}
 
 		courseEntitySet = user.get().getUserCourse();
@@ -160,7 +157,7 @@ public class CourseServiceImpl implements CourseService {
 
 		userRepository.save(user.get());
 
-
+		return courseEntitySaved;
 	}
 
 	private CourseEntity setDataEntity(CourseEntity entity, CourseDto dto, MultipartFile file) {
@@ -169,13 +166,15 @@ public class CourseServiceImpl implements CourseService {
 		entity.setHourCount(dto.getHourCount());
 		entity.setDiscount(dto.getDiscount());
 		entity.setPrice(dto.getPrice());
+		entity.setPromotionPrice(dto.getPromotionPrice());
 		entity.setDescription(dto.getDescription());
 		entity.setContent(dto.getContent());
 		entity.setDescription(dto.getDescription());
 		entity.setTitle(dto.getTitle());
 
-		if(dto.getCategory() != null) {
-			entity.setCategory(dto.getCategory());
+		if(dto.getCategoryId() != null) {
+			Category categoryEntity = categoryRepository.getOne(dto.getCategoryId());
+			entity.setCategory(Optional.of(categoryEntity).orElse(null));
 		}
 
 		if(file != null) {
@@ -222,14 +221,9 @@ public class CourseServiceImpl implements CourseService {
 
 	//Edit một course
 	@Override
-	public void update(CourseDto dto ,MultipartFile file) {
+	public CourseEntity update(CourseDto dto ,MultipartFile file) {
 		Optional<CourseEntity> entityOptional = courseRepository.findById(dto.getId());
-		if(!entityOptional.isPresent()) {
-			return;
-		}
-
-		courseRepository.save(setDataEntity(entityOptional.get(), dto, file));
-
+		return entityOptional.map(courseEntity -> courseRepository.save(setDataEntity(courseEntity, dto, file))).orElse(null);
 	}
 	
 	//Xóa một course
@@ -291,6 +285,8 @@ public class CourseServiceImpl implements CourseService {
 	public CourseDto findById(Long id) {
 
 		Optional<CourseEntity> courseEntityOptional = courseRepository.findById(id);
+		List<CourseContentDto> courseContentDtoList = new ArrayList<>();
+		List<VideoDto> videoDtos = new ArrayList<>();
 		if(!courseEntityOptional.isPresent()) {
 			return null;
 		}
@@ -298,6 +294,27 @@ public class CourseServiceImpl implements CourseService {
 		CourseDto dto = new CourseDto();
 		modelMapper.getConfiguration().setSkipNullEnabled(true);
 		modelMapper.map(courseEntityOptional.get(), dto);
+
+		for(CourseContentEntity courseContentEntity : courseEntityOptional.get().getCourseContents()) {
+			CourseContentDto courseContentDto = new CourseContentDto();
+
+			for(Video video : courseContentEntity.getVideos()) {
+				VideoDto videoDto = new VideoDto();
+				videoDto.setId(video.getId());
+				videoDto.setUrl(video.getUrl());
+				videoDto.setTitle(video.getTitle());
+				videoDto.setTimeCount(video.getTimeCount());
+
+				videoDtos.add(videoDto);
+			}
+			courseContentDto.setContent(courseContentEntity.getContent());
+			courseContentDto.setVideoDtos(videoDtos);
+			courseContentDto.setId(courseContentEntity.getId());
+
+			courseContentDtoList.add(courseContentDto);
+		}
+
+		dto.setCourseContentDtoList(courseContentDtoList);
 
 		return dto;
 	}
