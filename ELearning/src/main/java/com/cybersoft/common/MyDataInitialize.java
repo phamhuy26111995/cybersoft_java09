@@ -21,14 +21,10 @@ public class MyDataInitialize implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("using environment: " + myConfig.getEnvironment());
-        System.out.println("name: " + myConfig.getName());
-        System.out.println("servers: " + myConfig.getServers());
 //        List<Role> roles = Arrays.asList(
 //                new Role("ROLE_ADMIN", "ADMIN"),
 //                new Role("ROLE_TEACHER", "TEACHER"),
 //                new Role("ROLE_STUDENT", "STUDENT"));
-//
 //        roleRepository.saveAll(roles);
     }
 }

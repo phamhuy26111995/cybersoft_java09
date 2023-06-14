@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.cybersoft.entity.User;
 import com.cybersoft.dto.UserDto;
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, Long>, UserRepositoryCustom {
 	//Tìm kiếm thông tin User bao gồm Role Description để hiển thị lên Front End
 	@Query("SELECT new com.cybersoft.dto.UserDto(u.id, u.fullname, u.email, r.description) FROM User u JOIN Role r ON u.roleId = r.id")
 	public List<UserDto> findAllUser();

@@ -2,25 +2,29 @@ package com.cybersoft.admin.controller;
 
 import com.cybersoft.common.IndentifyUser;
 import com.cybersoft.consts.Consts;
-import com.cybersoft.dto.UserDetailFilterDto;
-import com.cybersoft.dto.UserFilterDto;
-import com.cybersoft.dto.UserLoginSuccessDto;
+import com.cybersoft.dto.*;
 import com.cybersoft.model.users.UsersModel;
+import com.cybersoft.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.cybersoft.dto.UserDto;
 import com.cybersoft.service.CourseService;
 import com.cybersoft.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(Consts.PREFIX_ADMIN + "/users")
 public class AdminUserController {
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private RoleService roleService;
+
 	@Autowired
 	private CourseService courseService;
 
@@ -30,8 +34,19 @@ public class AdminUserController {
 		return new ResponseEntity<UsersModel>(result, HttpStatus.OK);
 	}
 
+	@GetMapping("/init")
+	public Object init() {
+		try {
+			UserInitDto initDto = new UserInitDto();
+			initDto.setRoles(roleService.getAllRoleIsNotAdmin());
+			return new ResponseEntity<Object>(initDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 //Get User theo id
-	@GetMapping("/detail")
+	@PostMapping("/detail")
 	public Object getDetail(@RequestBody UserDetailFilterDto dto) {
 		try {
 			UserDto user = userService.getById(dto.getId());
@@ -40,6 +55,17 @@ public class AdminUserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@PostMapping("/search")
+	public Object search(@RequestBody UserSearchDto searchDto) {
+		try {
+			UsersModel result = userService.search(searchDto);
+			return new ResponseEntity<Object>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 
 	@GetMapping("/get-current-user")
 	public Object getCurrentUser() {
@@ -66,8 +92,8 @@ public class AdminUserController {
 	@PostMapping("/save")
 	public Object save(@RequestPart UserDto dto, @RequestPart MultipartFile file) {
 		try {
-			userService.save(dto, file);
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			long userId = userService.save(dto, file);
+			return new ResponseEntity<Object>(userId,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}

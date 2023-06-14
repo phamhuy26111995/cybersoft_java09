@@ -24,51 +24,52 @@ import com.cybersoft.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 
 public class AuthFilter extends BasicAuthenticationFilter {
-	private UserDetailsService userDetailsService;
-	
-	public AuthFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
-			super(authenticationManager);
-			this.userDetailsService = userDetailsService;
-			
-		
-	}
-	
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		//Các Api bắt đầu bằng các ký tự này sẽ được đi qua filter mà không cần Token
-		if(request.getServletPath().startsWith("/api/v1/admin/auth") || request.getServletPath().startsWith("/api/auth") || request.getServletPath().startsWith("/" + Consts.PREFIX_PUBLIC + "/register")) {
-			chain.doFilter(request, response);
-			return;
-		}
-		//Lấy token để giải mã ra thông tin email , nếu hợp lệ thì cho đi qua filter 
-		String tokenHeader = request.getHeader("Authorization");
-		if(tokenHeader != null && !tokenHeader.isEmpty() && tokenHeader.startsWith("Bearer ")) {
-			String token = tokenHeader.replace("Bearer ","");
-			
-			String email = Jwts.parser()
-			.setSigningKey("ABC_EGH")
-			.parseClaimsJws(token)
-			.getBody()
-			.getSubject();	
-			
-			UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-			
-			
-			
-			
-			Authentication authentication = 
-					new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-			
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			chain.doFilter(request, response);
-			
-			}
-		else {
-			//Nếu không hợp lệ thì trả về response này
-			response.sendError(401,"Chưa đăng nhập");
-		}
-	}
-	
-	
+    private UserDetailsService userDetailsService;
+
+    public AuthFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+        super(authenticationManager);
+        this.userDetailsService = userDetailsService;
+
+
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        //Các Api bắt đầu bằng các ký tự này sẽ được đi qua filter mà không cần Token
+        if (request.getServletPath().startsWith("/api/v1/admin/auth")
+				|| request.getServletPath().startsWith("/api/auth")
+				|| request.getServletPath().startsWith("/" + Consts.PREFIX_PUBLIC + "/register")
+				|| request.getServletPath().startsWith("/" + Consts.PREFIX_ADMIN + "/register")
+		) {
+            chain.doFilter(request, response);
+            return;
+        }
+        //Lấy token để giải mã ra thông tin email , nếu hợp lệ thì cho đi qua filter
+        String tokenHeader = request.getHeader("Authorization");
+        if (tokenHeader != null && !tokenHeader.isEmpty() && tokenHeader.startsWith("Bearer ")) {
+            String token = tokenHeader.replace("Bearer ", "");
+
+            String email = Jwts.parser()
+                    .setSigningKey("ABC_EGH")
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            chain.doFilter(request, response);
+
+        } else {
+            //Nếu không hợp lệ thì trả về response này
+            response.sendError(401, "Chưa đăng nhập");
+        }
+    }
+
+
 }

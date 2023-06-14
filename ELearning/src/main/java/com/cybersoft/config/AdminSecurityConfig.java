@@ -54,7 +54,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable() // TẮT CHỨC NĂNG CHỐNG TẤN CÔNG GIẢ MẠO REQUEST
 		.antMatcher("/api/v1/admin/**")
 		.authorizeRequests()
-		.antMatchers("/api/v1/admin/auth/login")
+		.antMatchers("/api/v1/admin/auth/login", "/api/v1/admin/register")
 		.permitAll()
 		.antMatchers("/api/v1/admin/role/**")
 		.hasAnyRole("ADMIN")

@@ -66,4 +66,9 @@ public class RoleServiceImpl implements RoleService{
 	public void delete(int id) {
 		roleRepository.deleteById(id);
 	}
+
+	@Override
+	public List<RoleDto> getAllRoleIsNotAdmin() {
+		return roleRepository.findAllRoleIsNotAdmin();
+	}
 }

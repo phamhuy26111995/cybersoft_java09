@@ -1,0 +1,16 @@
+INDEX VERSION 1.4+H:\GitHub\cybersoft_java09\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2895201501.index
+1672528470.index
+1921391038.index
+2589574380.index
+1158628588.index
+1376177792.index
+2236837599.index
+835645286.index
+3196763978.index
+3447650528.index
+3108675189.index
+1804147122.index
+2662613278.index
+1722258201.index
+2408171840.index

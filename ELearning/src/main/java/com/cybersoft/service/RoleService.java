@@ -11,4 +11,5 @@ public interface RoleService {
 	RoleDto getById(int id);
 	void edit(RoleDto dto);
 	void delete(int id);
+	List<RoleDto> getAllRoleIsNotAdmin();
 }

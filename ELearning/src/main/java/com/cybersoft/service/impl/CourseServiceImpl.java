@@ -286,7 +286,7 @@ public class CourseServiceImpl implements CourseService {
 
 		Optional<CourseEntity> courseEntityOptional = courseRepository.findById(id);
 		List<CourseContentDto> courseContentDtoList = new ArrayList<>();
-		List<VideoDto> videoDtos = new ArrayList<>();
+
 		if(!courseEntityOptional.isPresent()) {
 			return null;
 		}
@@ -297,14 +297,13 @@ public class CourseServiceImpl implements CourseService {
 
 		for(CourseContentEntity courseContentEntity : courseEntityOptional.get().getCourseContents()) {
 			CourseContentDto courseContentDto = new CourseContentDto();
-
+			List<VideoDto> videoDtos = new ArrayList<>();
 			for(Video video : courseContentEntity.getVideos()) {
 				VideoDto videoDto = new VideoDto();
 				videoDto.setId(video.getId());
 				videoDto.setUrl(video.getUrl());
 				videoDto.setTitle(video.getTitle());
 				videoDto.setTimeCount(video.getTimeCount());
-
 				videoDtos.add(videoDto);
 			}
 			courseContentDto.setContent(courseContentEntity.getContent());
@@ -318,6 +317,7 @@ public class CourseServiceImpl implements CourseService {
 
 		return dto;
 	}
+
 
 }
 

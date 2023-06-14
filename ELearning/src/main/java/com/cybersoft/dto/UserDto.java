@@ -2,6 +2,8 @@ package com.cybersoft.dto;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.cybersoft.common.BaseDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDto {
+public class UserDto  extends BaseDTO {
 	
 	private Long id;
 	@NotEmpty(message = "Vui lòng nhập tên")
@@ -29,6 +31,7 @@ public class UserDto {
 	private int roleId;
 	private String roleDesc;
 
+	@JsonIgnore
 	private Set<CourseDto> courseList;
 	
 	public UserDto() {}
@@ -47,6 +50,14 @@ public class UserDto {
 		this.fullname = fullname;
 		this.email = email;
 		this.roleDesc = roleDesc;
+	}
+
+	public UserDto(Long id, String fullname, String email,String avatar, String roleDesc) {
+		this.id = id;
+		this.fullname = fullname;
+		this.email = email;
+		this.roleDesc = roleDesc;
+		this.avatar = avatar;
 	}
 
 	public UserDto(Long id, String fullname, String email, String roleDesc, int roleId, Set<CourseDto> courseList) {
@@ -68,9 +79,7 @@ public class UserDto {
 		this.roleId = roleId;
 	}
 
-	
-	
-	
+
 	
 
 	public UserDto(Long id, @NotEmpty(message = "Vui lòng nhập tên") String fullname,
