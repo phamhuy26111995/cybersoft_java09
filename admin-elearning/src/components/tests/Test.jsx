@@ -1,9 +1,9 @@
 import React , {useEffect , useState} from "react";
-import { API_URL } from "../consts/path";
-import {API_CALL} from "../api/api_call";
+import { API_URL } from "../../consts/path";
+import {API_CALL} from "../../api/api_call";
 import { useSelector, useDispatch } from 'react-redux';
-import { getAll } from '../redux-slices/categorySlice' 
-import categoryApi from "../api/category/category_api";
+import { getAll } from '../../redux-slices/categorySlice' 
+import categoryApi from "../../api/category/category_api";
 
 
 function Test() {
@@ -48,7 +48,28 @@ function Test() {
     },[])
 
     console.log(categories)
-    return <h1>Hello world</h1>
+    return (
+        <React.Fragment>
+            <div className="test-container">
+                <div className="test-input">
+                    <span>Label</span>
+                    <input />
+                </div>
+                <div className="test-input">
+                    <span>Label</span>
+                    <input />
+                </div>
+                <div className="test-input">
+                    <span>Label</span>
+                    <input />
+                </div>
+                <div className="test-input">
+                    <span>Label</span>
+                    <input />
+                </div>
+            </div>
+        </React.Fragment>
+    )
 }
 
 export default Test;

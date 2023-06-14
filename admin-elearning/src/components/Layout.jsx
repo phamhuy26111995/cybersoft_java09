@@ -1,7 +1,6 @@
 import React from "react";
 import { LEFT_MENU } from "./LeftMenu";
 import { Layout, Menu, theme } from "antd";
-import Test from "./Test";
 import Logout from "./Logout";
 import ElearningImage from "../assets/Elearning.png";
 

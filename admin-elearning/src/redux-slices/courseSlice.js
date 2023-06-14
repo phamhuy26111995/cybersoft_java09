@@ -4,10 +4,9 @@ import {
   showLoading,
   hideLoading,
   showError,
-  showSuccess
+  showSuccess,
 } from "../redux-slices/globalSlice";
 import { PAGE_URL } from "../consts/path";
-
 
 const initialState = {
   courses: [],
@@ -50,17 +49,19 @@ export const saveCourse = createAsyncThunk(
     thunkAPI.dispatch(showLoading());
     try {
       const response = await courseApi.save(body.courseInfo);
-      
+
       let courseContentBody = {
-        courseId : +response.data,
-        ...body.courseContentInfo
-      }
+        courseId: +response.data,
+        ...body.courseContentInfo,
+      };
       await courseApi.saveCourseContent(courseContentBody);
       thunkAPI.dispatch(hideLoading());
-      thunkAPI.dispatch(showSuccess('Lưu thông tin khóa học thành công'))
-      thunkAPI.dispatch(getDetail({id : +response.data}))
-    
-      window.location.assign(PAGE_URL.COURSES.DETAIL.replace(':id', `${response.data}`))
+      thunkAPI.dispatch(showSuccess("Lưu thông tin khóa học thành công"));
+      thunkAPI.dispatch(getDetail({ id: +response.data }));
+
+      window.location.assign(
+        PAGE_URL.COURSES.DETAIL.replace(":id", `${response.data}`)
+      );
     } catch (err) {
       console.log(err);
       thunkAPI.dispatch(hideLoading());
@@ -76,19 +77,22 @@ export const editCourse = createAsyncThunk(
     try {
       const response = await courseApi.update(body.courseInfo);
       let courseContentBody = {
-        courseId : +response.data,
-        ...body.courseContentInfo
-      }
-      
-      let courseContentDeleteDto = {
-        deleteCourseContent : body.deleteCourseContent ,
-        deleteVideo : body.deleteVideo ,
-      }
+        courseId: +response.data,
+        ...body.courseContentInfo,
+      };
 
-      await courseApi.updateContent({courseContentBody : courseContentBody, courseContentDeleteDto: courseContentDeleteDto});
+      let courseContentDeleteDto = {
+        deleteCourseContent: body.deleteCourseContent,
+        deleteVideo: body.deleteVideo,
+      };
+
+      await courseApi.updateContent({
+        courseContentBody: courseContentBody,
+        courseContentDeleteDto: courseContentDeleteDto,
+      });
       thunkAPI.dispatch(hideLoading());
-      thunkAPI.dispatch(getDetail({id : +response.data}))
-      thunkAPI.dispatch(showSuccess('Thay đổi thông tin khóa học thành công'))
+      thunkAPI.dispatch(getDetail({ id: +response.data }));
+      thunkAPI.dispatch(showSuccess("Thay đổi thông tin khóa học thành công"));
     } catch (err) {
       console.log(err);
       thunkAPI.dispatch(hideLoading());
@@ -116,27 +120,26 @@ export const courseSlice = createSlice({
   name: "course",
   initialState,
   reducers: {
-
     clearState: (state, action) => {
       return initialState;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCourseByCondition.fulfilled, (state, action) => {
-      // Add user to the state array
-      state.courses = action.payload.content;
-    }).addCase(getDetail.fulfilled, (state, action) => {
-      let data = action.payload;
-      state.courseDetail = action.payload;
-
-      state.courseDetail.fileFromServer = {
-        uid: '-1',
-        name : `${state.courseDetail.image}`,
-        status : 'done',
-        url : `${state.courseDetail.image}`,
-        thumbUrl: `${state.courseDetail.image}`
-      }
-    })
+    builder
+      .addCase(fetchCourseByCondition.fulfilled, (state, action) => {
+        // Add user to the state array
+        state.courses = action.payload.content;
+      })
+      .addCase(getDetail.fulfilled, (state, action) => {
+        state.courseDetail = action.payload;
+        state.courseDetail.fileFromServer = {
+          uid: "-1",
+          name: `${state.courseDetail.image}`,
+          status: "done",
+          url: `${state.courseDetail.image}`,
+          thumbUrl: `${state.courseDetail.image}`,
+        };
+      });
   },
 });
 

@@ -43,7 +43,10 @@ export const API_URL = {
   },
 
   USER: {
-    FIND_BY_ID: `${api_url}/${prefix}/users/find-by-id`,
     GET_CURRENT: `${api_url}/${prefix}/users/get-current-user`,
+    GET_DETAIL: `${api_url}/${prefix}/users/detail`,
+    SEARCH: `${api_url}/${prefix}/users/search`,
+    INIT: `${api_url}/${prefix}/users/init`,
+    SAVE: `${api_url}/${prefix}/users/save`,
   },
 };

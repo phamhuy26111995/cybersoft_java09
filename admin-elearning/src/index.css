@@ -100,3 +100,16 @@ button:focus-visible {
   align-items: center;
 }
 
+.test-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.test-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+

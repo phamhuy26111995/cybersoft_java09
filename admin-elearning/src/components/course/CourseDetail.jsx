@@ -107,7 +107,6 @@ function CourseDetail() {
     setDeleteVideo([]);
   };
 
-  console.log(courseDetail);
   return (
     <React.Fragment>
       <PageHeader title="Chi tiết khóa học" backUrl={PAGE_URL.COURSES.INDEX} />
