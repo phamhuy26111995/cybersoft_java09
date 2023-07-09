@@ -11,6 +11,7 @@ import { PAGE_URL } from "../consts/path";
 const initialState = {
   courses: [],
   courseDetail: undefined,
+  total : 0
 };
 
 export const fetchAllCourse = createAsyncThunk(
@@ -129,6 +130,7 @@ export const courseSlice = createSlice({
       .addCase(fetchCourseByCondition.fulfilled, (state, action) => {
         // Add user to the state array
         state.courses = action.payload.content;
+        state.total = action.payload.total;
       })
       .addCase(getDetail.fulfilled, (state, action) => {
         state.courseDetail = action.payload;

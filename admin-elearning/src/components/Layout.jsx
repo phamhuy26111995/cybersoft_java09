@@ -27,9 +27,9 @@ const MainLayout = (props) => {
             height: 32,
             width: '100%',
             margin: 16,
-            background: 'red'
           }}
-        ></div>
+        >
+        </div>
         <Menu
           theme="dark"
           mode="inline"

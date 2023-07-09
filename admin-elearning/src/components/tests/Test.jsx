@@ -4,6 +4,7 @@ import {API_CALL} from "../../api/api_call";
 import { useSelector, useDispatch } from 'react-redux';
 import { getAll } from '../../redux-slices/categorySlice' 
 import categoryApi from "../../api/category/category_api";
+import '../../styles/_main.scss';
 
 
 function Test() {
@@ -67,6 +68,7 @@ function Test() {
                     <span>Label</span>
                     <input />
                 </div>
+                <div className="test-scss">Hello world</div>
             </div>
         </React.Fragment>
     )

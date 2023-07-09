@@ -1,11 +1,10 @@
 package com.cybersoft.service.impl;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.cybersoft.common.AppUtils;
 import com.cybersoft.common.BaseDTO;
-import com.cybersoft.common.IndentifyUser;
+import com.cybersoft.common.IdentifyUser;
 import com.cybersoft.dto.*;
 import com.cybersoft.entity.*;
 import com.cybersoft.model.courses.CourseSearchModel;
@@ -16,13 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.cybersoft.service.CourseService;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 
 @Service
@@ -105,7 +102,9 @@ public class CourseServiceImpl implements CourseService {
 	public CourseSearchModel search(SearchCourseDto dto) {
 		CourseSearchModel result = new CourseSearchModel();
 		List<CourseDto> dtos = courseRepository.findCourseByCondition(dto);
+		long total = courseRepository.countCourseByCondition(dto);
 		result.setContent(dtos);
+		result.setTotal(total);
 		AppUtils.createOrderNumber(result.getContent(), dto.getPageIndex(), dto.getPageSize());
 
 		return result;
@@ -145,7 +144,7 @@ public class CourseServiceImpl implements CourseService {
 //		saveCourseContent(dto.getCourseContentDtoList(), courseEntitySaved);
 
 		Set<CourseEntity> courseEntitySet = null;
-		Optional<User> user = userRepository.findById(IndentifyUser.getIdPrincipal());
+		Optional<User> user = userRepository.findById(IdentifyUser.getIdPrincipal());
 		if(!user.isPresent()) {
 			return null;
 		}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAll } from "../../redux-slices/categorySlice";
+import { getAll ,exportExcel } from "../../redux-slices/categorySlice";
 import { Link } from "react-router-dom";
 import {
   showLoading,
@@ -9,7 +9,7 @@ import {
 } from "../../redux-slices/globalSlice";
 import categoryApi from "../../api/category/category_api";
 import { useEffect } from "react";
-import { Card, Table, Image } from "antd";
+import { Card, Table, Image, Button } from "antd";
 import PageHeader from "../PageHeader";
 import { EyeFilled } from "@ant-design/icons";
 import { PAGE_URL } from "../../consts/path";
@@ -84,6 +84,7 @@ function Category() {
           />
         </Table>
       </Card>
+      <Button onClick={() => dispatch(exportExcel())}>Export Excel`</Button>
     </React.Fragment>
   );
 }

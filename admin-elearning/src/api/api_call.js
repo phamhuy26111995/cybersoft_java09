@@ -137,4 +137,29 @@ export const API_CALL = {
       throw new Error(e.message);
     }
   },
+
+  exportExcel: async (url, body) => {
+    let token = localStorage.getItem(ACCESS_TOKEN);
+    if (!token) {
+      redirect(PAGE_URL.LOGIN);
+      return;
+    }
+    let response = null;
+    debugger
+    try {
+      response = await axios({
+        method: "GET",
+        url: url,
+        responseType: "blob",
+        headers: {
+          "Content-Type": "application/octet-stream",
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      return response.data;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  },
 };

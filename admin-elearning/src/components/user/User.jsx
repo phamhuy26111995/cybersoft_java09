@@ -47,7 +47,18 @@ function User() {
         size="default"
         title="Kết quả"
       >
-        <Table dataSource={userList}>
+        <Table dataSource={userList}
+          pagination={{
+            total: total,
+          }}
+          onChange={(pagination) => {
+            setBody({
+              ...body,
+              pageIndex: pagination.current,
+              pageSize: pagination.pageSize,
+            });
+          }}
+        >
           <Column
             key={"action"}
             title="Số thứ tự"

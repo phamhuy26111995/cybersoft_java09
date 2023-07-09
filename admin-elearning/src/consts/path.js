@@ -30,6 +30,7 @@ export const API_URL = {
     GET_BY_ID: `${api_url}/${prefix}/categories/:id`,
     SAVE: `${api_url}/${prefix}/categories/save`,
     UPDATE: `${api_url}/${prefix}/categories/edit`,
+    EXPORT_EXCEL: `${api_url}/${prefix}/categories/export-excel`,
   },
 
   COURSES: {

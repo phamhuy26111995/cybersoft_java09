@@ -2,7 +2,6 @@ package com.cybersoft.admin.controller;
 
 import javax.validation.Valid;
 
-import com.cybersoft.common.IndentifyUser;
 import com.cybersoft.consts.Consts;
 import com.cybersoft.dto.UserDto;
 import com.cybersoft.dto.UserLoginSuccessDto;
@@ -10,7 +9,6 @@ import com.cybersoft.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

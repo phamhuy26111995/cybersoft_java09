@@ -15,6 +15,24 @@ export const fetchCategories = createAsyncThunk(
 );
 
 
+export const exportExcel = createAsyncThunk(
+  "category/exportExcel",
+  async () => {
+    const blob = await categoryApi.exportExcel();
+    const excelUrl = URL.createObjectURL(new Blob([blob], {type: 'application/vnd.ms-excel'}));
+
+    // Biểu thức dưới đây không thể sử dụng trong addCase
+    const downloadLink = document.createElement('a');
+    downloadLink.href = excelUrl;
+    downloadLink.download = 'category.xlsx';
+    downloadLink.textContent = 'Download Excel File';
+    
+    downloadLink.click();
+    URL.revokeObjectURL(excelUrl);
+  }
+);
+
+
 export const categorySlice = createSlice({
   name: "category",
   initialState,

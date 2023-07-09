@@ -1,6 +1,6 @@
 package com.cybersoft.admin.controller;
 
-import com.cybersoft.common.IndentifyUser;
+import com.cybersoft.common.IdentifyUser;
 import com.cybersoft.consts.Consts;
 import com.cybersoft.dto.*;
 import com.cybersoft.model.users.UsersModel;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import com.cybersoft.service.CourseService;
 import com.cybersoft.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(Consts.PREFIX_ADMIN + "/users")
@@ -70,7 +68,7 @@ public class AdminUserController {
 	@GetMapping("/get-current-user")
 	public Object getCurrentUser() {
 		try {
-			UserDto userDto = userService.getById(IndentifyUser.getIdPrincipal());
+			UserDto userDto = userService.getById(IdentifyUser.getIdPrincipal());
 
 			if(userDto == null) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

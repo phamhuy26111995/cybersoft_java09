@@ -2,6 +2,7 @@ package com.cybersoft.admin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.cybersoft.common.AppUtils;
@@ -90,6 +91,20 @@ public class AdminCategoryController {
 
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping("/export-excel")
+	public void exportExcel(HttpServletResponse response) {
+		try {
+			response.setContentType("application/octet-stream");
+			String headerKey = "Content-Disposition";
+			String headerValue = "attachment; filename=categories.xlsx";
+			response.setHeader(headerKey, headerValue);
+
+			categoryService.exportExcel(response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

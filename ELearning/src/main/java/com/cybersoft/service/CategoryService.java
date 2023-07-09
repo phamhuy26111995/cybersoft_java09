@@ -6,11 +6,13 @@ import com.cybersoft.dto.CategoryDto;
 import com.cybersoft.dto.RoleDto;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface CategoryService {
 	List<CategoryDto> getAll();
 	CategoryDto getById(int id);
 	CategoryDto save(CategoryDto dto, MultipartFile file);
 	CategoryDto edit(CategoryDto dto, MultipartFile file);
 	void delete(int id);
-	
+	void exportExcel(HttpServletResponse response);
 }

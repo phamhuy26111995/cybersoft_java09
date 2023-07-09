@@ -5,7 +5,8 @@ const categoryApi = {
   getAll,
   getById,
   save,
-  update
+  update,
+  exportExcel
 };
 
 function getAll() {
@@ -21,6 +22,9 @@ function save(body) {
 }
 function update(body) {
   return API_CALL.putFormData(API_URL.CATEGORIES.UPDATE, body);
+}
+function exportExcel(body) {
+  return API_CALL.exportExcel(API_URL.CATEGORIES.EXPORT_EXCEL, body);
 }
 
 export default categoryApi;

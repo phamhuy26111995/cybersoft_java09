@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cybersoft.common.CurrentUser;
-import com.cybersoft.common.IndentifyUser;
+import com.cybersoft.common.IdentifyUser;
 import com.cybersoft.dto.UserDto;
 import com.cybersoft.service.UserService;
 
@@ -25,8 +25,8 @@ public class UserController {
 	@GetMapping("")
 	public Object getById() {
 		try {
-			UserDto dto = userService.getById(IndentifyUser.getIdPrincipal());
-			System.out.println(IndentifyUser.getIdPrincipal());
+			UserDto dto = userService.getById(IdentifyUser.getIdPrincipal());
+			System.out.println(IdentifyUser.getIdPrincipal());
 			return new ResponseEntity<Object>(dto, HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			e.printStackTrace();

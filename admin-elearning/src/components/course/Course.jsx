@@ -21,15 +21,21 @@ const { Column } = Table;
 function Course() {
   const [body, setBody] = useState({ ...commonProps.defaultPaginate });
   let courseList = useSelector((state) => state.course.courses);
+  let total = useSelector((state) => state.course.total);
+
   const navigate = useNavigate();
   let dispatch = useDispatch();
+
+  const handleChangePage = (pagination) => {
+    setBody({
+      ...body,
+      pageIndex: pagination.current,
+      pageSize: pagination.pageSize,
+    });
+  };
   useEffect(() => {
     dispatch(fetchCourseByCondition(body));
-
-    return () => {
-      dispatch(hideLoading());
-    };
-  }, []);
+  }, [body]);
 
   return (
     <React.Fragment>
@@ -54,7 +60,13 @@ function Course() {
         size="default"
         title="Kết quả"
       >
-        <Table dataSource={courseList}>
+        <Table
+          dataSource={courseList}
+          pagination={{
+            total: total,
+            onChange : handleChangePage
+          }}
+        >
           <Column
             key={"action"}
             title="Số thứ tự"

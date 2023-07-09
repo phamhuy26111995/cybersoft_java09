@@ -1,0 +1,14 @@
+.custom-component-one {
+    .ant-table-thead {
+        .ant-table-cell {
+            background-color: red;
+            border: 1px solid blue;
+        }
+    }
+    
+    .ant-table-tbody {
+        .ant-table-cell {
+            background-color: blue;
+        }
+    }
+}

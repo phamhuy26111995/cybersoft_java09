@@ -10,6 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 public class CourseSearchModel {
-    private Long total;
+    private long total;
     private List<CourseDto> content;
 }

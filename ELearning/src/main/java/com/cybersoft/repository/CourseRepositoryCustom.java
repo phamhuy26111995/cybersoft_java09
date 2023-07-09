@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface CourseRepositoryCustom {
     List<CourseDto> findCourseByCondition(SearchCourseDto searchCourseDto);
+
+    long countCourseByCondition(SearchCourseDto searchCourseDto);
 }
