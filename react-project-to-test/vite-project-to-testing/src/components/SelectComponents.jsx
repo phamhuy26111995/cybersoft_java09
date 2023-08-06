@@ -1,9 +1,7 @@
 import React from "react";
 import { Select, Spin } from "antd";
 import { useEffect } from "react";
-import 'antd/dist/antd.css'
-// import "../styles/_main.scss";
-// import "../styles/_custom.scss";
+
 
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPagingUsers, fetchUsers } from "../redux-slices/userSlice";
@@ -19,11 +17,7 @@ function SelectComponents() {
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    dispatch(
-      fetchPagingUsers({ pageNumber: pageNumber, itemsPerPage: recordsPerPage, searchCondition : "" })
-    );
-  }, []);
+
 
   useEffect(() => {
     if (users.length > 0) {
@@ -56,8 +50,7 @@ function SelectComponents() {
 
     }
   };
-  console.log(loading);
-  console.log(pageNumber)
+
   return (
     <React.Fragment>
       <Select

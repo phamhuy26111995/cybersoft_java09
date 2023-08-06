@@ -1,0 +1,98 @@
+.table-base-one {
+  .ant-table {
+    border: none;
+  }
+  .ant-table-thead {
+    & > tr > th {
+      background: rgb(151, 151, 210);
+      border: 1px solid #fff;
+    }
+  }
+  .ant-table-tbody {
+    background-color: yellow;
+    & > tr > td {
+      border: 1px solid #fff;
+    }
+
+    & > tr:hover {
+      background-color: transparent;
+    }
+
+    & > tr.ant-table-row:hover > td {
+      background: transparent;
+    }
+  }
+}
+
+.table-base-two {
+  .ant-table {
+    border: none;
+  }
+  .ant-table-thead {
+    & > tr > th {
+      background: rgb(146, 181, 146);
+      border: 1px solid aqua;
+    }
+  }
+  .ant-table-tbody {
+    background-color: rgb(164, 129, 158);
+    & > tr > td {
+      border: 1px solid aqua;
+    }
+
+    & > tr:hover {
+      background-color: transparent;
+    }
+
+    & > tr.ant-table-row:hover > td {
+      background: transparent;
+    }
+  }
+}
+
+.table-base-three {
+  .ant-table {
+    border: none;
+  }
+  .ant-table-thead {
+    & > tr > th {
+      background: rgb(175, 127, 218);
+      border: 1px solid #fff;
+
+    }
+  }
+  .ant-table-tbody {
+    background-color: palegreen;
+    & > tr > td {
+      border: 1px solid #fff;
+    }
+
+    & > tr:hover {
+      background-color: transparent;
+    }
+
+    & > tr.ant-table-row:hover > td {
+      background: transparent;
+    }
+  }
+
+  .ant-table-cell-fix-left {
+    background: palegreen;
+  }
+  .text-address {
+    width: 150px; /* Set your desired width here */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.table-base-three__modifier {
+    .ant-table-thead {
+        & > tr > th {
+          background: red;
+          border: 1px solid #fff;
+    
+        }
+      }
+}
