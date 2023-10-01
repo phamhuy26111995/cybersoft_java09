@@ -39,8 +39,7 @@ function TableNumberTwo() {
   return (
     <div className="table-number-two-wrapper">
       <Table
-        tableLayout="auto"
-        scroll={{ x: 500 }}
+        scroll={{ x: 500 , y : 300}}
         className="table-base-two"
         dataSource={data}
         pagination={false}
@@ -50,7 +49,7 @@ function TableNumberTwo() {
         <Column dataIndex="address" title="Address" />
         <Column dataIndex="Tags" title="tags" />
         <Column dataIndex="Class" title="clazz" />
-        <Column dataIndex="Eyes" title="SuperLongTUKLdqw;ldkqjwdlkwqjdklwqjdklqwjdlkwq" />
+        <Column dataIndex="Eyes" title="SuperLongTUKLdqw" />
         <Column dataIndex="homeTown" title="SuperLongTitllllllllllllllllllllllllllllllllllllllllllllllllllllllldklajsdlkasjdklsajdklsajdklasj" />
         <Column dataIndex="homeTown" title="HomeTown" />
         <Column dataIndex="homeTown" title="HomeTown" />

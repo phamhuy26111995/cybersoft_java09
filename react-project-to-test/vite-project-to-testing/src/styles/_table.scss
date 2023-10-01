@@ -28,11 +28,23 @@
   .ant-table {
     border: none;
   }
+
+  .ant-table table {
+    width: auto;
+  }
   .ant-table-thead {
     & > tr > th {
       background: rgb(146, 181, 146);
       border: 1px solid aqua;
+      &:not(.ant-table-cell-scrollbar) {
+        padding : 3px 10px;
+      }
+
+      &.ant-table-cell-scrollbar {
+        padding: 0px;
+      }
     }
+    
   }
   .ant-table-tbody {
     background-color: rgb(164, 129, 158);
@@ -48,6 +60,23 @@
       background: transparent;
     }
   }
+
+  &
+    > .ant-spin-nested-loading
+    > .ant-spin-container
+    > .ant-table
+    > .ant-table-container {
+    & > .ant-table-header > table {
+      width: auto;
+    }
+    & > .ant-table-body {
+      width: auto;
+      display: inline-block;
+      & > table {
+        width: auto;
+      }
+    }
+  }
 }
 
 .table-base-three {
@@ -58,7 +87,6 @@
     & > tr > th {
       background: rgb(175, 127, 218);
       border: 1px solid #fff;
-
     }
   }
   .ant-table-tbody {
@@ -88,11 +116,10 @@
 }
 
 .table-base-three__modifier {
-    .ant-table-thead {
-        & > tr > th {
-          background: red;
-          border: 1px solid #fff;
-    
-        }
-      }
+  .ant-table-thead {
+    & > tr > th {
+      background: red;
+      border: 1px solid #fff;
+    }
+  }
 }

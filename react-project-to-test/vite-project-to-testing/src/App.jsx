@@ -22,7 +22,7 @@ function App() {
           <Route key={3} element={<HomePage />} path="/" exact  />
           <Route key={4} element={<IntersectionObserverComponent />} path="/intersection" exact  />
           <Route key={5} element={<InfinitineScroll />} path="/infinitine" exact  />
-          <Route key={6} element={<DebounceComponent />} path="/toggle" exact  />
+          <Route key={6} element={<DebounceComponent />} path="/debounce" exact  />
           <Route key={7} element={<TableComponent />} path="/table" exact  />
         </Routes>
       </BrowserRouter>

@@ -46,7 +46,7 @@ function TableNumberThree() {
         pagination={false}
         className="table-base-three"
         dataSource={data}
-        scroll={{x : 1000}}
+        scroll={{ y : 100}}
       >
         <Column fixed="left" dataIndex="name" title="Name" />
         <Column
@@ -54,30 +54,16 @@ function TableNumberThree() {
           fixed="left"
           dataIndex="address"
           title="Address"
+          
           render={(columnData) => <div className="text-address">
             {columnData}
           </div>}
         />
         <Column dataIndex="age" title="Age" />
         <Column dataIndex="tags" title="tags" />
-        <Column dataIndex="class" title="clazz" />
+        <Column width={150} dataIndex="class" title="clazz" />
         <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
-        <Column dataIndex="eyes" title="eyes" />
+       
       </Table>
     </div>
   );

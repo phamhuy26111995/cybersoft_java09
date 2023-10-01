@@ -2,10 +2,12 @@ import { Divider, Space } from "antd";
 import React from "react";
 import { useState } from "react";
 import "../styles/_table.scss";
+import FixedHeaderTable from "./sub-table/FixedHeaderTable";
 import TableNumberFour from "./sub-table/TableNumberFour";
 import TableNumberOne from "./sub-table/TableNumberOne";
 import TableNumberThree from "./sub-table/TableNumberThree";
 import TableNumberTwo from "./sub-table/TableNumberTwo";
+import UserInfoTable from "./sub-table/UserInfoTable";
 
 
 
@@ -25,7 +27,7 @@ const TableComponent = () => {
   return (
     <React.Fragment>
       <div className="table-container">
-        <TableNumberOne />
+        {/* <TableNumberOne />
         <Divider />
         <Space />
         <TableNumberTwo />
@@ -35,6 +37,10 @@ const TableComponent = () => {
         <Divider />
         <Space />
         <TableNumberFour />
+        <Divider />
+        <Space />
+        <FixedHeaderTable /> */}
+        <UserInfoTable />
       </div>
       {/* {render()} */}
     </React.Fragment>

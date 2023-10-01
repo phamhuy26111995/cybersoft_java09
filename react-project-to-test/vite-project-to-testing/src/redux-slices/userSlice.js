@@ -3,10 +3,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
+  defaultList : [],
+  inputList : []
 };
 
 export const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
-  const response = await fetch('/fake_data/users.json');
+  const response = await fetch('/fake_data/mini_users.json');
   const data = await response.json();
 
   return data;

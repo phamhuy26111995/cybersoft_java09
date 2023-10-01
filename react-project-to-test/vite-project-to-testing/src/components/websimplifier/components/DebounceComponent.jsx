@@ -3,11 +3,15 @@ import useDebounce from "../hooks/useDebounce"
 
 export default function DebounceComponent() {
   const [input, setInput] = useState("10")
-  useDebounce(() => callback(), 1000, [input])
+  const [users , setUsers] = useState([]);
+  useDebounce(() => getUsers(), 1000, [input])
 
 
-  function callback() {
-    fetch('/fake_data/users.json').then(response => response.json()).then(data => console.log(data))
+  async function getUsers() {
+    const response = await fetch('/fake_data/users.json');
+    const data = await response.json();
+
+    setUsers(data.filter(el => el.email.includes(input)))
   }
 
   
@@ -16,6 +20,7 @@ export default function DebounceComponent() {
     <div>
       <span>Search User</span>
       <input type={"text"} onChange={(e) => setInput(e.target.value)} />
+      {users.map(el => <p>{el.email}</p>)}
       
     </div>
   )
