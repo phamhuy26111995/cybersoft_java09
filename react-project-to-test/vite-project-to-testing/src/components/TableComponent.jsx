@@ -8,6 +8,7 @@ import TableNumberOne from "./sub-table/TableNumberOne";
 import TableNumberThree from "./sub-table/TableNumberThree";
 import TableNumberTwo from "./sub-table/TableNumberTwo";
 import UserInfoTable from "./sub-table/UserInfoTable";
+import GroupColumnTable from "./sub-table/GroupColumnTable";
 
 
 
@@ -40,7 +41,8 @@ const TableComponent = () => {
         <Divider />
         <Space />
         <FixedHeaderTable /> */}
-        <UserInfoTable />
+        {/* <UserInfoTable /> */}
+        <GroupColumnTable />
       </div>
       {/* {render()} */}
     </React.Fragment>
