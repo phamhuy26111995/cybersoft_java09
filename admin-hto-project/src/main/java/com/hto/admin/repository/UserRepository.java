@@ -13,8 +13,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("SELECT new com.hto.admin.dto.UserDTO(u.id" +
             ", u.name" +
+            ", u.username" +
             ", u.image" +
-            ", u.image" +
+            ", u.email" +
             ", u.phone" +
             ", u.birthday " +
             ", u.createdAt" +

@@ -12,17 +12,19 @@ import java.util.List;
 @Data
 public class UserDTO extends BaseDTO {
     private String name;
+    private String username;
     private String image;
     private String email;
     private String phone;
     private Date birthday;
     private List<PermissionDTO> userPermission;
 
-    public UserDTO(long id, String name, String image, String email, String phone
+    public UserDTO(long id, String name,String username, String image, String email, String phone
             , Date birthday, Date createdAt, long createdBy
             , Date updatedAt, long updatedBy, String status) {
         super.setId(id);
         this.name = name;
+        this.username = username;
         this.image = image;
         this.email = email;
         this.phone = phone;
