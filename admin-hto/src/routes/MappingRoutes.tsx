@@ -1,6 +1,8 @@
 import CategoryPage from "@/pages/category/CategoryPage";
 import GroupPage from "@/pages/group/GroupPage";
 import PermissionPage from "@/pages/permission/PermissionPage";
+import ProductCreatePage from "@/pages/product/ProductCreatePage";
+import ProductDetailPage from "@/pages/product/ProductDetailPage";
 import ProductPage from "@/pages/product/ProductPage";
 import UserDetailPage from "@/pages/user/UserDetailPage";
 import UserPage from "@/pages/user/UserPage";
@@ -51,8 +53,7 @@ MappingRoutes.set("user.screen.read", {
     path: "/user/new",
     isDisplayToLeftMenu : false,
     menu: {
-      
-      key: "user.screen.create",
+      key: "user.screen.read",
       label: "Người dùng",
       icon: (
         <Link to={"/user/new"}>
@@ -68,8 +69,7 @@ MappingRoutes.set("user.screen.read", {
     path: "/user/:userId",
     isDisplayToLeftMenu : false,
     menu: {
-      
-      key: "user.screen.update",
+      key: "user.screen.read",
       label: "Người dùng",
       icon: (
         <Link to={"/user/:userId"}>
@@ -86,7 +86,7 @@ MappingRoutes.set("user.screen.read", {
     path: "/product",
     isDisplayToLeftMenu : true,
     menu: {
-      key: "product.screen",
+      key: "product.screen.read",
       label: "Sản phẩm",
       icon: (
         <Link to={"/product"}>
@@ -97,14 +97,14 @@ MappingRoutes.set("user.screen.read", {
   });
 
   MappingRoutes.set("product.screen.create", {
-    component: <ProductPage />,
-    path: "/product",
+    component: <ProductCreatePage />,
+    path: "/product/new",
     isDisplayToLeftMenu : false,
     menu: {
-      key: "product.screen",
+      key: "product.screen.read",
       label: "Sản phẩm",
       icon: (
-        <Link to={"/product"}>
+        <Link to={"/product/new"}>
           <BookOutlined />
         </Link>
       ),
@@ -112,14 +112,14 @@ MappingRoutes.set("user.screen.read", {
   });
 
   MappingRoutes.set("product.screen.update", {
-    component: <ProductPage />,
-    path: "/product",
+    component: <ProductDetailPage />,
+    path: "/product/:id",
     isDisplayToLeftMenu : false,
     menu: {
-      key: "product.screen",
+      key: "product.screen.read",
       label: "Sản phẩm",
       icon: (
-        <Link to={"/product"}>
+        <Link to={"/product/:id"}>
           <BookOutlined />
         </Link>
       ),
@@ -148,7 +148,7 @@ MappingRoutes.set("user.screen.read", {
     path: "/group",
     isDisplayToLeftMenu : true,
     menu: {
-      key: "group.screen",
+      key: "group.screen.read",
       label: "Nhóm",
       icon: (
         <Link to={"/group"}>

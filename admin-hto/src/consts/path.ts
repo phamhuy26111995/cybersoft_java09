@@ -32,8 +32,8 @@ export const API_URL = {
   CATEGORY: {
     GET_ALL: `${api_url}/${prefix}/category/get-all`,
     GET_BY_ID: `${api_url}/${prefix}/category/:id`,
-    SAVE: `${api_url}/${prefix}/category/save`,
-    UPDATE: `${api_url}/${prefix}/category/edit`,
+    CREATE: `${api_url}/${prefix}/category/create`,
+    UPDATE: `${api_url}/${prefix}/category/update`,
     EXPORT_EXCEL: `${api_url}/${prefix}/category/export-excel`,
   },
 

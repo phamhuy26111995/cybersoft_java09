@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -16,6 +16,7 @@ import Logo from "../logo/Logo";
 import { useDispatch, useSelector } from "react-redux";
 import Logout from "./Logout";
 import { MappingRoutes } from "@/routes/MappingRoutes";
+import { useLocation } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
@@ -23,6 +24,37 @@ const MainLayout = (props: any) => {
   const { setDisplayTheme } = props;
   const { permissions } = useSelector((state: any) => state.global);
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedMenu , setSelectedMenu] = useState([permissions[0]]);
+ 
+  const location = useLocation();
+
+  useEffect(() => { 
+    if(permissions.length === 0) return;
+
+    if(location.pathname === "/") {
+      setSelectedMenu([permissions[0]])
+      return;
+    }
+    debugger
+    const pathName = getPathNameFromPath(location.pathname);
+
+    if(!pathName) return;
+
+    const routes = permissions.filter((el : string) => el.includes(".read"));
+
+    routes.forEach((el : string) => {
+      if(el.includes(pathName)) {
+        setSelectedMenu([el]);
+        return;
+      }
+
+    })
+
+    
+  },[location.pathname, permissions])
+
+
+ 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -31,6 +63,20 @@ const MainLayout = (props: any) => {
     setDisplayTheme(checked);
   }
 
+  function getPathNameFromPath(path : string) {
+    // Sử dụng hàm split để tách chuỗi theo dấu '/'
+    const pathParts = path.split('/');
+  
+    // Lấy phần tử đầu tiên của mảng
+    const pathName = pathParts[1]; // Index 1 là vị trí của "pathName"
+  
+    if (pathName) {
+      return pathName;
+    }
+  
+    return ""; // Trường hợp không tìm thấy "category"
+  }
+  
   return (
     <Layout hasSider>
       <Sider
@@ -45,10 +91,10 @@ const MainLayout = (props: any) => {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={[permissions[0]]}
+            selectedKeys={selectedMenu}
             items={permissions.map((el: any) => {
               if (!MappingRoutes.get(el)) return;
-
+              
               if (MappingRoutes.get(el).isDisplayToLeftMenu) {
                 return MappingRoutes.get(el).menu;
               }
