@@ -1,9 +1,11 @@
 package com.hto.admin.service.impl;
 
+import com.hto.admin.dto.CategoryDTO;
 import com.hto.admin.dto.CategoryRequestDTO;
 import com.hto.admin.entity.CategoryEntity;
 import com.hto.admin.repository.CategoryRepository;
 import com.hto.admin.service.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,24 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ModelMapper modelMapper;
     @Override
     public List<CategoryEntity> getAllCategory() {
-        List<CategoryEntity> categoryEntityList = categoryRepository.findAllNotDeleted();
-        return categoryEntityList;
+        List<CategoryEntity> categoryEntities = categoryRepository.findAllNotDeleted();
+        return categoryEntities;
+    }
+
+    @Override
+    public CategoryDTO getById(long id) {
+        CategoryDTO dto = new CategoryDTO();
+        Optional<CategoryEntity> optional = categoryRepository.findById(id);
+
+        optional.ifPresent(categoryEntity -> {
+            modelMapper.map(categoryEntity, dto);
+        });
+
+        return dto;
     }
 
     @Override

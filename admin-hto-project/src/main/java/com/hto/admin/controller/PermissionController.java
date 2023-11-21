@@ -1,5 +1,6 @@
 package com.hto.admin.controller;
 
+import com.hto.admin.consts.Consts;
 import com.hto.admin.dto.PermissionDTO;
 import com.hto.admin.dto.PermissionRequestDTO;
 import com.hto.admin.service.PermissionService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/permission")
+@RequestMapping(Consts.PREFIX_ADMIN + "/permission")
 public class PermissionController {
 
     @Autowired

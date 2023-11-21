@@ -1,5 +1,6 @@
 package com.hto.admin.controller;
 
+import com.hto.admin.consts.Consts;
 import com.hto.admin.dto.GroupDTO;
 import com.hto.admin.dto.GroupRequestDTO;
 import com.hto.admin.dto.UserDTO;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/group")
+@RequestMapping(Consts.PREFIX_ADMIN + "/group")
 public class GroupController {
 
     @Autowired

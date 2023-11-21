@@ -22,7 +22,7 @@ public class BaseDTO {
     protected long updatedBy;
 
 
-    protected boolean isDeleted;
+    protected boolean isDeleted = false;
 
-    protected String status;
+    protected String status = "ACTIVE";
 }

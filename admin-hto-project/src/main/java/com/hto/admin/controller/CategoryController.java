@@ -1,5 +1,7 @@
 package com.hto.admin.controller;
 
+import com.hto.admin.consts.Consts;
+import com.hto.admin.dto.CategoryDTO;
 import com.hto.admin.dto.CategoryRequestDTO;
 import com.hto.admin.entity.CategoryEntity;
 import com.hto.admin.service.CategoryService;
@@ -11,17 +13,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping(Consts.PREFIX_ADMIN + "/category")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/get-list")
+    @GetMapping("/get-all")
     public ResponseEntity<List<CategoryEntity>> getListCategory() {
 
         return new ResponseEntity<>(categoryService.getAllCategory(), HttpStatus.OK);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<CategoryDTO> getById(@PathVariable long id) {
+
+        return new ResponseEntity<>(categoryService.getById(id),HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Long> createCategory(@RequestBody CategoryRequestDTO categoryRequestDTO) {
 

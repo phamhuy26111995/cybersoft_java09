@@ -1,5 +1,6 @@
 package com.hto.admin.controller;
 
+import com.hto.admin.consts.Consts;
 import com.hto.admin.dto.UserDTO;
 import com.hto.admin.dto.UserRequestDTO;
 import com.hto.admin.service.UserService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(Consts.PREFIX_ADMIN + "/user")
 public class UserController {
     @Autowired
     private UserService userService;
