@@ -51,3 +51,13 @@ function TableNumberOne() {
 }
 
 export default TableNumberOne;
+
+
+function TableColumnNumberOne() {
+
+  return (
+  <>
+
+  </>
+  )
+}
