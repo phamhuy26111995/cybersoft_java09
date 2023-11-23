@@ -1,5 +1,5 @@
 import { Form, Input, Space, Select, Popconfirm } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { FormContext } from "../form-context/FormProvider";
@@ -8,23 +8,29 @@ const { Option } = Select;
 
 function TabContentDetail(props) {
   const { keyProp, remove, tabContentKey } = props;
+  const firstTimeRef = useRef(false);
   const form = useContext(FormContext);
   const inputTypeProp = form.getFieldValue(tabContentKey)[keyProp] || "text";
   const [inputType, setInputType] = useState("text");
-  const [toggleValue, setToggleValue] = useState(false);
+  const [toggleValue, setToggleValue] = useState(inputTypeProp.title === undefined && true);
 
   function onChangeType(value) {
     setInputType(value);
   }
 
   function onToggleValue(value) {
-    console.log(value);
     setToggleValue(value)
   }
 
   useEffect(() => {
     setInputType(inputTypeProp.type);
+    if(inputTypeProp.title && !firstTimeRef.current) {
+      setToggleValue(false)
+      firstTimeRef.current = true;
+    }
   }, [inputTypeProp]);
+
+  
 
   return (
     <>
@@ -43,10 +49,12 @@ function TabContentDetail(props) {
           noStyle
           rules={[{ required: true, message: "Vui lòng nhập tên đầu tiên" }]}
         >
-          {toggleValue || !inputTypeProp.title  ? (
-            <Input onBlur={() => onToggleValue(false)} placeholder="Tiêu đề" />
+          {toggleValue ? (
+            <Input onBlur={() => {
+              onToggleValue(false)
+            }} placeholder="Tiêu đề" />
           ) : (
-            <span onClick={() => onToggleValue(true)}>{inputTypeProp.title}</span>
+            <span onDoubleClick={() => onToggleValue(true)}>{inputTypeProp.title}</span>
           )}
           {/* <span>{inputTypeProp.title}</span> */}
         </Form.Item>
