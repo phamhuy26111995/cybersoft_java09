@@ -7,7 +7,7 @@ import { FormContext } from "../form-context/FormProvider";
 const { Option } = Select;
 
 function TabContentDetail(props) {
-  const { keyProp, remove, tabContentKey } = props;
+  const {keyProp, remove, tabContentKey } = props;
   const firstTimeRef = useRef(false);
   const form = useContext(FormContext);
   const inputTypeProp = form.getFieldValue(tabContentKey)[keyProp] || "text";
@@ -22,6 +22,7 @@ function TabContentDetail(props) {
     setToggleValue(value)
   }
 
+
   useEffect(() => {
     setInputType(inputTypeProp.type);
     if(inputTypeProp.title && !firstTimeRef.current) {
@@ -30,7 +31,7 @@ function TabContentDetail(props) {
     }
   }, [inputTypeProp]);
 
-  
+
 
   return (
     <>

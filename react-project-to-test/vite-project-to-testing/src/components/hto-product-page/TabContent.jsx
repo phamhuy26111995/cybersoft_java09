@@ -12,7 +12,7 @@ function TabContent(props) {
       {(fields, { add, remove }) => (
         <>
           {fields.map(({ key, name, ...restField }) => (
-            <TabContentDetail key={`${tabKey}-${name}`} tabContentKey={`tabContent${tabKey}`}   keyProp={name} remove={remove} />
+            <TabContentDetail key={Math.random()} tabContentKey={`tabContent${tabKey}`}   keyProp={name} remove={remove} />
           ))}
           <Form.Item>
             <Button
