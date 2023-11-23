@@ -8,11 +8,11 @@ function TabContent(props) {
   const { tabKey } = props;
     
   return (
-    <Form.List name={`tabContent${tabKey}`}>
+    <Form.List name={`${tabKey}`}>
       {(fields, { add, remove }) => (
         <>
           {fields.map(({ key, name, ...restField }) => (
-            <TabContentDetail key={Math.random()} tabContentKey={`tabContent${tabKey}`}   keyProp={name} remove={remove} />
+            <TabContentDetail key={Math.random()} tabContentKey={`${tabKey}`}   keyProp={name} remove={remove} />
           ))}
           <Form.Item>
             <Button

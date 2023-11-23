@@ -25,10 +25,10 @@ function TabContentDetail(props) {
 
   useEffect(() => {
     setInputType(inputTypeProp.type);
-    if(inputTypeProp.title && !firstTimeRef.current) {
-      setToggleValue(false)
-      firstTimeRef.current = true;
-    }
+    // if(inputTypeProp.title && !firstTimeRef.current) {
+    //   setToggleValue(false)
+    //   firstTimeRef.current = true;
+    // }
   }, [inputTypeProp]);
 
 
