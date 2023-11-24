@@ -47,9 +47,7 @@ const TableComponent = () => {
         {/*  <DynamicForm/>*/}
         {/*  <TabComponent />*/}
         {/*  <DynamicTabsWithFormList/>*/}
-        <FormProvider>
-          <EditableTabs />
-        </FormProvider>
+
       </div>
       {/* {render()} */}
     </React.Fragment>

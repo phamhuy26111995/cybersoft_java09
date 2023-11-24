@@ -68,17 +68,12 @@ function EditableTabs() {
 
     function submitForm() {
         const productTabs = form.getFieldsValue();
-        console.log(form.getFieldsValue())
 
         const data = Object.keys(productTabs).map(key => ({
                 title: tabs.find(item => item.key === key) && tabs.find(item => item.key === key).name,
                 tabContents: productTabs[key]
             })
         )
-
-        console.log(data)
-
-        console.log(data)
     }
 
     const items = useMemo(() => {

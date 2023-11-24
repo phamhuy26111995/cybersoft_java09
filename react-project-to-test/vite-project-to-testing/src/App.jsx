@@ -9,6 +9,7 @@ import TableComponent from "./components/TableComponent";
 import DebounceComponent from "./components/websimplifier/components/DebounceComponent";
 import TimeoutComponent from "./components/websimplifier/components/TimeoutComponent";
 import ToggleComponent from "./components/websimplifier/components/ToggleComponent";
+import ProductPage from "./components/hto-product-page/ProductPage";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route key={5} element={<InfinitineScroll />} path="/infinitine" exact  />
           <Route key={6} element={<DebounceComponent />} path="/debounce" exact  />
           <Route key={7} element={<TableComponent />} path="/table" exact  />
+          <Route key={8} element={<ProductPage />} path="/product" exact  />
         </Routes>
       </BrowserRouter>
     </>
