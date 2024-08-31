@@ -4,9 +4,9 @@ import { useEffect } from "react";
 
 
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPagingUsers, fetchUsers } from "../redux-slices/userSlice";
+import { fetchPagingUsers, fetchUsers } from "../../redux-slices/userSlice";
 import { useState } from "react";
-import DebounceSelect from "./selects/DebounceSelect";
+import DebounceSelect from "../selects/DebounceSelect";
 
 const { Option } = Select;
 

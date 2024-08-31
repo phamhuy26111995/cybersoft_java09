@@ -10,16 +10,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@faker-js/faker": "7.6.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-table": "^8.11.2",
+    "@tanstack/react-virtual": "^3.0.1",
     "antd": "~4.24.13",
-    "axios": "^1.4.0",
+    "antd-img-crop": "^4.18.0",
+    "axios": "^1.6.8",
+    "fixed-data-table-2": "^2.0.6",
+    "js-file-download": "^0.4.12",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-image-crop": "^11.0.1",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.1",
-    "sort-by": "^1.2.0"
+    "react-window": "^1.8.10",
+    "sort-by": "^1.2.0",
+    "styled-components": "^6.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.14",
