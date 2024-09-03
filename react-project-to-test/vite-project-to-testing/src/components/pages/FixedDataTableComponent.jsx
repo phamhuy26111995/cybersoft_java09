@@ -14,7 +14,7 @@ const FixedDataTableComponent = ({ sampleData, heightMap, widthMap }) => {
     <Table
       rowHeight={50}
       rowsCount={sampleData.length}
-      width={1500}
+      width={sum2 + 100}
       height={500}
       headerHeight={50}
       // rowHeightGetter={index => heightMap.current.get(index)}

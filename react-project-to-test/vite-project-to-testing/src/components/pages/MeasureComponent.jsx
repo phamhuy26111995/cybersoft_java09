@@ -58,6 +58,7 @@ const MeasureComponents = ({
             padding: "3px 10px",
             whiteSpace: "nowrap",
             border: "1px solid aqua",
+            visibility: "hidden",
           }}
           ref={refs.current[index]}
           key={index}

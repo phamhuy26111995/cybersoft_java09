@@ -8,12 +8,11 @@ const firstNames = [
   "An",
   "Bình",
   "Cường",
-  "Dung",
+  "DungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDungDung",
   "Hoa",
   "Linh",
   "Minh",
   "Nam",
-  "PhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhươngPhương",
   "Quang",
   "Thảo",
   "Uyên",
@@ -26,7 +25,7 @@ const lastNames = [
   "Nguyễn",
   "Trần",
   "Lê",
-  "Phạm",
+  "Phạm Thiên Sứ Tình YêuPhạm Thiên Sứ Tình YêuPhạm Thiên Sứ Tình YêuPhạm Thiên Sứ Tình Yêu",
   "Hoàng",
   "Huỳnh",
   "Phan",
@@ -129,14 +128,11 @@ const cellMap = (rowData) => {
 
 function DynamicContentTable() {
   const [isCalculateContent, setIsCalculateContent] = useState(true);
+
   const heightMap = useRef(new Map());
   const widthMap = useRef(new Map());
 
-  // useEffect(() => {
 
-
-  //   setIsCalculateContent(true);
-  // }, []);
 
 
   return (
@@ -154,9 +150,24 @@ function DynamicContentTable() {
         
       )}
 
-{/* <FixedDataTableComponent sampleData={sampleData} heightMap={heightMap} widthMap={widthMap} /> */}
     </>
   );
 }
 
-export default DynamicContentTable;
+
+const DynamicContentTableWrapper = () => {
+  const [measureKey , setMeasureKey] = useState(0);
+
+  useEffect(() => {
+    setMeasureKey(prev => prev + 1);
+
+  }, [sampleData]);
+
+  return (
+    <div>
+      <DynamicContentTable key={measureKey} />
+    </div>
+  );
+};
+
+export default DynamicContentTableWrapper;
