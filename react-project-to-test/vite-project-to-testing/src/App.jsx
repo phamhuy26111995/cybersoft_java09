@@ -9,6 +9,7 @@ import SimpleSelect from "./components/pages/SimpleSelect";
 import MeasurePage from "./components/pages/MeasureComponent";
 import FixedDataTableComponent from "./components/pages/FixedDataTableComponent";
 import DynamicContentTable from "./components/pages/DynamicContentTable";
+import FormProviderComponent from "./components/form-ant-design/FormProviderComponent";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route key={5} element={<FixedDataTableComponent />} path="/data-table" exact />
           <Route key={6} element={<MeasurePage />} path="/measure-page" exact />
           <Route key={7} element={<DynamicContentTable />} path="/dynamic-table" exact />
+          <Route key={8} element={<FormProviderComponent />} path="/form-provider" exact />
         </Routes>
       </BrowserRouter>
     </>
